@@ -1,0 +1,138 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+ {% if obj %}
+  <form  method='POST' role='form' action = "{% url 'cvd:contactoiec_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'cvd:contactoiec_new' idficha %}">
+    {% endif %}
+        {% csrf_token %}
+
+          <div class="col-xl-12 col-md-12 mb-12">
+            <div class="card border-left-success shadow h-100 py-2">
+                 <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              Registro de contactos:                              
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                            <div class="row">                              
+                              <label for="id_fichaiec">Caso Índice</label>
+                              <input type="hidden" name="fichaiec" value="{{fichaiec.pk}}">
+                                {{fichaiec}}
+                            </div>
+
+                           <div class="dropdown-divider"></div> 
+                           <div class="col-12" id="prueba">
+                               <div class="row">
+                                  <div class="form-group col-7">
+                                        <label for="id_paciente">Seleccione el contacto</label>
+                                        <br>
+                                        {{form.paciente}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_edad">Edad</label>
+                                        <br>
+                                        {{form.edad}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_edad">Um. Edad</label>
+                                        <br>
+                                        {{form.umedad}}                               
+                                  </div>
+                                  
+                               </div>
+                               <div class="row">
+                                  <div class="form-group col-3">
+                                        <label for="id_clasecontacto">Tipo de contacto</label>
+                                        <br>
+                                        {{form.clasecontacto}}                               
+                                  </div>
+                                  <div class="form-group col-4">
+                                        <label for="id_fechaposexpo">Fecha posible Exposición</label>
+                                        <br>
+                                        {{form.fechaposexpo}}                               
+                                  </div>
+                                  <div class="form-group col-5">
+                                        <label for="id_institucionsalud">Institución en salud</label>
+                                        <br>
+                                        {{form.institucionsalud}}                               
+                                  </div>
+                               </div>
+                               <div class="row">
+                                    <div class="form-group col-2">
+                                        <label for="id_sintomatico">Sintomatico</label>
+                                        <br>
+                                        {{form.sintomatico}}                               
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label for="id_fechainisintomas">F. Inicio sintomas</label>
+                                        <br>
+                                        {{form.fechainisintomas}}                               
+                                    </div>
+                                    <div class="form-group col-2">
+                                        <label for="id_hospitalizado">hospitalizado</label>
+                                        <br>
+                                        {{form.hospitalizado}}                               
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label for="id_fechamuestra">Fecha Muestra</label>
+                                        <br>
+                                        {{form.fechamuestra}}                               
+                                    </div>                                   
+
+                                    <div class="form-group col-2">
+                                        <label for="id_resultmxcovid">R. Pru Covid</label>
+                                        <br>
+                                        {{form.resultmxcovid}}                               
+                                    </div>
+                               </div>
+                           </div>
+
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+
+                                 <a class="btn btn-success" href="{% url 'cvd:ver_fichaiec' fichaiec.pk %}">Cancelar</a>
+                              
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  </form>
+  </div>
+</div>
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+
+
+$(function(){  
+  $("#id_fechamuestra, #id_fechaposexpo, #id_fechainisintomas").datetimepicker({
+    format:'d/m/Y',
+    timepicker:false
+  });
+
+
+    $('#id_paciente').select2({
+      placeholder: "Seleccione un Paciente",
+      allowClear: true
+    });
+
+
+});
+
+  
+  </script>
+
+  {% endblock js_page%}

@@ -1,0 +1,109 @@
+{% extends 'base/basedengue.html' %}
+
+{% block page_content %}
+<div>
+     <form action="" method="post">
+          <div class="input-group col-lg-4">
+              <input type="text" class="form-control bg-light border-0 small" placeholder="Digite Año a buscar..." aria-label="Search" aria-describedby="basic-addon2" name="anio">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+      </form>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12">
+			<figure class="highcharts-figure">
+                <div id="container">
+
+                    
+                </div>
+                    <p class="highcharts-description">                    
+                        Comportamiento casos relacionados con <code>DENGUE</code>notificados por semana epidemiológica.
+                        
+                    </p>
+            </figure>
+		</div>
+	</div>
+</div>
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+
+	Highcharts.chart('container', {
+
+    title: {
+        text: 'CASOS DE DENGUE POR SEMANA EPIDEMIOLOGICA'
+    },
+
+    subtitle: {
+        text: 'Fuente: Notificados SIVIGILA - Evento - 210 - 220 - 580'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Número de casos'
+        }
+    },
+
+    xAxis: {
+        accessibility: {
+            rangeDescription: 'Range: '+{{rangoini}} + 'to ' + {{rangofin}}
+        }
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 1
+        }
+    },
+
+    series: [{
+        name: 'Casos de Dengue',
+        colorbypoint:true,
+        data: {{dengue|safe }}
+    },{
+        name: 'Casos Dengue Grave',
+        colorbypoint:true,
+        data: {{ denguegrave|safe }}
+    }, {
+        name: 'Casos Mortalidad Dengue',
+        colorbypoint:true,
+        data: {{ mortaldengue|safe }}
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+
+</script>
+
+	
+{% endblock js_page %}

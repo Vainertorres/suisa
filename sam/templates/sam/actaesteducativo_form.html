@@ -1,0 +1,277 @@
+{% extends 'base/basesam.html' %}
+
+{% block page_content %}
+
+    {% if obj %}
+    <form  method='POST' role='form' id="frmeactaesteducativo" action = "{% url 'sam:actaestedu_update' obj.establecimiento.id obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' id="frmeactaesteducativo"  action = "{% url 'sam:actaestedu_new' establecimiento_id %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-1">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-1">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} Acta de establecimiento educativo
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                           
+                           <div class="col-12">
+                             <div class="row">
+                                 <div class="form-group col-4">
+                                    <label for="id_fecha">Fecha</label>   
+                                      {{ form.fecha }}                                    
+                                 </div>
+                                 <div class="form-group col-4">
+                                    <label for="id_nroacta">Acta Nro.</label>   
+                                      {{ form.nroacta }}                                    
+                                 </div>
+                                 <div class="form-group col-4">
+                                    <label for="id_ciudad">Ciudad</label>   
+                                      {{ form.ciudad }}                                    
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <div class="form-group col-12">
+                                    <label for="id_establecimiento">Establecimiento</label>   
+                                     {{ form.establecimiento }}
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <div class="form-group col-4">
+                                    <label for="id_establecimiento">Doc Rector</label>   
+                                     {{ form.tipodocrector }}
+                                 </div>
+                                 <div class="form-group col-3">
+                                    <label for="id_establecimiento">Ident Rector</label>   
+                                     {{ form.identificacionrector }}
+                                 </div>
+                                 <div class="form-group col-5">
+                                    <label for="id_nombrerector">Nombre del Rector</label>       
+                                     {{ form.nombrerector }}
+                                 </div>
+                             </div>
+                             <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="id_nroestjormanhombres">Nro Estudiantes jornada mañana hombres</label>       
+                                     {{ form.nroestjormanhombres }}
+                                 </div>
+                                 <div class="form-group col-6">
+                                    <label for="id_nroestjormanmujeres">Nro Estudiantes jornada mañana mujeres</label>       
+                                     {{ form.nroestjormanmujeres }}
+                                 </div>
+                                 
+                             </div>
+                             <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="id_nroestjortarhombres">Nro Estudiantes jornada tarde hombres</label>       
+                                     {{ form.nroestjortarhombres }}
+                                 </div>
+                                 <div class="form-group col-6">
+                                    <label for="id_nroestjortarmujeres">Nro Estudiantes jornada tarde mujeres</label>       
+                                     {{ form.nroestjortarmujeres }}
+                                 </div>
+                                 
+                             </div>
+                             <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="id_nroestjornochombres">Nro Estudiantes jornada noche hombres</label>       
+                                     {{ form.nroestjornochombres }}
+                                 </div>
+                                 <div class="form-group col-6">
+                                    <label for="id_nroestjornocmujeres">Nro Estudiantes jornada noche mujeres</label>       
+                                     {{ form.nroestjornocmujeres }}
+                                 </div>                                 
+                             </div>
+
+                             <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="id_nrodocenteshombres">Nro de docentes hombres</label>       
+                                     {{ form.nrodocenteshombres }}
+                                 </div>
+                                 <div class="form-group col-6">
+                                    <label for="id_nrodocentesmujeres">Nro de docentes mujeres</label>
+                                     {{ form.nrodocentesmujeres }}
+                                 </div>                                 
+                             </div>
+
+                             <div class="row">
+                                <div class="form-group col-4">
+                                    <label for="id_nroaulas">Nro de aulas</label>       
+                                     {{ form.nroaulas }}
+                                 </div>
+                                 <div class="form-group col-4">
+                                    <label for="id_nropatios">Nro de patios</label>
+                                     {{ form.nropatios }}
+                                 </div>  
+                                 <div class="form-group col-4">
+                                    <label for="id_nrocafeterias">Nro de cafeterías/restaurantes</label>
+                                     {{ form.nrocafeterias }}
+                                 </div>                               
+                             </div>
+                             <div class="row">
+                                <div class="form-group col-2">
+                                <label for="id_fechaultinspeccion">Fecha de últ inspección</label>    {{ form.fechaultinspeccion }}
+                                 </div>
+                                 <div class="form-group col-2">
+                                    <label for="id_nroactaultinspeccion">No. acta últ inspección</label>
+                                     {{ form.nroactaultinspeccion }}
+                                 </div>  
+                                 <div class="form-group col-3">
+                                    <label for="id_ultconcepto">Concepto sanitario anterior</label>
+                                     {{ form.ultconcepto }}
+                                 </div>                               
+                                 <div class="form-group col-5">
+                                     <label for="id_motivoVisita">Motivo de visita anterior</label>
+                                     {{ form.motivoVisita }}
+                                 </div> 
+                             </div>
+                             <div class="row">                                
+                                 <div class="form-group col-6">
+                                     <label for="id_concepto">Concepto sanitario</label>
+                                     {{ form.concepto }}
+                                 </div>
+                             </div>
+
+                           </div>  
+                         <div id="item_detalle">
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="id_pregunta">ASPECTO A VERIFICAR:</label>                                       
+                                   </div>
+                                   <div class="form-group col-2">
+                                    <label for="id_evaluacion">Evaluación</label>                                        
+                                   </div>
+                                   <div class="form-group col-3">
+                                    <label for="id_hallazgos">Hallazgos</label>                                         
+                                   </div>   
+                                   <div class="form-group col-1">
+                                    <label for="id_hallazgos">Habilitada</label>                                         
+                                   </div>                              
+                            </div>
+                          
+                           {% for f in formset %}   
+                              {{ f.id }} 
+                             
+                                  <div class="row">
+                                       <div class="form-group col-6">                                 
+                                           {{ f.pregunta }}
+                                       </div>
+                                       <div class="form-group col-2">                                 
+                                             {{f.evaluacion}} 
+                                       </div>
+                                       <div class="form-group col-3">                                    
+                                             {{f.hallazgos}} 
+                                       </div>
+                                       <div class="form-group col-1">                                    
+                                             {{ f.habilitada }} 
+                                       </div>
+                          
+
+                                 
+                            {% endfor %}                                   
+                         </div> 
+
+                         <div id="funcionarios">
+                            <hr>
+                            <p>POR PARTE DE LOS FUNCIONARIOS QUE REALIZAN LA VISITA</p>
+
+                           {% for ffunc in formsetfunc %}   
+                              {{ ffunc.id }} 
+                              <div class="row">
+                                   <div class="form-group col-12">
+                                    <label for="id_funcionario">Funcionario:</label>
+                                       {{ ffunc.funcionario }}
+                                   </div>                                   
+                              </div>                                
+                            {% endfor %}                                   
+                         </div>
+
+                         <div id="atiende">
+                            <hr>
+                            <p>POR PARTE DEL ESTABLECIMIENTO</p>
+
+                           {% for fatien in formsetatiende %}   
+                              {{ fatien.id }} 
+                              <div class="row">
+                                   <div class="form-group col-2">
+                                    <label for="id_tipodoc">Documento:</label>
+                                       {{ fatien.tipodoc }}
+                                   </div>      
+                                   <div class="form-group col-2">
+                                    <label for="id_identificacion">Identificación:</label>
+                                       {{ fatien.identificacion }}
+                                   </div>
+                                   <div class="form-group col-4">
+                                    <label for="id_nombre">nombre:</label>
+                                       {{ fatien.nombre }}
+                                   </div>
+                                   <div class="form-group col-2">
+                                    <label for="id_institucion">Institución:</label>
+                                       {{ fatien.institucion }}
+                                   </div>                             
+                                   <div class="form-group col-2">
+                                    <label for="id_cargo">Cargo:</label>
+                                       {{ fatien.cargo }}
+                                   </div>                             
+                              </div>                                
+                            {% endfor %}                                   
+                         </div>
+                         
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                                  <a class="btn btn-success"href="{% url 'sam:actaestedu_list' establecimiento_id %}">Cancelar</a>
+                               
+                               </div>
+                             </div>   
+                             {{ formset.management_form }} 
+                             {{ formsetfunc.management_form }}  
+                             {{ formsetatiende.management_form }}             
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    </form>
+
+
+{% endblock page_content %}
+
+{% block js_page %}
+
+<script>
+
+$(document).ready(function() 
+{
+    $('#id_propietario').select2({
+      placeholder: "Seleccione el Propietario",
+      allowClear: true
+    });
+
+  $('#id_replegal').select2({
+      placeholder: "Seleccione el representante legal",
+      allowClear: true
+    }); 
+
+
+  $("#dptonotifica").val("{{obj.dptonotifica}}").change();
+  $("#mpionotifica").val("{{obj.mpionotifica}}").change();
+  $("#mpionotifica").chained("#dptonotifica");
+
+  $("#departamento").val("{{obj.departamento}}").change();
+  $("#municipio").val("{{obj.municipio}}").change();
+  $("#municipio").chained("#departamento"); 
+});
+
+  </script>
+  
+{% endblock js_page %}
+

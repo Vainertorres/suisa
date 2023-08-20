@@ -1,0 +1,177 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+
+	<div class="col-xl-12 col-md-12 mb-12">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              Seguimiento Casos de Malaria
+                        </div>                      
+                        <div class="dropdown-divider"></div> 
+                        <div class="row"> 
+                               	<div class="form-group col-2">
+                                    Fecha: <p>{{malaria.fec_not|date:"d/m/Y"}}</p>                        
+                                </div>
+                                <div class="form-group col-1">
+                                    Semana: <p>{{malaria.semana}}</p>                        
+                                </div>   
+                                <div class="form-group col-2">
+                                   <b> Evento:<p>{{malaria.evento}} </p> </b>                      
+                                </div>                                  
+                                <div class="form-group col-4" id='pac'>
+                                  <b>  Paciente: </b> <p>{{malaria.paciente}}</p>                        
+                                </div>
+                                <div class="form-group col-1">
+                                    Edad: <p>{{malaria.edad}} - {{ malaria.umedad }}</p>    
+                                </div>                                 
+                                <div class="form-group col-2">
+                                    Teléfono:<p>{{malaria.telefono}} </p>                       
+                                </div>    
+                        </div>    
+                        <div class="row"> 
+                              <div class="form-group col-3">
+                                 Eps:<p>{{malaria.eps}} </p>                       
+                              </div>                         
+                              <div class="form-group col-4">
+                                 Tratamiento:<p>{{malaria.tratamiento}} </p>                       
+                              </div>   
+                              <div class="form-group col-2">
+                                 Especie Infectante:<p>{{malaria.especieinf}} </p>                       
+                              </div>   
+                              <div class="form-group col-3">
+                                 Tipo Examen:<p>{{malaria.tipoexamen}} </p>                       
+                              </div>                
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-2">
+                              {% if malaria.complicaci == 1%}
+                                Complicaciones: <p>SI</p>                       
+                              {% else %}
+                                Complicaciones: <p>NO</p>
+                              {% endif %}                         
+
+                            </div>
+                            <div class="form-group col-1">
+                                 Cerebral:                   
+                              {% if malaria.com_cerebr == 1 %}
+                                 <p>SI</p>                       
+                              {%endif %}
+                              {% if malaria.com_cerebr == 2 %}
+                                 <p>NO</p>                       
+                              {%endif %}
+                            </div>
+                            <div class="form-group col-1">
+                               Renal:
+                              {% if malaria.com_renal == 1 %}
+                                <p>SI</p>                       
+                              {%endif %}
+                              {% if malaria.com_renal == 2 %}
+                                <p>NO</p>                       
+                              {%endif %}
+                            </div>
+                            <div class="form-group col-1">
+                               Hepatica:
+                              {% if malaria.com_hepati == 1 %}
+                                <p>SI</p>                       
+                              {%endif %}
+                              {% if malaria.com_hepati == 2 %}
+                                <p>NO</p>                       
+                              {%endif %}
+                            </div>
+                            <div class="form-group col-1">
+                               Pulmonar:
+                              {% if malaria.com_pulmon == 1 %}
+                                <p>SI</p>                       
+                              {%endif %}
+                              {% if malaria.com_pulmon == 2 %}
+                                <p>NO</p>                       
+                              {%endif %}
+                            </div>
+                            <div class="form-group col-2">
+                               Hematologicas:
+                              {% if malaria.com_hemato == 1 %}
+                                <p>SI</p>                       
+                              {%endif %}
+                              {% if malaria.com_hemato == 2 %}
+                                <p>NO</p>                       
+                              {%endif %}
+                            </div>
+                            <div class="form-group col-2">
+                               Otras Complicaciones:
+                             <!-- {% if malaria.com_otras == 1 %}
+                                <p>SI</p>                       
+                              {%endif %}
+                              {% if malaria.com_otras == 2 %}
+                                <p>NO</p>                       
+                              {%endif %}-->
+                              {{malaria.com_otras}}
+                              {{malaria.com_otras|yesno:"SI,NO"}}
+                            </div>
+                        </div>
+                       
+                </div>
+             </div>  <!-- Cardbody -->
+        </div>
+    </div>
+
+    <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">                        
+                       <!-- inicio detalle -->
+                       <div class="row">
+                               <div class="col-12" id="prueba">
+                                    <div class="row">
+                                        <p id="titulo">Actividades de Seguimientos</p> 
+                                    </div>
+                                    <div class="row">
+                                       <div class="buttons-toolbar">
+                                             <a class="dropdown-item" href="{% url 'mlr:segmalaria_new' malaria.pk %}"> <span class="fa fa-calendar-plus"></span>Nuevo seguimiento</a>
+                                       </div>
+
+
+                                        <table data-toggle="table"
+                                            data-pagination="true"
+                                            data-search="true"
+                                            data-show-columns="true"
+                                            data-toolbar=".buttons-toolbar"
+                                            data-locale="es-MX"
+                                            data-show-toggle="true"
+                                            data-show-fullscreen="true">
+                          <thead>
+                            <th>fecha</th>
+                            <th>hallazgos</th>
+                            <th>Acción</th>
+                          </thead>
+                          <tbody>
+
+                            {% for item in segmlr %}
+                              <tr>
+                              <td>{{item.fecha|date:"d/m/Y"}}</td>
+                              <td>{{item.hallazgos}}</td>
+                              <td>
+                                                        <a class="btn btn-warning btn-circle" href="{% url 'mlr:segmalaria_edit' item.pk %}"><i class="far fa-edit"></i></a>
+                                                    </td>
+                              </tr>
+                            {% endfor %}    
+                          </tbody>                                  
+                                        </table> 
+                                    </div>                
+                               </div>
+                        </div> <!-- Fin de las tablas Seguimiento y de documentos anexos -->
+                          
+                                <div class="row">
+                                  <a type="button" class="btn btn-success" href="{% url 'mlr:malaria_list' %}">Aceptar </a>                          
+                                </div> 
+                           
+                            <!-- fin Detalle  -->
+                        </div>    
+                        <!-- col mr-2 -->
+                </div>
+             </div>  <!-- Cardbody -->
+        </div>
+    </div>
+
+{% endblock page_content %}

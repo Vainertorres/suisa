@@ -1,0 +1,161 @@
+{% extends 'base/basedengue.html' %}
+
+{% block page_content %}
+
+
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'den:segpac_dengue_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'den:render_segpac_dengue' iddengue %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} Seguimientos
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+            
+                            <div class="row">
+                               <div class="form-group col-12">
+                                  <input type="hidden" name="dengue" value="{{iddengue}}">
+                                  <label for="">{{paciente}}</label>
+                               </div>
+                            </div>
+                            <div class="row">
+                                  <div class="form-group col-3">
+                                        <label for="id_fecha">Fecha</label>
+                                       {{form.fecha}}                               
+                                  </div>  
+                                  <div class="form-group col-2">
+                                      <label for="id_segsaludambiental">Seg Sal Ambiental</label>
+                                      {{form.segsaludambiental}}                               
+                                  </div>  
+                                  
+                                  <div class="form-group col-3">
+                                        <label for="id_ctrllarvario">Ctrl Larvario</label>
+                                        {{form.ctrllarvario}}                               
+                                  </div> 
+                                  <div class="form-group col-2">
+                                        <label for="id_fumigacion">Fumigación</label>
+                                        {{form.fumigacion}}                               
+                                  </div> 
+                                  <div class="form-group col-2">
+                                        <label for="id_educacion">Educación</label>
+                                        {{form.educacion}}                               
+                                  </div>                                  
+                            </div>
+                            <div class="row">
+                                  <div class="form-group col-3">
+                                        <label for="id_entregatoldillos">Entrega Toldillos</label>
+                                        {{form.entregatoldillos}}                               
+                                  </div> 
+                                  <div class="form-group col-4">
+                                        <label for="id_cantolperiesgo">Cant. pob Riesgo</label>
+                                        {{form.cantolperiesgo}}                               
+                                  </div> 
+                                  <div class="form-group col-4">
+                                        <label for="id_cantolcoomorb">Cant. Pac con Coomorbilidad</label>
+                                        {{form.cantolcoomorb}}                               
+                                  </div> 
+                                  
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-4">
+                                        <label for="id_cantoladulmay">Cant. Adultos Mayores</label>
+                                        {{form.cantoladulmay}}                               
+                                </div>
+                                <div class="form-group col-4">
+                                        <label for="id_cantolmencinco">Cant. menores 5 Años </label>
+                                        {{form.cantolmencinco}}                               
+                                </div>
+                                <div class="form-group col-4">
+                                        <label for="id_cantolembarazadas">Cant. a Embarazadas </label>
+                                        {{form.cantolembarazadas}}                               
+                                </div>
+                            </div>
+
+                             <div class="row">
+                                <div class="form-group col-12">
+                                        <label for="id_hallazgos">Hallazgos</label>
+                                        <br>
+                                        {{form.hallazgos}}                               
+                                </div>                      
+                               
+                            </div>
+      
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                                <a class="btn btn-success" href="{% url 'den:dengue_edit' iddengue %}">Cancelar</a>
+                               
+                               </div>
+                             </div> 
+                           </div>                
+                      </div>
+                    </div>
+                </div>
+              </div>
+    </form>
+  </div>
+</div>
+
+	
+{% endblock page_content %}
+{% block js_page %}
+
+<script>
+
+
+
+
+$(function(){
+
+
+  
+    $('#id_segsaludambiental:checkbox').change(function () {
+
+       
+        if ($(this).is(':checked')) {          
+           $('#id_ctrllarvario').attr("disabled", false);       
+           $('#id_fumigacion').attr("disabled", false);
+           $('#id_educacion').attr("disabled", false);
+           $('#id_entregatoldillos').attr("disabled", false);            
+
+        } else {
+            $('#id_ctrllarvario').val('2');
+            $('#id_ctrllarvario').attr("disabled", true);
+            $('#id_fumigacion').val('2');
+            $('#id_fumigacion').attr("disabled", true);
+            $('#id_educacion').val('2');
+            $('#id_educacion').attr("disabled", true);
+            $('#id_entregatoldillos').val('2');
+            $('#id_entregatoldillos').attr("disabled", true);
+                        
+        }
+    });
+    
+
+
+  $("#id_fecha").datetimepicker({
+    format:'d/m/Y',
+    timepicker:false
+  });
+
+});
+
+  
+  </script>
+  
+{% endblock js_page %}
+

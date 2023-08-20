@@ -1,0 +1,32 @@
+{% extends 'base/basedengue.html' %}
+
+{% block page_content %}
+
+<form method='POST' class='form-inline'>
+ <!-- Pending Requests Card Example -->
+   {% csrf_token %}
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">¿Eliminar: {{obj.paciente}} ?</div>
+                      
+                      <button type="submit" class="btn btn-danger"> <i class="fas fa-question-circle"></i> Si, Eliminar</button>
+                      <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-success"> <span class="fa fa-undo"></span>  Cancelar</a>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-question-circle fa-2x text-darkgrey-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+</form>
+
+{% endblock %}
+
+{% block js_page %} 
+
+{% endblock %}

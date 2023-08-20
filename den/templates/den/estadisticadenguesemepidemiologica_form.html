@@ -1,0 +1,11 @@
+{% extends 'base/basedengue.html' %}
+{% block page_content %}
+
+<form method="POST" role='form' action="{% url 'den:est_dengue_semepi' %}" >
+	{% csrf_token %}
+	<label for="id_anio">Digite al Año:</label>
+	<input type="text" name="anio">
+	<button type="submit" class="btn btn-success">Enviar</button>
+</form>
+
+{% endblock page_content %}

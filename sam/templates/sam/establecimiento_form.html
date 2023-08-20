@@ -1,0 +1,223 @@
+{% extends 'base/basesam.html' %}
+
+{% block page_content %}
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    {% if obj %}
+    <form  method='POST' role='form' id="frmestablecimiento" action = "{% url 'sam:establecimiento_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' id="frmestablecimiento"  action = "{% url 'sam:establecimiento_new' %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-1">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-1">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} Establecimiento
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                           <div class="col-12"> {# div.col_1 #}
+                            <div class="row"> 
+                                <div class="form-group col-4">
+                                    <label for="id_nitccc">Nit-CC</label>
+                                      <br>
+                                      {{ form.nitcc }}                                    
+                                  </div>
+                                  <div class="form-group col-4">
+                                    <label for="nroinscripcion">Nro de Inscriopción</label>
+                                      <br>
+                                      {{ form.nroinscripcion }}                                    
+                                  </div>                                 
+                           </div>
+                           <div class="row">
+                                  <div class="form-group col-12">
+                                    <label for="idrazonsocial">Razón Social</label>
+                                      <br>
+                                      {{ form.razonsocial }}                                    
+                                  </div>                                  
+                            </div>
+                            <div class="row">
+                                  <div class="form-group col-12">
+                                    <label for="idrazonsocial">Nombre Comercial</label>
+                                      <br>
+                                      {{ form.nombrecomercial }}                                    
+                                  </div>                                  
+                            </div>
+                           
+                            <div class="row">                                
+                              <div class="form-group col-8">
+                                    <label for="id_direccion">Dirección</label>
+                                    <br>
+                                    {{ form.direccion }}                                    
+                              </div>
+                              <div class="form-group col-4">
+                                    <label for="id_nromatricula">Nro de Matrícula</label>
+                                    <br>
+                                    {{ form.nromatricula }}                                    
+                              </div>                                                             
+                           </div> 
+
+                           <div class="row">                                
+                              <div class="form-group col-4">
+                                    <label for="departamento">Departamento</label>
+                             
+                                    <select name="departamento" id="departamento" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for dpto in dptonot %}
+                                             <option value="{{dpto.id}}">{{dpto.descripcion}}</option>                                      
+                                        {% endfor %}                                        
+                                      </select>
+                                   
+                              </div>
+                              <div class="form-group col-4">
+                                    <label for="municipio">Municipio</label>
+                                    <select name="municipio" id="municipio" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for mpio in mpionot %}
+
+                                            <option value="{{mpio.id}}" data-chained="{{mpio.departamento_id}}">{{mpio.descripcion}}</option>                                  
+                                        {% endfor %}                                        
+                                    </select>  
+                              </div> 
+                              <div class="form-group col-4">
+                                    <label for="id_lugarubica">Zona de Ubicación</label>
+                                    <br>
+                                    {{ form.lugarubica }}                                    
+                              </div>                                                            
+                           </div>
+
+                            <div class="row">                                
+                              <div class="form-group col-4">
+                                    <label for="id_telefono">Teléfono</label>
+                                    <br>
+                                    {{ form.telefono }}                                    
+                              </div>
+                              <div class="form-group col-3">
+                                    <label for="id_fax">Fax</label>
+                                    <br>
+                                    {{ form.fax }}                                    
+                              </div> 
+                              <div class="form-group col-5">
+                                    <label for="id_correoelectronico">Correo Electrónico</label>
+                                    <br>
+                                    {{ form.correoelectronico }}                                    
+                              </div>                                                            
+                           </div> 
+
+                           <div class="row">                                
+                              <div class="form-group col-12">
+                                    <label for="id_propietario">Propietario</label>
+                                    <br>
+                                    {{ form.propietario }}                                    
+                              </div>                              
+                           </div>
+                           <div class="row">                                
+                              <div class="form-group col-12">
+                                    <label for="id_replegal">Representante Legal</label>
+                                    <br>
+                                      {{ form.replegal }}                                    
+                                                              
+                              </div>                              
+                           </div>
+                           <div class="row">                                
+                              <div class="form-group col-12">
+                                    <label for="id_direccionotifica">Dirección de notificación</label>
+                                    <br>
+                                    {{ form.direccionotifica }}                                    
+                              </div>                              
+                           </div>
+                           <div class="row">                                
+                              <div class="form-group col-6">
+                                    <label for="dptonotifica">Departamento</label>
+                                      <select name="dptonotifica" id="dptonotifica" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for dpto in dptonot %}
+                                              <option value="{{dpto.id}}">{{dpto.descripcion}}</option>
+                                        {% endfor %}                                        
+                                      </select>   
+                                       
+                              </div>
+                              <div class="form-group col-6">
+                                    <label for="mpionotifica">Municipio</label>
+                                    <select name="mpionotifica" id="mpionotifica" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for mpio in mpionot %}
+                                              <option value="{{mpio.id}}" data-chained="{{mpio.departamento_id}}">{{mpio.descripcion}}</option>
+                                        {% endfor %}                                        
+                                    </select>
+                              </div>                     
+                           </div>
+
+                           <div class="row">                                
+                              <div class="form-group col-8">
+                                    <label for="id_horariofunciona">Horario y Día de funcionamiento</label>
+                                   
+                                    {{ form.horariofunciona }}                                    
+                              </div>
+                              <div class="form-group col-4">
+                                    <label for="id_nrotrabajadores">Nro de Trabajadores</label>
+                                    {{ form.nrotrabajadores }}                                    
+                              </div>                     
+                           </div>
+
+                          </div>  
+                          <!-- {{ form.as_p }} -->
+                     
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                                  <a class="btn btn-success"href="{% url 'sam:establecimiento_list' %}">Cancelar</a>
+
+                                 
+                                                         
+                               
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    </form>
+  </div>
+</div>
+
+{% endblock page_content %}
+
+{% block js_page %}
+
+<script>
+
+$(document).ready(function() 
+{
+    $('#id_propietario').select2({
+      placeholder: "Seleccione el Propietario",
+      allowClear: true
+    });
+
+  $('#id_replegal').select2({
+      placeholder: "Seleccione el representante legal",
+      allowClear: true
+    }); 
+
+
+  $("#dptonotifica").val("{{obj.dptonotifica}}").change();
+  $("#mpionotifica").val("{{obj.mpionotifica}}").change();
+  $("#mpionotifica").chained("#dptonotifica");
+
+  $("#departamento").val("{{obj.departamento}}").change();
+  $("#municipio").val("{{obj.municipio}}").change();
+  $("#municipio").chained("#departamento"); 
+});
+
+  </script>
+  
+{% endblock js_page %}
+

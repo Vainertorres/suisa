@@ -1,0 +1,54 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+ {% block head_list %}   
+   
+ {% endblock head_list%} 
+
+{% block page_content %}
+	  <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Seguimiento a Rediarios</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                   <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Acciones:</div>
+                      <a class="dropdown-item"  href="{% url 'pai:rediario_new' %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>                      
+                    </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  {% if not obj  %}
+                        No hay registro de rediarios
+                  {% endif %}
+                  <table id="datarediarios" class="table">
+                    <thead>   
+                      <th>Item</th>  
+                      <th>Fecha Vac</th>
+                      <th>Tipo Doc</th>                      
+                      <th>Identificación</th>
+                      <th>Nombres y Apellidos</th>                      
+                      <th>Edad</th>                                   
+                      <th>Teléfono</th>                                            
+                      <th>Aseguradora</th>                       
+                      <th>Laboratorio</th>
+                      <th>dosis</th>
+                      <th>Ips</th> 
+                      <th class="all">Acciones</th>      
+                      
+                    </thead>  
+                    <tbody>
+                     
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+{% endblock page_content %}
+
+{% block js_page %}
+ <script rel="javascript" type="text/javascript" src="{% static 'rediario/js/list.js' %}"></script> 
+{% endblock %}

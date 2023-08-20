@@ -1,0 +1,120 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12">
+			<div id="container">
+				
+			</div>
+		</div>
+	</div>   
+</div>
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+
+	Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Estadísticas de Coomorbilidad en Pacientes Covid'
+    },
+    subtitle: {
+        text: 'Estadísticas según Coomorbilidad'
+    },
+    xAxis: {
+        categories: [
+            'Coomorbilidades'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Nro Casos' //Axis de las Y
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} #</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+
+    series: [{
+        name: 'asma',        
+        data: {{ asma|safe }}
+
+    },{
+        name: 'epoc',
+        data: {{ epoc|safe }}
+
+    },{
+        name: 'trastorno_neuro',
+        data: {{ trastorno_neuro|safe }}
+
+    },{
+        name: 'inmunosupresion',
+        data: {{ inmunosupresion|safe }}
+
+    },{
+        name: 'enfrenal',
+        data: {{ enfrenal|safe }}
+        
+    },{
+        name: 'Enf. Cardiaca',
+        data: {{ enfcardiaca|safe }}
+
+    },{
+        name: 'enfhematologica',
+        data: {{ enfhematologica|safe }}
+
+    },{
+        name: 'diabetes',
+        data: {{ diabetes|safe }}
+
+    },{
+        name: 'obesidad',
+        data: {{ obesidad|safe }}
+
+    },{
+        name: 'enfhepatica',
+        data: {{ enfhepatica|safe }}
+
+    },{
+        name: 'embarazo',
+        data: {{ embarazo|safe }}
+
+    },{
+        name: 'tabaquismo',
+        data: {{ tabaquismo|safe }}
+
+    },{
+        name: 'alcoholismo',
+        data: {{ alcoholismo|safe }}
+
+    },{
+        name: 'trastorno_reumatologico',
+        data: {{ trastorno_reumatologico|safe }}
+
+    }]
+});
+</script>
+
+
+
+	
+{% endblock js_page %}

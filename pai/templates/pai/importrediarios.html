@@ -1,0 +1,39 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+
+<h1> Importar Rediarios </h1>
+<form action="" method="POST" role='form' enctype="multipart/form-data">
+    {% csrf_token %} 
+		<div class="dropdown-divider"></div> 
+        <div class="col-xl-12 col-md-12 mb-12">
+          {{form.as_p}} 	        
+        </div>
+        
+       {% if dfc %}
+       		{{dfc}}
+       {% endif %}
+
+       <div class="barra">
+       	  <div class="barra_azul" id="barra_estado"></div>
+       	  <span></span>
+       </div>
+              
+    <button type="submit" class="btn btn-primary">Importar</button>
+</form>
+
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+	$('.custom-file-input').on('change', function(event) {
+	    var inputFile = event.currentTarget;
+	    $(inputFile).parent()
+	        .find('.custom-file-label')
+	        .html(inputFile.files[0].name);
+	}); 
+
+
+	
+</script>
+{% endblock %}

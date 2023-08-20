@@ -1,0 +1,69 @@
+{% extends 'base/baserips.html' %}
+{% block page_content %}
+	  <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Listado de Diagnósticos</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Acciones:</div>
+                      <a class="dropdown-item" href="{% url 'bai:cie10_new' %} "> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                      
+                    </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  {% if not obj  %}
+                        No hay Diagnósticos CIE-10
+                  {% endif %}
+
+                  <div class="buttons-toolbar">
+                    <a class="dropdown-item" href="{% url 'bai:cie10_new' %} "> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                  </div>
+
+
+                  <table data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-show-columns="true"
+                    data-toolbar=".buttons-toolbar"
+                    data-locale="es-MX"
+                    data-show-toggle="true"
+                    data-show-fullscreen="true"
+
+                  >
+                    <thead>   
+                      <th data-field='codigo' data-sortable="true">Código</th> 
+                      <th data-field='descripcion' data-sortable="true">Descripción</th>
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in obj %}
+                        <tr>
+                            <td>{{item.codigo}}</td>
+                            <td>{{item.descripcion}}</td>                            
+                            <td>
+
+                            <a class="btn btn-warning btn-circle" href="{% url 'bai:cie10_edit' item.id %}"><i class="far fa-edit"></i></a>  
+
+                            <a href="{% url 'den:dengue_inact' item.id %}"><i class="far fa-thumbs-down"></i></a> 
+                            </td>
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+                </div>
+            </div>
+{% endblock page_content %}
+
+{% block js_page %}
+ <script>
+  
+ </script>
+
+ {% endblock %}

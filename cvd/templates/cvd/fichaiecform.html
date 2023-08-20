@@ -1,0 +1,658 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'cvd:iec_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'cvd:iec_new' %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} Pacientes valorados con COVID
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+
+                         
+                             <div class="col-12" id="prueba"> {# div.col_1 #}
+                               <div class="row">
+                                  <div class="form-group col-2">
+                                        <label for="id_fecha">Fecha</label>
+                                         <!--<input type="text" name="fecha" class="form-control" id="id_fecha" value="{{iec.fecha|date:'Y-m-d'}}"> -->
+                                         {{form.fecha}}                                
+                                  </div> 
+
+                                  <div class="form-group col-4">
+                                    <label for="id_paciente">Paciente</label>
+                                     {{form.paciente}}                  
+                                  </div>
+
+                                  <div class="form-group col-1">
+                                    <br>
+                                    <a href="#newpac" data-toggle="modal"><i class="fas fa-user-plus"></i></a>
+                                  </div>
+                                
+                                 <div class="form-group col-2">
+                                    <label for="id_fecinisintomas">F. ini sintomas</label>
+                                      <br>
+                                      {{ form.fecinisintomas }}                                    
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="id_desplazamientos">Desplazamiento en los últimos 14 días</label>
+                                      <br>
+                                      {{ form.desplazamientos }}                                   
+                                  </div>
+                              </div>                                            
+                            </div> {# div.col_1 #}
+
+                              <div class="col-12">                           
+                                <div class="row">
+                                  <div class="form-group col-7">
+                                      <label for="id_contact_pac">¿Tuvo contacto cercano con un caso confirmado o probable de infección por COVID-19? </label>
+                                      {{form.contact_pac}}                               
+                                  </div> 
+
+                                  <div class="form-group col-5">
+                                    <label for="id_lugarcontact">Lugar</label>
+                                      <br>
+                                      {{ form.lugarcontact }}                                    
+                                  </div>                                                          
+                                </div> 
+                         </div>   
+                         {# antecedentes Clinicos #}
+                         {# ----- fin antecedentes clinicos#}
+                      
+                         <div class="row">
+                           <div class="col-12">
+
+                            <p><b>SIGNOS Y SINTOMAS AL INGRESO Y DÍAS PREVIOS</b></p>
+
+                            <div class="row">                            
+                              <div class="form-group col-12">
+                                <label for="id_antinflamatorios">¿Está consumiendo medicamentos antinflamatorios o acetaminofen? {{ form.antinflamatorios }} </label> 
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="form-group col-2" >
+                                <label for="id_fiebre">Fiebre cuantificada: </label>
+                                {{form.fiebre}}
+                              </div>       
+                              
+                              <div class="form-group col-2" >
+                                <label for="id_tos">Tos: </label>
+                                {{form.tos}}
+                              </div>  
+
+                              <div class="form-group col-2" >
+                                <label for="id_dificultadrespirar">Dificultad Respiratoria: </label>
+                                {{form.dificultadrespirar}}
+                              </div>
+
+                              <div class="form-group col-2" >
+                                <label for="id_taquipnea">Taquipnea: </label>
+                                {{form.taquipnea}}
+                              </div>
+
+                              <div class="form-group col-2" >                                
+                                <label for="id_dolorgarganta">Dolor de garganta: </label>
+                                {{form.dolorgarganta}}                           
+                              </div>
+                            
+                              <div class="form-group col-2" >                                
+                                <label for="id_escalofrios">Escalofrios: </label>
+                                {{form.escalofrios}}                           
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="form-group col-2" >                                
+                                <label for="id_nauseas">Nauseas: </label>
+                                {{form.nauseas}}                           
+                              </div>
+
+                              <div class="form-group col-2" >                                
+                                <label for="id_vomito">Vomito: </label>
+                                {{form.vomito}}                           
+                              </div>
+
+                              <div class="form-group col-2" >                                
+                                <label for="id_dolor_torax">Dolor torácico: </label>
+                                {{form.dolor_torax}}                           
+                              </div>   
+                                                           
+                              <div class="form-group col-2" >                                
+                                <label for="id_mialgia">Mialgia: </label>
+                                {{form.mialgia}}
+                           
+                              </div>  
+                                                            
+                              <div class="form-group col-2" >                                
+                                <label for="id_diarrea">diarrea: </label>
+                                {{form.diarrea}}                           
+                              </div> 
+
+                               <div class="form-group col-2" >                                
+                                <label for="id_dolor_abdominal">Dolor abdominal: </label>
+                                {{form.dolor_abdominal}}                           
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="form-group col-2" >                                
+                                <label for="id_dolor_cabeza">Dolor de cabeza: </label>
+                                {{form.dolor_cabeza}}                           
+                              </div> 
+                              <div class="form-group col-2" >                                
+                                <label for="id_malestar_general">Malestar general: </label>
+                                {{form.malestar_general}}                           
+                              </div> 
+                              <div class="form-group col-2" >                                
+                                <label for="id_otro">Otro sintoma: </label>
+                                {{form.otro}}                           
+                              </div> 
+                              <div class="form-group col-6" >                                
+                                <label for="id_cualotro">Cual Otro sintoma: </label>
+                                {{form.cualotro}}                           
+                              </div> 
+                            </div>
+                           
+                                                      
+                            <div class="row">
+                              <p><b>COOMORBILIDADES Y FACTORES DE RIESGO</b></p>
+                            </div>  
+                              <div class="row">
+                                  <div class="form-group col-2" >                                
+                                    <label for="id_asma">Asma: </label>
+                                    {{form.asma}}                           
+                                  </div>
+
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_epoc">Epoc: </label>
+                                    {{form.epoc}}                           
+                                 </div>
+
+                                 <div class="form-group col-3" >                                
+                                    <label for="id_trastorno_neuro">Trastorno neurologico crónico: </label>
+                                    {{form.trastorno_neuro}}                           
+                                 </div>
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_inmunosupresion">Inmunosupresión: </label>
+                                    {{form.inmunosupresion}}                           
+                                 </div>
+                                 <div class="form-group col-3" >                                
+                                    <label for="id_enfrenal">Enfermedad Renal crónica: </label>
+                                    {{form.enfrenal}}                           
+                                 </div>                                
+                              </div>
+                              <div class="row">
+                                  <div class="form-group col-2" >                                
+                                    <label for="id_enfcardiaca">Enfermedad  cardiaca: </label>
+                                    {{form.enfcardiaca}}                           
+                                 </div>
+
+                                 <div class="form-group col-3" >                                
+                                    <label for="id_enfhematologica">Enfermedad henatológica crónica: </label>
+                                    {{form.enfhematologica}}                           
+                                 </div>
+
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_diabetes">Diabetes: </label>
+                                    {{form.diabetes}}                           
+                                 </div>
+
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_obesidad">Obesidad: </label>
+                                    {{form.obesidad}}                           
+                                 </div>
+
+                                 <div class="form-group col-3" >                                
+                                    <label for="id_enfhepatica">Enfermedad hepática crónica: </label>
+                                    {{form.enfhepatica}}                           
+                                 </div>
+                              </div> 
+                              <div class="row">
+                                  <div class="form-group col-2" >                                
+                                    <label for="id_embarazo">Embarazada: </label>
+                                    {{form.embarazo}}                           
+                                 </div>
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_semgestacion">Semana Gestación: </label>
+                                    {{form.semgestacion}}                           
+                                 </div>
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_tabaquismo">Tabaquismo: </label>
+                                    {{form.tabaquismo}}                           
+                                 </div>
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_alcoholismo">Alcoholismo: </label>
+                                    {{form.alcoholismo}}                           
+                                 </div>
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_trastorno_reumatologico">Trastorno reumatológico: </label>
+                                    {{form.trastorno_reumatologico}}                           
+                                 </div>
+                              </div>
+                            <div class="dropdown-divider"></div> 
+                            <div class="row">
+                              <p><b>LABORATORIO PARA DIAGNÓSTICO ETIOLÓGICO</b></p>
+                            </div>
+                            <div class="row">
+                                  <div class="form-group col-2" >                                
+                                    <label for="id_fechaprimuestra">Fecha Toma 1ra muestra: </label>
+                                    {{form.fechaprimuestra}}                           
+                                 </div>
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_muestra">Tipo de muestra: </label>
+                                    {{form.muestra}}                           
+                                 </div>
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_cualotramuestra">Cual otro tipo de muestra: </label>
+                                    {{form.cualotramuestra}}                           
+                                 </div>
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_resfilarray">Resultado Film Array: </label>
+                                    {{form.resfilarray}}                           
+                                 </div>
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_respcr">Resultado PCR: </label>
+                                    {{form.respcr}}                           
+                                 </div>  
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_fechareslab">Fecha Res</label>
+                                    {{form.fechareslab}}                           
+                                 </div>                                 
+                            </div>
+
+                            <div class="row">
+                             <div class="form-group col-12">
+                                <label for="id_anamnesis"><b>Entrevista con el paciente, familiares e informantes claves, complementar con datos de la historia clínica.</b></label>
+                                  <br>
+                                  {{ form.anamnesis }}                                    
+                              </div>                              
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-4" >                                
+                                    <label for="id_nomapentrevistador">Nombre del entrevistador: </label>
+                                    {{form.nomapentrevistador}}                           
+                                 </div>
+                                 <div class="form-group col-2" >                                
+                                    <label for="id_telentrevistador">Tel. Entrevistador: </label>
+                                    {{form.telentrevistador}}                           
+                                 </div>
+                                 <div class="form-group col-3" >                                
+                                    <label for="departamento">Departamento: </label>
+                                   {#  {{form.departamento}} #}
+                                     <select name="departamento" id="departamento" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for dpto in departamentos %}
+                                              <option value="{{dpto.id}}">{{dpto.descripcion}}</option>
+                                        {% endfor %}                                        
+                                      </select> 
+
+                                 </div>
+                                 <div class="form-group col-3" >                                
+                                    <label for="municipio">Municipio: </label>
+                                    {# {{form.municipio}} #}
+                                    <select name="municipio" id="municipio" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for mpio in municipios %}
+                                              <option value="{{mpio.id}}" data-chained="{{mpio.departamento_id}}">{{mpio.descripcion}}</option>
+                                        {% endfor %}                                        
+                                    </select>                                                          
+                                 </div>                                 
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-2" >                                
+                                    <label for="id_estadoiec">Estado del Paciente </label>
+                                    {{form.estadoiec}}                           
+                                </div> 
+                                <div class="form-group col-2" >                                
+                                    <label for="id_fechaegreso">Fecha Egreso </label>
+                                    {{form.fechaegreso}}                           
+                                </div>
+                                <div class="form-group col-2" >                                
+                                    <label for="id_ambitoatencion">Ambito de Atención</label>
+                                    {{form.ambitoatencion}}                           
+                                </div>
+                              </div>
+                            
+                             {# <!  {{form.as_p}}  -->                #}
+                           
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                                <a href="{% url 'cvd:iec_list' %}" class="btn btn-success">Cancelar</a>
+                               
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    </form>
+
+  <div class="modal fade" id="newpac" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo Paciente</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+           
+           <div class="col-xl-12 col-md-12 mb-12">
+                  <div class="card border-left-success shadow h-100 py-1">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                               Nuevo Paciente {{context}}
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                          <div class="col-12"> {# div.col_1 #}
+                            <div class="row"> 
+                                <div class="form-group col-4">
+                                    <label for="id_tipodoc">Tipo Documento</label>
+                                      
+                                     <select name="tipodoc" id="tipodoc" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for td in tipodocs %}
+                                              <option value="{{td.id}}">{{td.descripcion}}</option>
+                                        {% endfor %}                                        
+                                      </select>                                
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="id_identificacion">Identificación</label>
+                                      
+                                      <input type="text" name="identificacion" id ="identificacion" class="form-control">
+                                  </div>                                 
+                           </div>
+                           <div class="row">
+                                  <div class="form-group col-3">
+                                    <label for="id_nombre1">Primer Nombre</label>
+                                                                           
+                                      <input type="text" name="nombre1" id="nombre1" class="form-control">                                  
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="id_nombre2">Segundo Nombre</label>
+                                     
+                                      <input type="text" name="nombre2" id="nombre2" class="form-control">                                  
+                                                                      
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="apellido1">Primer Apellido</label>
+                                      <input type="text" name="apellido1" id="apellido1" class="form-control">
+                                                                        
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="apellido2">Segundo Apellido</label>
+                                      <input type="text" name="apellido2" id="apellido2" class="form-control">         
+                                  </div>
+                           </div>
+                           <div class="row">
+                              <div class="form-group col-4" >                                
+                                    <label for="iddepto">Departamento: </label>
+                                   {#  {{form.departamento}} #}
+                                     <select name="iddepto" id="iddepto" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for dpto in departamentos %}
+                                              <option value="{{dpto.id}}">{{dpto.descripcion}}</option>
+                                        {% endfor %}                                        
+                                      </select> 
+
+                                 </div>
+                                 <div class="form-group col-4" >                                
+                                    <label for="idmpio">Municipio: </label>
+                                    {# {{form.municipio}} #}
+                                    <select name="idmpio" id="idmpio" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for mpio in municipios %}
+                                              <option value="{{mpio.id}}" data-chained="{{mpio.departamento_id}}">{{mpio.descripcion}}</option>
+                                        {% endfor %}                                        
+                                    </select>                                                       
+                                 </div>  
+                                 <div class="form-group col-4">
+                                    <label for="barrio">Barrio</label>
+                                    <br>
+                                     <select name="barrio" id="barrio" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for barrio in barrios %}
+                                              <option value="{{barrio.id}}">{{barrio.descripcion}}</option>
+                                        {% endfor %}                                        
+                                    </select>
+                                                                    
+                                </div>
+                            </div>
+                            <div class="row">                                
+                              <div class="form-group col-4">
+                                    <label for="direccion">Dirección</label>
+                                    <input type="text" name="direccion" id="direccion" class="form-control">         
+                                                                      
+                              </div>
+                              <div class="form-group col-3">
+                                    <label for="telefono">Teléfono</label>
+                                    <input type="text" name="telefono" id="telefono" class="form-control"> 
+                                                                     
+                              </div>
+                               <div class="form-group col-5">
+                                    <label for="correoelectronico">Correo electrónico</label>
+                                    <input type="text" name="correoelectronico" id="correoelectronico" class="form-control"> 
+                                                                       
+                              </div>
+                             
+                           </div>
+                           <div class="row">
+                             <div class="form-group col-5">
+                                    <label for="area">Area</label>
+                                    <select name="area" id="area" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for area in areas %}
+                                              <option value="{{area.id}}">{{area.descripcion}}</option>
+                                        {% endfor %}                                        
+                                    </select>
+
+                              </div>
+                              <div class="form-group col-3">
+                                    <label for="fechaNac">Fecha Nacimiento</label>
+                                    <input type="text" name="fechaNac" id="fechaNac" class="form-control">        
+                              </div>
+                              <div class="form-group col-4">
+                                    <label for="id_sexo">Sexo</label>    
+                                      <select name="sexo" id="sexo" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for sex in sexos %}
+                                              <option value="{{sex.id}}">{{sex.descripcion}}</option>
+                                        {% endfor %}                                        
+                                      </select>  
+                                    <br>    
+                              </div>
+                                                            
+                            </div>
+                            <div class="row">
+                              <div class="form-group col-4">
+                                    <label for="etnia">Etnia</label>
+                                    <select name="etnia" id="etnia" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for etnia in etnias %}
+                                              <option value="{{etnia.id}}">{{etnia.descripcion}}</option>
+                                        {% endfor %}                                        
+                                    </select> 
+                                                                    
+                              </div>
+                              <div class="form-group col-4">
+                                    <label for="regimen">Régimen</label>
+                                    <select name="regimen" id="regimen" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for regimen in regimenes %}
+                                              <option value="{{regimen.id}}">{{regimen.descripcion}}</option>
+                                        {% endfor %}                                        
+                                    </select>  
+
+                                                                    
+                              </div>
+                              <div class="form-group col-4">
+                                    <label for="eps">EPS</label>
+                                    <br>
+                                     <select name="eps" id="eps" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for eps in epss %}
+                                              <option value="{{eps.id}}">{{eps.descripcion}}</option>
+                                        {% endfor %}                                        
+                                      </select>         
+                              </div>
+                                
+                              
+                            </div>
+                          </div>   
+                     
+                           <div class="dropdown-divider"></div>
+                             
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary" id="crearpac">Guardar</button>
+         
+         {#  mensaje al ajax #}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock page_content %}
+  
+{% block js_page %}
+
+<script>
+
+
+
+$(function(){
+
+  
+
+  $("#departamento").val("{{obj.departamento.id}}").change();
+  $("#municipio").val("{{obj.municipio.id}}").change();
+  $("#municipio").chained("#departamento");
+
+
+  $("#iddepto").val("{{obj.departamento.id}}").change();
+  $("#idmpio").val("{{obj.municipio.id}}").change();
+  $("#idmpio").chained("#iddepto");
+
+  $("#id_fechaprimuestra, #id_fecha, #id_fecinisintomas, #id_fechareslab, #id_fechaegreso, #fechaNac").datetimepicker({
+    format:'d/m/Y',
+    timepicker:false
+  });
+
+
+    $('#id_paciente').select2({
+      placeholder: "Seleccione un Paciente",
+      allowClear: true
+    });
+    
+ });
+
+
+ $(document).ready(function(){
+
+
+  $('#crearpac').click(function(e){
+     
+
+      var url = "/cvd/iec/paciente";  // get the url of the `load_cities` view
+      var idtipodoc = $("#tipodoc").val(); 
+      var ident = $("#identificacion").val();       
+      var nombre1 = $("#nombre1").val(); 
+      var nombre2 = $("#nombre2").val(); 
+      var apellido1 = $("#apellido1").val(); 
+      var apellido2 = $("#apellido2").val(); 
+      var iddpto = $("#iddepto").val(); 
+      var idmunicipio = $("#idmpio").val(); 
+      var idbarrio = $("#barrio").val(); 
+      var direccion = $("#direccion").val(); 
+      var telefono = $("#telefono").val(); 
+      var correoelectronico = $("#correoelectronico").val(); 
+      var area = $("#area").val(); 
+      var fechanac = $("#fechaNac").val(); 
+      var idsexo = $("#sexo").val(); 
+      var idetnia = $("#etnia").val(); 
+      var idregimen = $("#regimen").val(); 
+      var ideps = $("#eps").val(); 
+
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'idtipodoc': idtipodoc,
+          'ident': ident,
+          'nombre1':nombre1,
+          'nombre2': nombre2,
+          'apellido1': apellido1,
+          'apellido2': apellido2,
+          'iddpto': iddpto,
+          'idmunicipio' : idmunicipio, 
+          'idbarrio' : idbarrio, 
+          'direccion' : direccion, 
+          'telefono' : telefono,
+          'correoelectronico' : correoelectronico,
+          'area' : area,
+          'fechanac' : fechanac,
+          'idsexo' : idsexo,
+          'idetnia' : idetnia,
+          'idregimen' : idregimen,
+          'ideps' : ideps 
+
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          console.log(data);
+          $("#id_paciente").html(data);  // replace the contents of the city input with the data that came from the server
+        },
+        error: function(jqXHR, textStatus, errorThrow){
+        console.log(textStatus, errorThrow);
+        mensaje(errorThrow,'red');
+        //cerrar_modal();
+        }        
+      }); 
+
+
+     alert("Hola: " + ident + " Nombre: " + nombre1 + " " + fechanac);
+
+      e.preventDefault();
+     //cerrar modal
+      $("#newpac").modal('hide');   
+      return false;   
+
+   });
+
+  });
+
+
+
+
+ 
+
+ </script> 
+{% endblock js_page %}
+

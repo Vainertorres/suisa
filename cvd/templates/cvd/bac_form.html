@@ -1,0 +1,218 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'cvd:bac_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'cvd:bac_new' %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} Pacientes valorados en BAC
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                            <div class="row">
+                                  <div class="form-group col-3">
+                                        <label for="id_fecha">Fecha</label>
+                                        <br>
+                                        {{form.fecharealiza}}                               
+                                  </div> 
+
+                                  <div class="form-group col-5">
+                                    <label for="id_paciente">Paciente</label>
+                                      <br>
+                                      {{ form.paciente }}                                    
+                                  </div>
+                                  <div class="form-group col-2">
+                                    <label for="id_edad">Edad</label>
+                                      <br>
+                                      {{ form.edad }}                                    
+                                  </div>
+                                  <div class="form-group col-2">
+                                    <label for="id_umedad">Uni Med</label>
+                                      <br>
+                                      {{ form.umedad }}                                    
+                                  </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="form-group col-4">
+                                  <label for="id_">Grupo Poblacional</label>
+                                  {{form.grupopob}}                               
+                              </div> 
+
+                              <div class="form-group col-4">
+                                <label for="id_eps">Eps</label>
+                                  <br>
+                                  {{ form.eps }}                                    
+                              </div>
+
+                              <div class="form-group col-4">
+                                <label for="id_riesgopsicosoc">Riesgo Psico social</label>
+                                  <br>
+                                  {{ form.riesgopsicosoc }}                                    
+                              </div>                              
+                            </div>
+
+                            <div class="row">                             
+
+                              <div class="form-group col-3">
+                                <label for="id_tos">Tos</label>
+                                  <br>
+                                  {{ form.tos }}                                    
+                              </div>
+
+                              <div class="form-group col-3">
+                                <label for="id_dificultadrespirar">Dific. respirar</label>
+                                  <br>
+                                  {{ form.dificultadrespirar }}                                    
+                              </div>
+
+                              <div class="form-group col-3">
+                                <label for="id_dolorgarganta">Dol. Garganta</label>
+                                  <br>
+                                  {{ form.dolorgarganta }}                                    
+                              </div>
+
+                              <div class="form-group col-3">
+                                <label for="id_sano">Fiebre</label>
+                                  <br>
+                                  {{ form.fiebre }}                                    
+                              </div>
+
+                            </div>
+
+                            <div class="row">
+                              <div class="form-group col-3">
+                                  <label for="id_diabetes">Diabetes</label>
+                                  {{form.diabetes}}                               
+                              </div> 
+
+                              <div class="form-group col-3">
+                                <label for="id_enfcardiaca">Enf. Cardiaca</label>
+                                  {{ form.enfcardiaca }}                                    
+                              </div>
+
+                              <div class="form-group col-3">
+                                <label for="id_cancer">Cancer</label>
+                                  <br>
+                                  {{ form.cancer }}                                    
+                              </div>
+
+                              <div class="form-group col-3">
+                                <label for="id_enfrenal">Enf. Renal</label>
+                                  <br>
+                                  {{ form.enfrenal }}                                    
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="form-group col-3">
+                                  <label for="id_trata_corticoides">Trat corticoides</label>
+                                  {{form.trata_corticoides}}                               
+                              </div> 
+
+                              <div class="form-group col-3">
+                                <label for="id_asma_epoc">Asma / Epoc</label>
+                                  <br>
+                                  {{ form.asma_epoc }}                                    
+                              </div>
+
+                              <div class="form-group col-6">
+                                <label for="id_malnutricion">Malnutrición </label>
+                                  <br>
+                                  {{ form.malnutricion}}                                    
+                              </div>                              
+                            </div>
+
+                            <div class="row">
+                              <div class="form-group col-3">
+                                  <label for="id_temperatura">Temperatura</label>
+                                  {{form.temperatura}}                               
+                              </div> 
+
+                              <div class="form-group col-3">
+                                <label for="id_prueba_olfato">Pru. Olfato</label>
+                                  <br>
+                                  {{ form.prueba_olfato }}                                    
+                              </div>
+
+                              <div class="form-group col-3">
+                                <label for="id_sospechoso">Sospechoso </label>
+                                  <br>
+                                  {{ form.sospechoso}}                                    
+                              </div>
+
+                              <div class="form-group col-3">
+                                <label for="id_sano">Sano</label>
+                                  <br>
+                                  {{ form.sano }}                                    
+                              </div>
+
+                            </div>
+
+                            <div class="row">
+                              <div class="form-group col-3">
+                                  <label for="id_pruebacovid">Pru. Covid</label>
+                                  {{form.pruebacovid}}                               
+                              </div> 
+
+                              <div class="form-group col-3">
+                                <label for="id_fichaepidemiologica">Ficha Epidemiológica</label>
+                                  <br>
+                                  {{ form.fichaepidemiologica }}                                    
+                              </div>
+
+                              <div class="form-group col-3">
+                                <label for="id_resultado">Resultado </label>
+                                  <br>
+                                  {{ form.resultado}}                                    
+                              </div>
+
+                            </div>
+
+                            <div class="row">
+                             <div class="form-group col-12">
+                                <label for="id_observaciones">Observación </label>
+                                  <br>
+                                  {{ form.observaciones }}                                    
+                              </div>                              
+                            </div>
+
+                             {# <!  {{form.as_p}}  -->                #}
+                           
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                              
+                               <button type="button" class="btn btn-success" onclick="return cerrar_modal()">
+                                 Cancelar
+                               </button>
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    </form>
+  </div>
+</div>
+
+	
+{% endblock page_content %}
+

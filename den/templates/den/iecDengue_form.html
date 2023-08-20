@@ -1,0 +1,299 @@
+{% extends 'base/basedengue.html' %}
+
+{% block page_content %}
+
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'den:iecdengue_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'den:iecdengue_new' iddengue %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nueva {% endif %} Investigación Epidemiológica de Campo para Dengue
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+            
+                            <div class="row">
+                                  <div class="form-group col-2">
+                                        <label for="id_fechavisita">Fecha</label>
+                                       {{form.fechavisita}}                               
+                                  </div>  
+                               <div class="form-group col-">
+                                  <input type="hidden" name="dengue" value="{{iddengue}}">
+                                  <label for="">Caso de dengue</label> <br>
+                                  <label for=""><b>{{dengue}}</b></label>
+                               </div>
+                            </div>
+                            <div class="row">
+                                  <div class="form-group col-3">
+                                        <label for="id_perdxdengueips">Hay personas diagnosticadas por una IPS con Dengue en la vivienda:</label>
+                                        {{form.perdxdengueips}}                               
+                                  </div> 
+                                  <div class="form-group col-3">
+                                        <label for="id_nombreatiendeiec">Nombre de quien Atiende IEC:</label>
+                                        {{form.nombreatiendeiec}}                               
+                                  </div> 
+                                  <div class="form-group col-2">
+                                        <label for="id_identatiendeiec">No. Identificación</label>
+                                        {{form.identatiendeiec}}                               
+                                  </div>                                  
+                                   <div class="form-group col-2">
+                                        <label for="id_telefono">Teléfono</label>
+                                        {{form.telefono}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_emailatiendeiec">Correo electronico</label>
+                                        {{form.emailatiendeiec}}                               
+                                  </div>   
+                            </div>
+                            <div class="row">
+                               <div class="form-group col-4">
+                                        <label for="id_nomips">IPS donde fue atendida la persona diagnosticada con Dengue:</label>
+                                        {{form.nomips}}                               
+                                  </div>   
+                                  <div class="form-group col-4">
+                                        <label for="id_eps">EPS</label>        
+                                        {{form.eps}}                               
+                                  </div>   
+                                  <div class="form-group col-2">
+                                        <label for="id_fechainisintomas">F. Inicio Sintomas </label>
+                                        {{form.fechainisintomas}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_fechaconsulto">F. Consulta </label>
+                                        {{form.fechaconsulto}}                               
+                                  </div>
+                            </div>
+                            <div class="row">
+                              <div class="form-group col-4">
+                                        <label for="id_pacpresente">Paciente se encuentra en el momento de la visita:</label>
+                                        {{form.pacpresente}}                               
+                                  </div>
+                                  <div class="form-group col-6">
+                                        <label for="id_desplaotraszonas">Hizo desplazamientos o Viajes:</label>
+                                        {{form.desplaotraszonas}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_fechadesplazo">Fecha:</label>
+                                        {{form.fechadesplazo}}                               
+                                  </div>
+                            </div>
+                             <div class="dropdown-divider"></div> 
+
+                            <div class="row"><p>SINTOMAS QUE PRESENTO EL PACIENTE</p></div>
+                            <div class="row">
+
+                                  <div class="form-group col-2">
+                                        <label for="id_fiebre">Fiebre:</label>
+                                        {{form.fiebre}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_dolorabdomen">Dolor Abdominal:</label>
+                                        {{form.dolorabdomen}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_nauseas">Nauseas:</label>
+                                        {{form.nauseas}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_vomito">Vomito:</label>
+                                        {{form.vomito}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_dolorcabeza">Dolor de Cabeza:</label>
+                                        {{form.dolorcabeza}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_malestargral">Malestar general:</label>
+                                        {{form.malestargral}}                               
+                                  </div>
+                            </div>
+                            <div class="row">
+                                  <div class="form-group col-2">
+                                        <label for="id_rash">Rash:</label>
+                                        {{form.rash}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_inapetencia">Inapetencia:</label>
+                                        {{form.inapetencia}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_doloretrocular">Dolor Retrocular:</label>
+                                        {{form.doloretrocular}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_dolormuscular">Dolor Muscular:</label>
+                                        {{form.dolormuscular}}                               
+                                  </div>
+                                  <div class="form-group col-4">
+                                        <label for="id_otrosintoma">Otros Sintomas:</label>
+                                        {{form.otrosintoma}}                               
+                                  </div>
+                              
+                            </div>
+                             <div class="dropdown-divider"></div> 
+                             <div class="row">
+                                  <div class="form-group col-3">
+                                        <label for="id_nroperhabitan">No. de personas que viven en la vivienda: </label>
+                                        {{form.nroperhabitan}}                               
+                                  </div>
+                                  <div class="form-group col-3">
+                                        <label for="id_adultoenfbase">Adultos con enfermedad de base: </label>
+                                        {{form.adultoenfbase}}                               
+                                  </div>
+                                  <div class="form-group col-4">
+                                        <label for="id_nromenoreshabitan">No de Niños menores de 15 Años en la Vivienda: </label>
+                                        {{form.nromenoreshabitan}}                               
+                                  </div>                               
+                             </div>
+                             <div class="dropdown-divider"></div> 
+                             <div class="row">
+                                 <div class="form-group col-4">
+                                        <label for="id_presenciainservibles">Encontró presencia de elementos Inservibles en casa como llantas, Botellas, Lata de gaseosa, Cascaras de Huevo: </label>
+                                        {{form.presenciainservibles}}
+                                                                       
+                                  </div> 
+                                  <div class="form-group col-4">
+                                        <label for="id_presenciabebederos">Encontró presencia de bebederos de agua para sumninistro de mascotas tales como Perros, Gatos, Pollos y Otros animales: </label>
+                                        {{form.presenciabebederos}}
+                                                                       
+                                  </div> 
+                                  <div class="form-group col-4">
+                                        <label for="id_presenciaguafloreros">Encontró agua en recipientes que contienen plantas, Floreros como vasos, Tiestos, Plato, Masetas: </label>
+                                        {{form.presenciaguafloreros}}
+                                                                       
+                                  </div> 
+                             </div>
+                             <div class="row">
+                                  <div class="form-group col-4">
+                                        <label for="id_presenciaguavaldes">Encontró presencia de valdes, cilindros o tarros con agua almacenada o sanitarios sin uso: </label>
+                                        {{form.presenciaguavaldes}}                      
+                                  </div>
+                                  <div class="form-group col-4">
+                                        <label for="id_canalaguaslluvias">En la vivienda hay presencia de canales de aguas lluvias, proliferación de malesa en patios, huecos de árboles: </label>
+                                        {{form.canalaguaslluvias}}                      
+                                  </div>
+                                  <div class="form-group col-4">
+                                        <label for="id_presenciaguatanques">Presencia de Tanque de almacenamiento de Agua sin lavar, albercas con agua limpia almacenada: </label>
+                                        {{form.presenciaguatanques}}                      
+                                  </div>                               
+                             </div>
+                              <div class="dropdown-divider"></div>
+                              <div class="row">
+                                 <div class="form-group col-4">
+                                        <label for="id_visitafumigacion">Han visitado casas para Fumigación: </label>
+                                        {{form.visitafumigacion}}                      
+                                  </div> 
+                                  <div class="form-group col-3">
+                                        <label for="id_nropercapacitadas">No de Personas Capacitadas y sen sibilizadas: </label>
+                                        {{form.nropercapacitadas}}                      
+                                  </div> 
+                                  <div class="form-group col-3">
+                                        <label for="id_tratadosumideros">Se han tratado los sumideros por su casa: </label>
+                                        {{form.tratadosumideros}}                      
+                                  </div> 
+                                  <div class="form-group col-2">
+                                        <label for="id_reqvisitamb">Requiere Visita ambiental </label>
+                                        {{form.reqvisitamb}}                      
+                                  </div>                                   
+                              </div>
+                           <div class="dropdown-divider"></div>
+                          <!-- contactos solo cuando exista la IEC-->
+                          {% if obj %} 
+
+                            <div class="col-12" id="prueba"> {# Grilla de la movilidad #}
+                            <div class="row" id="titulo">
+                              <p id="titulo">Información de Contactos</p> 
+                            </div>
+                           <div class="row">
+
+                            <div class="buttons-toolbar2">
+                            <a class="dropdown-item" href="{% url 'den:contactiecdengue_new' obj.pk %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                           </div>                        
+
+                            <table data-toggle="table"
+                            data-pagination="true"
+                            data-search="true"
+                            data-show-columns="true"
+                            data-toolbar=".buttons-toolbar2"
+                            data-locale="es-MX"
+                            data-show-toggle="true"
+                            data-show-fullscreen="true">
+                            <thead>   
+                              <th>Nombre</th>                                     
+                              <th>Edad</th>                                     
+                              <th>Sexo</th>
+                              <th>Parentezco</th>                                     
+                              <th>Eps</th>                                     
+
+                              <th class="all">Acciones</th> 
+                            </thead>  
+                            <tbody>
+                              {% for item in contact %}
+                                <tr>
+                                    <td>{{item.nombre}}</a></td>
+                                    <td>{{item.edad}}</a></td>
+                                    <td>{{item.sexo}}</a></td>                                    
+                                    <td>{{item.parentezco}}</a></td>
+                                    <td>{{item.eps}}</a></td>
+                                    <td>
+                                      <a href="{% url 'den:contactiecdengue_edit' item.pk %}" class="btn btn-warning btn-circle"><i class="far fa-edit"></i></a>
+                                    </td>
+                                  </tr>                   
+                              {% endfor %}
+                            </tbody>
+
+                          </table>
+                        
+                             
+                         </div>
+                        </div>  <!-- Fin del table de documentos anexos -->
+                            
+                          {% endif %}
+
+
+
+
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                                <a class="btn btn-success" href="{% url 'den:dengue_edit' iddengue %}">Cancelar</a>
+                               
+                               </div>
+                             </div> 
+                           </div>                
+                      </div>
+                    </div>
+                </div>
+              </div>
+    </form>
+	
+{% endblock page_content %}
+{% block js_page %}
+
+<script>
+
+
+$(function(){  
+  $("#id_fechavisita, #id_fechainisintomas, #id_fechaconsulto, #id_fechadesplazo").datetimepicker({
+    format:'d/m/Y',
+    timepicker:false
+  });
+
+});
+
+  
+  </script>
+  
+{% endblock js_page %}
+

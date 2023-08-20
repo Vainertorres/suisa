@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+  
+ <div class="container">
+  {{sm}}
+  {{hs}}
+  <h1>Mapa</h1>
+  <div class="row">
+	  <div class="mapa" id="mapa" >
+
+	  </div>
+  </div>
+</div> 
+	
+{% endblock %}
+
+
+{% block js_page %}
+<script>
+	$(document).ready(function(){
+		alert("Hola");
+		llenarhtm("<html><body><h2>Hola<h2></body></html>");
+
+
+  // jQuery methods go here...
+
+});
+
+function llenarhtm(msg){
+	$("#mapa").html(msg);
+}
+
+
+</script>	
+
+{% endblock %}

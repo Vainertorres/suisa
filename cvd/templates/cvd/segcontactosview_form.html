@@ -1,0 +1,131 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+
+<div class="col-xl-12 col-md-12 mb-12">                    
+    <div class="card border-left-success shadow h-100 py-2">    
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                 <p>Gestión seguimiento a contactos del paciente:  {{obj.fichaiec.paciente}}</p> 
+               </div>                      
+               <div class="dropdown-divider"></div> 
+
+					       <div class="col-12"> {# Grilla de la movilidad #}
+	               		<div class="row"> 
+	                       	<div class="form-group col-10">
+	                             <h4>Contacto: {{obj.paciente}}</h4>  	                            
+	                        </div>                         
+	                    </div> 
+	               </div>
+
+                  <div class="dropdown-divider"></div> 
+                  <div class="col-12">
+                  <div class="row"> {# Grilla de la movilidad o desplazamiento #}
+                      <div class="col-5" id="prueba">
+                          <div class="row">
+                            <h3>Desplazamientos</h3>
+                          </div>
+                         <div class="row">
+
+                         	<div class="buttons-toolbar">
+                          <a class="dropdown-item" href="{% url 'cvd:desplacontacto_new' obj.pk %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                       	 </div>
+
+                         	<table data-toggle="table"
+                          data-pagination="true"
+                          data-search="true"
+                          data-show-columns="true"
+                          data-toolbar=".buttons-toolbar"
+                          data-locale="es-MX"
+                          data-show-toggle="true"
+                          data-show-fullscreen="true">
+                          <thead>   
+                            <th>Pais</th>
+                            <th>Departamento</th>                           
+                            <th>Ciudad</th>                            
+                            <th class="all">Acciones</th> 
+                          </thead>  
+                          <tbody>
+                            {% for item in desplaza %}
+                              <tr>
+                                  <td>{{item.pais}}</td> 
+                                  <td>{{item.departamento}}</td>
+                                  <td> {{item.ciudad}}</td>
+                                  <td>
+                                    <a href="{% url 'cvd:desplacontacto_edit' item.pk %}" class="btn btn-warning btn-circle"><i class="far fa-edit"></i></a>
+                                  </td>
+                                </tr>                   
+                            {% endfor %}
+                          </tbody>
+
+                        </table>
+                       </div>
+                    </div>
+                   </div> 
+    
+                  <div class="row"> {# Grilla de los seguimintos #}    
+
+                  <div class="col-9" id="prueba"> {# Grilla de contactos #}
+                      <div class="row">
+                        <h3>Seguimientos</h3>
+                      </div>
+                    <div class="row">
+
+                    <div class="buttons-toolbarcon">
+                    <a class="dropdown-item" href="{% url 'cvd:seguimientocontacto_new' obj.pk %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                   </div>
+
+                    <table data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-show-columns="true"
+                    data-toolbar=".buttons-toolbarcon"
+                    data-locale="es-MX"
+                    data-show-toggle="true"
+                    data-show-fullscreen="true">
+                    <thead>   
+                      <th>No.</th>                      
+                      <th>Fecha</th>
+                      <th>sintomatico</th>
+                      <th>Tos</th>                      
+                      <th>Fiebre</th>   
+                      <th>odinofagia</th>   
+                      <th>Dif Respi</th>   
+                      <th>Adinamia</th>   
+                      <th>Hospitalizado</th>                         
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in segcon %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{item.fecha|date:"d/m/Y H:m:s"}}</td>                            
+                            <td> {{item.sintomatico}}</td>                         
+                            <td> {{item.tos}}</td>                     
+                            <td> {{item.fiebre}}</td>
+                            <td> {{item.odinofagia}}</td>
+                            <td> {{item.difrespirar}}</td>                            
+                            <td> {{item.adinamia}}</td>
+                            <td> {{item.hospitalizado}}</td>
+                            <td>
+                              <a href="{% url 'cvd:seguimientocontacto_edit' item.pk %}" class="btn btn-warning btn-circle"><i class="far fa-edit"></i></a>
+                            </td>
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  </div>
+                 </div>
+                </div> <!--fin contactos--> 
+                </div>
+                <div class="row">
+                   <a class="btn btn-primary" href="{% url 'cvd:contacto_list' %}">Aceptar</a>
+                </div>
+            </div>
+          </div>
+        </div>           
+    </div>
+</div>
+
+{% endblock page_content %}

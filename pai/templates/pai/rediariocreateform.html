@@ -1,0 +1,213 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+
+ {% if obj %}
+  <form  method='POST' role='form' action = "{% url 'pai:rediario_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'pai:rediario_new'  %}">
+    {% endif %}
+    {% csrf_token %}
+
+	<div class="col-xl-12 col-md-12 mb-12">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Seguimiento {% else %} Nuevo {% endif %} Registro diario
+                        </div>   
+
+                       <!-- {{ form.as_p }} -->
+                        <div class="row">
+                            <div class="form-group col-2">
+                               <label for="id_fecha">Fecha de Vacunación</label>
+                              {{form.fecha}}                               
+                            </div>  
+                            <div class="form-group col-2">
+                               <label for="id_tipodoc">Documento</label>
+                              {{form.tipodoc}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_identificacion">Identificación</label>
+                              {{form.identificacion}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_pais">Fecha Nac</label>
+                              {{form.fechanac}}                               
+                            </div>
+                            <div class="form-group col-1">
+                               <label for="id_tipoedad">Tipo Edad</label>
+                              {{form.tipoedad}}                               
+                            </div>
+                            <div class="form-group col-1">
+                               <label for="id_pais">Edad</label>
+                              {{form.edad}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_pais">Sexo</label>
+                              {{form.sexo}}                               
+                            </div>                            
+                        </div>  
+                         <div class="row">                            
+                            <div class="form-group col-3">
+                               <label for="id_nombres">Nombres</label>
+                              {{form.nombres}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_apellido1">Primer Apellido</label>
+                              {{form.apellido1}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_apellido2">Segundo Apellido</label>
+                              {{form.apellido2}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_regimen">Régimen</label>
+                              {{form.regimen}}                               
+                            </div>
+                            <div class="form-group col-3">
+                               <label for="id_eapb">Aseguramiento</label>
+                              {{form.eapb}}                               
+                            </div>                            
+                        </div>  
+                        <div class="row">                            
+                            <div class="form-group col-2">
+                               <label for="id_departamentores">Dpto de residencia</label>
+                              {{form.departamentores}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_municipiores">Municipio de residencia</label>
+                              {{form.municipiores}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_area">Área</label>
+                              {{form.area}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_barrio">Barrio</label>
+                              {{form.barrio}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_direccion">Dirección</label>
+                              {{form.direccion}}                               
+                            </div>  
+                            <div class="form-group col-2">
+                               <label for="id_telefono">Teléfono</label>
+                              {{form.telefono}}                               
+                            </div>                          
+                        </div> 
+                        <div class="row">                            
+                            <div class="form-group col-2">
+                               <label for="id_grupoetnico">Grupo Étnico</label>
+                              {{form.grupoetnico}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_desplazado">Desplazado</label>
+                              {{form.desplazado}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_discapacitado">Discapacitado</label>
+                              {{form.discapacitado}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_correoelectronico">Correo Electrónico</label>
+                              {{form.correoelectronico}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_condiccusuaria">Cond. Usuaria</label>
+                              {{form.condiccusuaria}}                               
+                            </div>  
+                            <div class="form-group col-2">
+                               <label for="id_fechaprobparto">Fec. Prob Parto</label>
+                              {{form.fechaprobparto}}                               
+                            </div>                          
+                        </div>  
+                        <div class="row">                            
+                            <div class="form-group col-1">
+                               <label for="id_etapa">Etapa</label>
+                              {{form.etapa}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_tipopoblacion">Tipo población</label>
+                              {{form.tipopoblacion}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_dosisaplicada">Dosis aplicada</label>
+                              {{form.dosisaplicada}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_laboratorio">Laboratorio</label>
+                              {{form.laboratorio}}                               
+                            </div>
+                            <div class="form-group col-2">
+                               <label for="id_condiccusuaria">Lote biol</label>
+                              {{form.lotebiologico}}                               
+                            </div>  
+                            <div class="form-group col-2">
+                               <label for="id_jeringa">Jeringa</label>
+                              {{form.jeringa}}                               
+                            </div> 
+                            <div class="form-group col-1">
+                               <label for="id_lotejeringa">Lote Jer</label>
+                              {{form.lotejeringa}}                               
+                            </div>                         
+                        </div>    
+                        <div class="row">                            
+                            <div class="form-group col-2">
+                               <label for="id_eventoadverso">Evento adverso</label>
+                              {{form.eventoadverso}}                               
+                            </div>
+                            <div class="form-group col-3">
+                               <label for="id_vacunador">Vacunador</label>
+                              {{form.vacunador}}                               
+                            </div>
+                            <div class="form-group col-3">
+                               <label for="id_municipio">Municipio que reporta</label>
+                              {{form.municipio}}                               
+                            </div>
+                            <div class="form-group col-4">
+                               <label for="id_nombreIps">IPS</label>
+                              {{form.nombreIps}}                               
+                            </div>
+                                                
+                        </div>      
+                        <div class="row">                            
+                            <div class="form-group col-2">
+                               <label for="id_novedad">Novedad</label>
+                              {{form.novedad}}                               
+                            </div>
+                            <div class="form-group col-3">
+                               <label for="id_descNovedad">Desc. Novedad</label>
+                              {{form.descNovedad}}                               
+                            </div>
+                            <div class="form-group col-3">
+                               <label for="id_modalidad">Modalidad</label>
+                              {{form.modalidad}}                               
+                            </div>
+                            <div class="form-group col-4">
+                               <label for="id_observacion">Observación</label>
+                              {{form.observacion}}                               
+                            </div>                                                
+                        </div>   
+
+                </div> 
+             </div>  <!-- Cardbody -->
+        </div> 
+        <div class="dropdown-divider"></div>
+         <div class="row">
+           <div class="col">
+             <button type="submit" class="btn btn-danger">
+                <span class="fa fa-save"></span>Guardar
+            </button>
+              <a href="{% url 'pai:rediario_list' %}" class="btn btn-success">Cancelar</a>
+          
+           </div>
+         </div> 
+
+
+        
+    </div>
+</div>
+</form>
+
+{% endblock page_content %}

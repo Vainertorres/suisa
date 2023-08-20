@@ -1,0 +1,215 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+
+<div class="col-xl-12 col-md-12 mb-12">                    
+    <div class="card border-left-success shadow h-100 py-2">    
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                 <p>Gestión de Tarjeta Pacientes valorados con COVID</p> 
+               </div>                      
+               <div class="dropdown-divider"></div> 
+
+					       <div class="col-7" id="prueba"> {# Grilla de la movilidad #}
+	               		<div class="row"> 
+	                       	<div class="form-group col-10">
+	                             <h4>Paciente:</h4>  	                            
+	                            <p><h4>{{ficha}}</h4></p>                        
+	                        </div>                         
+	                    </div> 
+	               </div>
+
+                  <div class="dropdown-divider"></div> 
+                  <div class="col-12">
+                  <div class="row"> {# Grilla de la movilidad #}
+                      <div class="col-12" id="prueba">
+                          <div class="row">
+                            <h3>Antecedentes de Viaje</h3>
+                          </div>
+                         <div class="row">
+
+                         	<div class="buttons-toolbar">
+                          <a class="dropdown-item" href="{% url 'cvd:iec_viaje_new' ficha.pk %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                       	 </div>
+
+                         	<table data-toggle="table"
+                          data-pagination="true"
+                          data-search="true"
+                          data-show-columns="true"
+                          data-toolbar=".buttons-toolbar"
+                          data-locale="es-MX"
+                          data-show-toggle="true"
+                          data-show-fullscreen="true">
+                          <thead>   
+                            <th>Pais</th>
+                            <th>Ciudad</th>
+                            <th>Fecha inicial</th> 
+                            <th>Fecha Final</th> 
+                            <th class="all">Acciones</th> 
+                          </thead>  
+                          <tbody>
+                            {% for item in obj %}
+                              <tr>
+                                  <td>{{item.pais}}</td>                            
+                                  <td> {{item.ciudad}}</td>
+                                  <td>{{item.fechaini|date:"d/m/Y"}}</td> 
+                                  <td>{{item.fechafin|date:"d/m/Y"}}</td>                            
+                                  <td>
+                                    <a href="{% url 'cvd:iec_viaje_edit' item.pk %}" class="btn btn-warning btn-circle"><i class="far fa-edit"></i></a>
+                                  </td>
+                                </tr>                   
+                            {% endfor %}
+                          </tbody>
+
+                        </table>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="row">  
+
+                  <div class="col-12" id="prueba"> {# Grilla de contactos #}
+                      <div class="row">
+                        <h3>Contactos</h3>
+                      </div>
+                    <div class="row">
+
+                    <div class="buttons-toolbarcon">
+                    <a class="dropdown-item" href="{% url 'cvd:contactoiec_new' ficha.pk %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                   </div>
+
+                    <table data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-show-columns="true"
+                    data-toolbar=".buttons-toolbarcon"
+                    data-locale="es-MX"
+                    data-show-toggle="true"
+                    data-show-fullscreen="true">
+                    <thead>   
+                      <th>Nombre</th>
+                      <th>Tipo de contacto</th>
+                      <th>Sintomatico</th>                      
+                      <th>Res. Covid</th>                                            
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in contacto %}
+                        <tr>
+                            <td>{{item.paciente}}</td>                            
+                            <td> {{item.clasecontacto}}</td>                         
+                            <td> {{item.sintomatico}}</td>                     
+                            <td> {{item.resultmxcovid}}</td>
+                            <td>
+                              <a href="{% url 'cvd:contactoiec_edit' item.pk %}" class="btn btn-warning btn-circle"><i class="far fa-edit"></i></a>
+                            </td>
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+                  </div>
+                 </div>
+                </div> <!--fin contactos--> 
+                </div>
+
+                <div class="dropdown-divider"></div> 
+                <div class="row">
+
+                <div class="col-12" id="prueba"> {# Grilla de la movilidad #}
+                    <div class="row">
+                      <h3>Antecedentes Hospitalarios</h3>
+                    </div>
+                   <div class="row">
+
+                    <div class="buttons-toolbar1">
+                    <a class="dropdown-item" href="{% url 'cvd:iec_anthosp_new' ficha.pk %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                   </div>
+
+                    <table data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-show-columns="true"
+                    data-toolbar=".buttons-toolbar1"
+                    data-locale="es-MX"
+                    data-show-toggle="true"
+                    data-show-fullscreen="true">
+                    <thead>   
+                      <th>Fecha Consulta</th>
+                      <th>Institución </th>
+                      <th>Observación</th>                       
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in anthos %}
+                        <tr>
+                            <td>{{item.fechaconsulta|date:"d/m/Y"}}</td>
+                            <td>{{item.institucionsalud}}</td> 
+                            <td>{{item.observacion}}</td>                            
+                            <td>
+                              <a href="{% url 'cvd:iec_anthosp_edit' item.pk %}" class="btn btn-warning btn-circle"><i class="far fa-edit"></i></a>
+                            </td>
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+                      
+                    </div>
+                </div>
+              </div>
+              <div class="row">
+
+                <div class="dropdown-divider"></div> 
+
+                  <div class="col-12" id="prueba"> {# Grilla de la movilidad #}
+                    <div class="row">
+                      <h3>Documentos Anexos</h3>
+                    </div>
+                   <div class="row">
+
+                    <div class="buttons-toolbar2">
+                    <a class="dropdown-item" href="{% url 'cvd:fileiec_new' ficha.pk %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                   </div>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <table data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-show-columns="true"
+                    data-toolbar=".buttons-toolbar2"
+                    data-locale="es-MX"
+                    data-show-toggle="true"
+                    data-show-fullscreen="true">
+                    <thead>   
+                      <th>Descripción</th>                                     
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in fileiec %}
+                        <tr>
+                            <td><a href="/media/{{item.archivo}} ">{{item.descripcion}}</a></td>
+                            <td>
+                              <a href="{% url 'cvd:fileiec_edit' item.pk %}" class="btn btn-warning btn-circle"><i class="far fa-edit"></i></a>
+                            </td>
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+                  </form>
+                      
+                  </div>
+                  </div>
+                </div>  <!-- Fin del table de documentos anexos -->
+                <div class="row">
+                   <a class="btn btn-primary" href="{% url 'cvd:iec_list' %}">Aceptar</a>
+                </div>
+
+            </div>
+          </div>
+        </div>           
+    </div>
+</div>
+
+	
+{% endblock page_content %}

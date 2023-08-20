@@ -1,0 +1,84 @@
+{% extends 'base/basedengue.html' %}
+
+{% block page_content %}
+
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+ {% if obj %}
+  <form  method='POST' role='form' enctype="multipart/form-data" action = "{% url 'den:filedengue_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' enctype="multipart/form-data" action = "{% url 'den:filedengue_new' iddengue %}">
+    {% endif %}
+        {% csrf_token %}
+
+          <div class="col-xl-12 col-md-12 mb-12">
+            <div class="card border-left-success shadow h-100 py-2">
+                 <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              Importar Archivos Anexos - Dengue:                              
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                            <div class="row">
+                              <label for="id_dengue">Paciente</label>                                
+                              <input type="hidden" name="dengue" value="{{dengue.pk}}">
+                                {{dengue}}                              
+                            </div>
+
+                           <div class="dropdown-divider"></div> 
+
+                            <div class="row">
+                            	<div class="form-group col-12">
+                                        <label for="id_pais">Descripción</label>
+                                        <br>
+                                        {{form.descripcion}}                               
+                                  </div>  
+                                                                      
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                        <label for="id_ciudad">Seleccionar Archivo</label>
+                                        <br>
+                                        {{form.archivo}}                               
+                                </div>                               
+                            </div>
+
+                             {# <!  {{form.as_p}}  -->                #}
+                           
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+
+                                 <a class="btn btn-success" href="{% url 'den:dengue_edit' dengue.pk %}">Cancelar</a>
+                              
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  </form>
+  </div>
+</div>
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+
+
+$(function(){  
+  $("#id_fechaini, #id_fechafin").datetimepicker({
+    format:'d/m/Y',
+    timepicker:false
+  });
+
+});
+
+  
+  </script>
+
+  {% endblock js_page%}

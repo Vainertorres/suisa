@@ -1,0 +1,54 @@
+{% extends 'base/baserips.html' %}
+{% block page_content %}
+	  <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Listado de Archivos cargados</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  {% if not obj  %}
+                        No archivos Cargados
+                  {% endif %}
+                  
+                  <table                     
+                    data-toggle="table"
+                    data-pagination="true"              
+                    data-search="true"
+                    data-show-columns="true"
+                    data-toolbar=".buttons-toolbar"
+                    data-locale="es-MX"
+                    data-show-toggle="true"
+                    data-show-fullscreen="true"                    
+                    >
+                    <thead>   
+                      <th>Ips</th>
+                      <th>Fecha de Remisión</th>
+                      <th>Nombre de Archivos</th> 
+                      <th>Total Registro</th> 
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in obj %}
+                        <tr>
+                            <td>{{item.ips}}</td>
+                            <td>{{item.fecharemision}}</td>
+                            <td>{{item.codarchivo}}</td>
+                            <td>{{item.totalreg}}</td>
+                            <td><a href="{% url 'bai:rips_listar' item.id %}" class="btn btn-warning btn-circle"><i class="fas fa-cart-plus"></i></a></td>
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+                </div>
+            </div>
+{% endblock page_content %}
+
+

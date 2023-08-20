@@ -1,0 +1,120 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12">
+			<div id="container">
+				
+			</div>
+		</div>
+	</div>
+</div>
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+
+	Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Estadísticas de Sintomas en Pacientes Covid'
+    },
+    subtitle: {
+        text: 'Estadísticas según Síntomas'
+    },
+    xAxis: {
+        categories: [
+            'Sintomas'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Nro Casos' //Axis de las Y
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} #</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Fiebre',        
+        data: {{ fiebre|safe }}
+
+    }, {
+        name: 'Tos',
+        data: {{ tos|safe }}
+
+    }, {
+        name: 'Dif Respirar',
+        data: {{ dificultadrespirar|safe }}
+
+    }, {
+        name: 'Taquipnea',
+        data: {{ taquipnea|safe }}
+
+    }, {
+        name: 'Dolor en Garganta',
+        data: {{ dolorgarganta|safe }}
+        
+    }, {
+        name: 'Nauseas',
+        data: {{ nauseas|safe }}
+
+    },{
+        name: 'Vomito',
+        data: {{ vomito|safe }}
+
+    }, {
+        name: 'Dolor Toraxico',
+        data: {{ dolor_torax|safe }}
+
+    }, {
+        name: 'Mialgia',
+        data: {{ mialgia|safe }}
+
+    },{
+        name: 'Diarrea',
+        data: {{ diarrea|safe }}
+
+    },{
+        name: 'Dolor abdominal',
+        data: {{ dolor_abdominal|safe }}
+
+    },{
+        name: 'Dolor de Cabeza',
+        data: {{ dolor_cabeza|safe }}
+
+    },{
+        name: 'Malestar general',
+        data: {{ malestar_general|safe }}
+
+    },
+    {
+        name: 'Otro',
+        data: {{ otro|safe }}
+
+    }]
+});
+</script>
+
+
+
+	
+{% endblock js_page %}

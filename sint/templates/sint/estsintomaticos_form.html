@@ -1,0 +1,112 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12">
+			<div id="container">
+				
+			</div>
+		</div>
+	</div>
+</div>
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+
+	Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Estadísticas de Sintomáticos'
+    },
+    subtitle: {
+        text: 'Estadísticas según Síntomas'
+    },
+    xAxis: {
+        categories: [
+            'Fiebre',
+            'Cefalea',
+            'Dolor Retrocular',
+            'Mialgias',
+            'Artralgias',
+            'Rash',
+            'Zona Endémica Dengue',
+            'Tos',
+            'Perdida de peso',
+            'Sudoración nocturna'            
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Nro Casos' //Axis de las Y
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} #</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Fiebre',        
+        data: {{ fiebre|safe }}
+
+    }, {
+        name: 'Cefalea',
+        data: {{ cefalea|safe }}
+
+    }, {
+        name: 'Dolor Retrocular',
+        data: {{ doloretrocular|safe }}
+
+    }, {
+        name: 'Mialgias',
+        data: {{ mialgias|safe }}
+
+    }, {
+        name: 'Artralgias',
+        data: {{ artralgias|safe }}
+        
+    }, {
+        name: 'Rash',
+        data: {{ rash|safe }}
+
+    }, {
+        name: 'Zona Endémica Dengue',
+        data: {{ zona_endemica_dengue|safe }}
+
+    }, {
+        name: 'Tos',
+        data: {{ tos|safe }}
+
+    },{
+        name: 'Perdida de peso',
+        data: {{ perdida_peso|safe }}
+
+    },{
+        name: 'Sudoración nocturna',
+        data: {{ sudor_nocturna|safe }}
+
+    }]
+});
+</script>
+
+
+
+	
+{% endblock js_page %}

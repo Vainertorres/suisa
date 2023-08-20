@@ -1,0 +1,67 @@
+{% extends 'base/baserips.html' %}
+{% block page_content %}
+	  <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Listado de Diagnósticos</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  {% if not obj  %}
+                      No hay Diagnósticos CIE-10 asociados a la consulta externa
+                  {% endif %}
+
+                  <div class="buttons-toolbar">
+                   
+                  </div>
+                  <table data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-show-columns="true"
+                    data-toolbar=".buttons-toolbar"
+                    data-locale="es-MX"
+                    data-show-toggle="true"
+                    data-show-fullscreen="true"
+
+                  >
+                    <thead>   
+                      <th data-field='codigo' data-sortable="true">Código</th>                       
+                      <th data-field='descripcion' data-sortable="true">Descripción</th> 
+                      <th data-field='cant' data-sortable="true">Cantidad</th>
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in obj %}
+                        <tr>
+                            <td>{{item.diagnostico__codigo}}</td>                                                        
+                            <td>{{item.diagnostico__descripcion}}</td>                            
+                            <td>{{item.cant}}</td>
+                            <td>
+
+                            <a class="btn btn-primary btn-circle" href="{% url 'bai:georref_ce_map' item.diagnostico__id %}"><i class="fa-solid fa-location-dot"></i></a>  
+                            <a class="btn btn-primary btn-circle" href="{% url 'bai:georref_mapcalor_ce' item.diagnostico__id %}"><i class="fa-solid fa-magnifying-glass-location"></i></a>  
+                            <a class="btn btn-danger btn-circle" href="{% url 'bai:mapcalor_ce' item.diagnostico__id %}"><i class="fa-solid fa-map-location-dot"></i></a>  
+
+
+                            </td>
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+                </div>
+            </div>
+{% endblock page_content %}
+
+{% block js_page %}
+ <script>
+  
+ </script>
+
+ {% endblock %}

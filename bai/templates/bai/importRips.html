@@ -1,0 +1,105 @@
+{% extends 'base/baserips.html' %}
+	
+{% block page_content %}
+<div class="card-body">
+<h1> Importar Rips </h1>
+<form action="" method="POST" role='form' enctype="multipart/form-data">
+    {% csrf_token %} 
+		<div class="dropdown-divider"></div> 
+		<div class="row" id="prueba">
+    
+        	<div class="form-group col-3">
+	           <label for="id_ips">Ips</label>              
+            	 {{ form.ips }} 
+	        </div>	        
+	        <div class="form-group col-2">
+	           <label for="id_fecharemision">Fecha de Remisión</label>              
+              {{ form.fecharemision }} 
+	        </div>	        
+        </div>
+        
+        <div class="row">
+	        <div class="form-group col-6">
+	           <label for="id_fileCT">Rips de control</label>              
+              {{ form.fileCT }} 
+	        </div>	        
+        
+        	<div class="form-group col-6">
+	           <label for="id_fileUS">Rips de Usuarios</label>              
+              {{ form.fileUS }} 
+	        </div>	        
+        </div>
+        <div class="row">
+        	<div class="form-group col-6">
+	           <label for="id_fileAC">Rips de Consultas</label>              
+              {{ form.fileAC }} 
+	        </div>	        
+       
+        	<div class="form-group col-6">
+	           <label for="id_fileAP">Rips de Procedimientos</label>              
+              {{ form.fileAP }} 
+	        </div>	        
+        </div>
+        <div class="row">
+        	<div class="form-group col-6">
+	           <label for="id_fileAU">Rips de Urgencia</label>              
+              {{ form.fileAU }} 
+	        </div>	 
+	        <div class="form-group col-6">
+	           <label for="id_fileAH">Rips de Hospitalización</label>              
+              {{ form.fileAH }} 
+	        </div>	       
+        </div>     
+        <div class="row">
+        	<div class="form-group col-6">
+	           <label for="id_fileAM">Rips de Medicamento</label>              
+              {{ form.fileAM }} 
+	        </div>	  
+	        <div class="form-group col-6">
+	           <label for="id_fileAF">Rips de Transacciones</label>              
+              {{ form.fileAF }} 
+	        </div>      
+        </div>      
+        <div class="row">
+        	<div class="form-group col-6">
+	           <label for="id_fileAT">Rips de Otros servicios</label>              
+              {{ form.fileAT }} 
+	        </div>	  
+	        
+        </div> 
+        
+        <div class="row">
+        	<div class="form-group col-8">
+        	<button type="submit" class="btn btn-primary">Importar</button>
+        </div>
+        </div>
+</form>
+</div>	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+	$('.custom-file-input').on('change', function(event) {
+	    var inputFile = event.currentTarget;
+	    $(inputFile).parent()
+	        .find('.custom-file-label')
+	        .html(inputFile.files[0].name);
+	}); 
+
+
+$(function(){  
+  $("#id_fecharemision").datetimepicker({
+    format:'d/m/Y',
+    timepicker:false
+  });
+
+
+});
+
+
+</script>
+{% endblock %}
+
+
+
+

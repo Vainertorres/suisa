@@ -1,0 +1,8 @@
+<option value="">---------</option>
+{% for paciente in pacientes %}
+	{% if paciente.pk == ultpac.pk %}
+		<option value="{{ paciente.pk }}" selected>{{ paciente }}</option>
+	{% else %}
+		<option value="{{ paciente.pk }}">{{ paciente }}</option>
+	{% endif %}
+{% endfor %}

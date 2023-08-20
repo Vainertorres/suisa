@@ -1,0 +1,76 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'mlr:pacconglomlr_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'mlr:pacconglomlr_new' idconglomerado %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} Paciente de conglomerado
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+            
+                            <div class="row">
+                               <div class="form-group col-12">
+                                  <input type="hidden" name="conglomerado" value="{{idconglomerado}}">
+                                  <label for="">{{conglo}}</label>
+                               </div>
+                            </div>
+                            <div class="row">
+                                  <div class="form-group col-12">
+                                        <label for="id_malaria">Paciente de malaria</label>
+                                       {{form.malaria}}                               
+                                  </div>                                    
+                            </div>                                 
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                                <a class="btn btn-success" href="{% url 'mlr:conglomeradomlr_edit' idconglomerado %}">Cancelar</a>
+                               
+                               </div>
+                             </div> 
+                           </div>                
+                      </div>
+                    </div>
+                </div>
+              </div>
+    </form>
+  </div>
+</div>
+
+	
+{% endblock page_content %}
+
+{% block js_page %}
+
+<script>
+
+$(function(){
+
+   $('#id_malaria').select2({
+      placeholder: "Seleccione el Paciente",
+      allowClear: true
+    });
+
+    $('#id_municipio').chained("#id_departamento");
+    
+ });
+
+ </script> 
+{% endblock js_page %}

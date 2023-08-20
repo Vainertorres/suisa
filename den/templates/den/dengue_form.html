@@ -1,0 +1,161 @@
+{% extends 'base/basedengue.html' %}
+{% block page_content %}
+
+	<div class="col-xl-12 col-md-12 mb-12">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if dengue %} Seguimiento {% else %} Nuevo {% endif %} Caso de Dengue
+                        </div>                      
+                        <div class="dropdown-divider"></div> 
+                        <div class="row"> 
+                               	<div class="form-group col-2">
+                                    Fecha: <p>{{dengue.fec_not|date:"d/m/Y"}}</p>                        
+                                </div>
+                                <div class="form-group col-1">
+                                    Sem: <p>{{dengue.semana}}</p>                        
+                                </div>   
+                                <div class="form-group col-3">
+                                   <b> Evento:<p>{{dengue.evento}} </p> </b>                      
+                                </div>  
+                                <div class="col-3">
+                                  {% if iecdengue %}
+                                      <a href="{% url 'den:iecdengue_edit' iecdengue.id %}">Ver IEC</a>
+                                  {% else %}    
+                                      <a href="{% url 'den:iecdengue_new' dengue.id %}">Ingresar IEC</a>          
+                                  {% endif %}
+                                  
+                                </div> 
+                                  
+                       
+                        </div>    
+                        <div class="row"> 
+                               	<div class="form-group col-3" id='pac'>
+                                  <b>  Paciente: </b> <p>{{dengue.paciente}}</p>                        
+                                </div>
+                                <div class="form-group col-2">
+                                    Edad: <p>{{dengue.edad}} - {{ dengue.umedad }}</p>    
+                                </div>   
+                                <div class="form-group col-2">
+                                    Teléfono:<p>{{dengue.telefono}} </p>                       
+                                </div>    
+                                 <div class="form-group col-3">
+                                    Eps:<p>{{dengue.eps}} </p>                       
+                                </div>                         
+                        </div> 
+                </div>
+             </div>  <!-- Cardbody -->
+        </div>
+    </div>
+
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">                        
+                       <!-- inicio detalle -->
+                       <div class="row">
+                               <div class="col-7" id="prueba">
+                                    <div class="row">
+                                        <p id="titulo">Actividades de Seguimientos</p> 
+                                    </div>
+                                    <div class="row">
+                                       <div class="buttons-toolbar">
+                                             <a class="dropdown-item" href="{% url 'den:render_segpac_dengue' dengue.pk %}"> <span class="fa fa-calendar-plus"></span>Nuevo seguimiento</a>
+                                       </div>
+
+
+                                       	<table data-toggle="table"
+                                            data-pagination="true"
+                                            data-search="true"
+                                            data-show-columns="true"
+                                            data-toolbar=".buttons-toolbar"
+                                            data-locale="es-MX"
+                                            data-show-toggle="true"
+                                            data-show-fullscreen="true">
+        									<thead>
+        										<th>fecha</th>
+        										<th>hallazgos</th>
+        										<th>Acción</th>
+        									</thead>
+        									<tbody>
+
+        										{% for item in segdengue %}
+        											<tr>
+        											<td>{{item.fecha|date:"d/m/Y"}}</td>
+        											<td>{{item.hallazgos}}</td>
+        											<td>
+                                                        <a class="btn btn-warning btn-circle" href="{% url 'den:segpac_dengue_edit' item.pk %}"><i class="far fa-edit"></i></a>
+                                                    </td>
+        											</tr>
+        										{% endfor %}		
+        									</tbody>                               		
+                                       	</table> 
+                                    </div>                
+                               </div>
+                    
+
+
+                          <div class="col-4" id="prueba"> {# Grilla de la movilidad #}
+                            <div class="row" id="titulo">
+                              <p id="titulo">Documentos Anexos</p> 
+                            </div>
+                           <div class="row">
+
+                            <div class="buttons-toolbar2">
+                            <a class="dropdown-item" href="{% url 'den:filedengue_new' dengue.pk %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                           </div>                        
+
+                            <table data-toggle="table"
+                            data-pagination="true"
+                            data-search="true"
+                            data-show-columns="true"
+                            data-toolbar=".buttons-toolbar2"
+                            data-locale="es-MX"
+                            data-show-toggle="true"
+                            data-show-fullscreen="true">
+                            <thead>   
+                              <th>Descripción</th>                                     
+                              <th class="all">Acciones</th> 
+                            </thead>  
+                            <tbody>
+                              {% for item in fileden %}
+                                <tr>
+                                    <td><a href="/media/{{item.archivo}} ">{{item.descripcion}}</a></td>
+                                    <td>
+                                      <a href="{% url 'den:filedengue_edit' item.pk %}" class="btn btn-warning btn-circle"><i class="far fa-edit"></i></a>
+                                    </td>
+                                  </tr>                   
+                              {% endfor %}
+                            </tbody>
+
+                          </table>
+                        
+                             
+                         </div>
+                        </div>  <!-- Fin del table de documentos anexos -->
+
+                        </div> <!-- Fin de las tablas Seguimiento y de documentos anexos -->
+                            <div class="row">
+                                <div class="col">
+                                    {% if dengue.evento.codigo == 220 %}
+                                        <a href="{% url 'den:dengue_grave_list' %}" class="btn btn-success">Cancelar</a>
+                                    {% else %}
+                                        {% if dengue.evento.codigo == 580 %}
+                                            <a href="{% url 'den:dengue_mortalidad_list' %}" class="btn btn-success">Cancelar</a>
+                                        {% else %}
+                                             <a href="{% url 'den:dengue_list' %}" class="btn btn-success">Cancelar</a>
+                                        {% endif %}
+                                    {% endif %}                                    
+                                </div>
+                            </div>
+                            <!-- fin Detalle  -->
+                        </div>    
+                        <!-- col mr-2 -->
+                </div>
+             </div>  <!-- Cardbody -->
+        </div>
+    </div>
+
+{% endblock page_content %}

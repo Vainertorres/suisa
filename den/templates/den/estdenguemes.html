@@ -1,0 +1,86 @@
+{% extends 'base/basedengue.html' %}
+
+{% block page_content %}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12">
+			<div id="container">
+				
+			</div>
+		</div>
+	</div>
+</div>
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+
+	Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Ingresos de Dengue por Mes Año: 2020'
+    },
+    subtitle: {
+        text: 'Notificación Dengue'
+    },
+    xAxis: {
+        categories: [
+            'Enero',
+            'Febrero',
+            'Marzo',
+            'Abril',
+            'Mayo',
+            'Junio',
+            'Julio',
+            'Agosto',
+            'Septiembre',
+            'Octubre',
+            'Noviembre',
+            'Diciembre'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Nro Casos' //Axis de las Y
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} #</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Dengue',        
+        data: {{ dengue|safe }}
+
+    }, {
+        name: 'Dengue grave',
+        data: {{ dengue_grave|safe }}
+
+    }, {
+        name: 'Mortalidad por Dengue',
+        data: {{ motalidad_dengue|safe }}
+
+    }]
+});
+</script>
+
+
+
+	
+{% endblock js_page %}

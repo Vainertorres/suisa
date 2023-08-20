@@ -1,0 +1,229 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    {% if obj %}
+    <form  method='POST' role='form' id="frmpaciente" action = "{% url 'cnf:paciente_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' id="frmpaciente"  action = "{% url 'cnf:paciente_new' %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-1">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-1">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} Paciente
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                          <div class="col-12"> {# div.col_1 #}
+                            <div class="row"> 
+                                <div class="form-group col-4">
+                                    <label for="id_tipodoc">Tipo Documento</label>
+                                      <br>
+                                      {{ form.tipodoc }}                                    
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="id_identificacion">Identificación</label>
+                                      <br>
+                                      {{ form.identificacion }}                                    
+                                  </div>                                 
+                           </div>
+                           <div class="row">
+                                  <div class="form-group col-3">
+                                    <label for="id_nombre1">Primer Nombre</label>
+                                      <br>
+                                      {{ form.nombre1 }}                                    
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="id_nombre2">Segundo Nombre</label>
+                                      <br>
+                                      {{ form.nombre2 }}                                    
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="id_apellido1">Primer Apellido</label>
+                                      <br>
+                                      {{ form.apellido1 }}                                    
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="id_apellido2">Segundo Apellido</label>
+                                      <br>
+                                      {{ form.apellido2 }}                                    
+                                  </div>
+                           </div>
+                           <div class="row">
+                              <div class="form-group col-4" >                                
+                                    <label for="departamento">Departamento: </label>
+                                   {#  {{form.departamento}} #}
+                                     <select name="departamento" id="departamento" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for dpto in departamentos %}
+                                              <option value="{{dpto.id}}">{{dpto.descripcion}}</option>
+                                        {% endfor %}                                        
+                                      </select> 
+
+                                 </div>
+                                 <div class="form-group col-4" >                                
+                                    <label for="municipio">Municipio: </label>
+                                    {# {{form.municipio}} #}
+                                    <select name="municipio" id="municipio" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for mpio in municipios %}
+                                              <option value="{{mpio.id}}" data-chained="{{mpio.departamento_id}}">{{mpio.descripcion}}</option>
+                                        {% endfor %}                                        
+                                    </select>                                                       
+                                 </div>  
+                                 <div class="form-group col-4">
+                                    <label for="id_barrio">Barrio</label>
+                                    <br>
+                                    {{ form.barrio }}                                    
+                                </div>
+                            </div>
+                            <div class="row">                                
+                              <div class="form-group col-5">
+                                    <label for="id_direccion">Dirección</label>
+                                    <br>
+                                    {{ form.direccion }}                                    
+                              </div>
+                              <div class="form-group col-3">
+                                    <label for="id_telefono">Teléfono</label>
+                                    <br>
+                                    {{ form.telefono }}                                    
+                              </div>
+                               <div class="form-group col-4">
+                                    <label for="id_correoelectronico">Correo electrónico</label>
+                                    <br>
+                                    {{ form.correoelectronico }}                                    
+                              </div>
+                              
+                           </div>
+                           <div class="row">
+                            <div class="form-group col-3">
+                                    <label for="id_area">Area</label>
+                                    <br>
+                                    {{ form.area }}                                    
+                              </div>
+                              <div class="form-group col-3">
+                                    <label for="id_fechaNac">Fecha Nacimiento</label>
+                                    <br>
+                                    {{ form.fechaNac }}                                    
+                              </div>
+                              <div class="form-group col-3">
+                                    <label for="id_sexo">Sexo</label>
+                                    <br>
+                                    {{ form.sexo }}                                    
+                              </div>
+                              <div class="form-group col-3">
+                                    <label for="id_etnia">Etnia</label>
+                                    <br>
+                                    {{ form.etnia }}                                    
+                              </div>
+                              
+                            </div>                            
+                            <div class="row">
+                              <div class="form-group col-3">
+                                    <label for="id_regimen">Régimen</label>
+                                    <br>
+                                    {{ form.regimen }}                                    
+                              </div>
+                              <div class="form-group col-5">
+                                    <label for="id_eps">EPS</label>
+                                    <br>
+                                    {{ form.eps }}                                    
+                              </div>
+                                <div class="form-group col-2">
+                                    <label for="id_lat">Latitud</label>
+                                    <br>
+                                    {{ form.lat }}                                    
+                                </div>
+                                <div class="form-group col-2">
+                                    <label for="id_lon">Longitud</label>
+                                    <br>
+                                    {{ form.lon }}                                    
+                                </div>
+                              
+                            </div>
+                          </div>   
+                     
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                                 <!-- <a class="btn btn-success"href="{% url 'cnf:paciente_list' %}">Cancelar</a>-->
+
+                                 <button type="button" class="btn btn-success"   onclick="cerrar_modal();"> Cancelar
+                               </button>                              
+                               
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    </form>
+  </div>
+</div>
+
+
+	
+{% endblock page_content %}
+
+{% block js_page %}
+
+<script>
+
+$(function()
+  {  
+
+  $('#id_barrio').select2({
+      placeholder: "Seleccione un Barrio",
+      allowClear: true
+    });
+
+  $("#departamento").val("{{obj.departamento.id}}").change();
+  $("#municipio").val("{{obj.municipio.id}}").change();
+  $("#municipio").chained("#departamento");
+
+  $("#id_fechaNac").datetimepicker({
+      format:'d/m/Y',
+      timepicker:false
+  });
+
+  });
+
+  $(document).ready(function(){
+
+    $("#municipio").change(function () {
+      var url = '/ajax/load-barrio/';  // get the url of the `load_cities` view
+      var municipioId = $(this).val();  // get the selected country ID from the HTML input
+     // alert("url del Ajax" + url);   
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'idmunicipio': municipioId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_barrio").html(data);  // replace the contents of the city input with the data that came from the server
+        },
+        error: function(jqXHR, textStatus, errorThrow){
+        console.log(textStatus, errorThrow);
+        mensaje(errorThrow,'red');
+        //cerrar_modal();
+        }        
+      });  
+
+    });
+  });
+
+  </script>
+
+  
+{% endblock js_page %}

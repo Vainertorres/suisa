@@ -1,0 +1,69 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load qr_code %}
+
+ {% block head_list %}   
+   
+ {% endblock head_list%} 
+
+{% block page_content %}
+	  <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Impresión de carnet de vacunación.</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                   <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Acciones:</div>
+                      <a class="dropdown-item"  href="{% url 'pai:rediario_list' %}"> <span class="fa fa-calendar-plus"></span>Cancelar</a>                      
+                    </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  {% if not obj  %}
+                        No hay registro para mostrar
+                  {% endif %}
+                  <table id="datarediarios" class="table">
+                    <thead>   
+                      <th>Tipo Doc:</th>  
+                      <th>Identificación</th>
+                      <th>Nombre y apellidos</th>                      
+                      <th>edad</th>                                   
+                      <th>Teléfono</th>                                            
+                      <th>Aseguradora</th>                       
+                      <th>Laboratorio</th>
+                      <th>dosis</th>
+                      <th>Ips</th> 
+               
+
+                    </thead>  
+                    <tbody>
+                      {% for item in usuario %}
+                      <tr>
+                        <td>{{item.tipodoc}}</td>
+                        <td>{{item.identificacion}}</td>
+                        <td>{{item.razonsocial}}</td>
+                        <td>{{item.edad}}</td>
+                        <td>{{item.telefono}}</td>
+                        <td>{{item.eapb}}</td>
+                        <td>{{item.laboratorio}}</td>
+                        <td>{{item.dosisaplicada}}</td>
+                        <td>{{item.nombreIps}}</td>
+
+                      </tr>
+                     {%  endfor %}
+                    </tbody>
+                  </table>
+                <div class="row">                  
+                    {% qr_from_text codeqr size=20 border=6 %}                  
+                </div>  
+                </div>
+            </div>
+{% endblock page_content %}
+
+{% block js_page %}
+
+{% endblock %}

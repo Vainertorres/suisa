@@ -1,0 +1,165 @@
+{% extends 'base/basetb.html' %}
+
+{% block page_content %}
+
+
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'sint:sintomatico_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'sint:sintomatico_new' %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} Sintomáticos
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                            <div class="row">
+                                  <div class="form-group col-3">
+                                        <label for="id_fecha">Fecha</label>
+                                        <br>
+                                        {{form.fecha}}                               
+                                  </div> 
+
+                                  <div class="form-group col-6">
+                                    <label for="id_paciente">Paciente</label>
+                                      {{ form.paciente }}                             
+                                  </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="form-group col-3">
+                                  <label for="id_fiebre">Fiebre</label>                                   
+                                  {{form.fiebre}}                               
+                              </div> 
+
+                              <div class="form-group col-3">
+                                <label for="id_cefalea">Dolor de Cabeza</label>
+                                  <br>
+                                  {{ form.cefalea }}                                    
+                              </div>
+
+                              <div class="form-group col-3">
+                                <label for="id_doloretrocular">Dolor Retrocular</label>
+                                  <br>
+                                  {{ form.doloretrocular }}                                    
+                              </div>
+
+                              <div class="form-group col-3">
+                                <label for="id_mialgias">Dolor muscular</label>
+                                  <br>
+                                  {{ form.mialgias }}                                    
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="form-group col-3">
+                                  <label for="id_artralgias">Dolor articular</label>
+                                  {{form.artralgias}}                               
+                              </div> 
+
+                              <div class="form-group col-3">
+                                <label for="id_rash">Rash</label>
+                                  <br>
+                                  {{ form.rash }}                                    
+                              </div>
+
+                              <div class="form-group col-4">
+                                <label for="id_zona_endemica_dengue">Zona_endemica_dengue</label>
+                                  <br>
+                                  {{ form.zona_endemica_dengue }}                                    
+                              </div>
+
+                              <div class="form-group col-2">
+                                <label for="id_tos">tos</label>
+                                  <br>
+                                  {{ form.tos }}                                    
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="form-group col-3">
+                                  <label for="id_perdida_peso">Perdida de peso</label>
+                                  {{form.perdida_peso}}                               
+                              </div> 
+
+                              <div class="form-group col-3">
+                                <label for="id_sudor_nocturna">Sudoración nocturna</label>
+                                  <br>
+                                  {{ form.sudor_nocturna }}                                    
+                              </div>
+
+                              <div class="form-group col-6" id="tiposintomatico">
+                                <label for="id_tiposintomatico">Sintomático de </label>
+                                  <br>
+                                  {{ form.tiposintomatico}}                                    
+                              </div>                              
+                            </div>
+                            <div class="row">
+                             <div class="form-group col-12">
+                                <label for="id_observacion">Observación </label>
+                                  <br>
+                                  {{ form.observacion }}                                    
+                              </div>                              
+                            </div>
+
+                             {# <!  {{form.as_p}}  -->                #}
+                           
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                                 <a class="btn btn-success" href="{% url 'sint:sintomatico_list' %}">Cancelar</a>
+                              
+                               
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    </form>
+  </div>
+</div>
+
+	
+{% endblock page_content %}
+{% block js_page %}
+
+<script>
+
+$(function(){
+    $('#id_paciente').select2();
+
+    
+});
+
+ $(document).ready(function(){  
+
+    {% if obj %}
+       $("#tiposintomatico").show();
+    {% else %}
+       $("#tiposintomatico").hide();
+    {% endif %}
+
+    $("#id_fecha").datetimepicker({
+            format:'d/m/Y',
+            timepicker:false
+          });
+
+  });
+</script> 
+
+
+{% endblock js_page %}

@@ -1,0 +1,18 @@
+#pac {
+	font-weight: bold;
+}
+
+
+
+
+#infolbl {
+	font-weight: bold;
+}
+
+#titulo{
+	margin:auto;	
+	text-align: center;
+	/*border:1px dotted #000; padding:8px;*/
+	font-size: 25px;
+}
+

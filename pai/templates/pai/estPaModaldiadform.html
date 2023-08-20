@@ -1,0 +1,89 @@
+{% extends 'base/base.html' %}
+
+
+{% block page_content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="container">
+                
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Modalidad</th>
+                    <th>Cantidad</th>                     
+                </tr>                            
+
+            </thead>
+            <tbody>
+              {% for g in modalidad %}
+                <tr>
+                    <td>{{ g.name }}</td>
+                    <td>{{ g.y }}</td>
+                </tr>
+
+              {% endfor %}
+                
+            </tbody>
+
+        </table>
+        
+        
+    </div>
+        
+</div>
+    
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('container', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'ESTADISTICA DE USUARIOS VACUNADOS POR MODALIDAD'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'MODALIDAD',
+        colorByPoint: true,
+        data: {{ modalidad|safe }} 
+
+    }]
+});
+    
+</script>
+
+
+
+    
+{% endblock js_page %}

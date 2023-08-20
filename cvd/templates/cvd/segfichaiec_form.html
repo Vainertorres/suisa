@@ -1,0 +1,208 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'cvd:iec_seguimiento_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'cvd:iec_seguimiento_new' %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} seguimiento paciente COVID
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                            <div class="row">
+                                  <div class="form-group col-2">
+                                        <label for="id_fecha">Fecha</label>
+                                        <br>
+                                        {{form.fecha}}                               
+                                  </div>
+                                  <div class="form-group col-4">
+                                        <label for="id_fichaiec">Paciente</label>
+                                        <br>
+                                        {{form.fichaiec}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_tipocontacto">Tipo contacto</label>
+                                        <br>
+                                        {{form.tipocontacto}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_modtratamiento">Ámbito de Atención</label>
+                                        <br>
+                                        {{form.ambitoatencion}}                              
+                                  </div>
+                                  
+                             </div> 
+                            <div class="row" id="titulo">Signos y sintomas</div>
+                            <div class="col-12" id="prueba">
+                             <div class="row">
+                                    <div class="form-group col-2">
+                                          <label for="id_resprapida">Respiración rápida</label>
+                                          <br>
+                                          {{form.resprapida}}                               
+                                    </div>
+                                    <div class="form-group col-2">
+                                          <label for="id_fiebremasdosdias">Fiebre de mas de 2 días</label>
+                                          <br>
+                                          {{form.fiebremasdosdias}}                               
+                                    </div>
+                                    <div class="form-group col-2">
+                                          <label for="id_pechosuena">Pecho que suena o duele</label>
+                                          <br>
+                                          {{form.pechosuena}}                               
+                                    </div>
+                                    <div class="form-group col-3">
+                                          <label for="id_somnolencia">Somnolencia o dificultad para Despertar</label>
+                                          <br>
+                                          {{form.somnolencia}}                               
+                                    </div>
+                                    <div class="form-group col-2">
+                                          <label for="id_ataqueconvulsion">Ataques o Convulsiones</label>
+                                          <br>
+                                          {{form.ataqueconvulsion}}                               
+                                    </div>
+                                  
+                             </div>
+                             <div class="row">
+                                    <div class="form-group col-2">
+                                          <label for="id_decaimiento">Decaimiento</label>
+                                          <br>
+                                          {{form.decaimiento}}                               
+                                    </div>
+                                    <div class="form-group col-4">
+                                          <label for="id_deteriorogeneral">Deterioro rápido del estado en general</label>
+                                          <br>
+                                          {{form.deteriorogeneral}}                               
+                                    </div>
+                                    <div class="form-group col-2">
+                                          <label for="id_dificultadrespirar">Dificultad para respirar</label>
+                                          <br>
+                                          {{form.dificultadrespirar}}                               
+                                    </div>
+                             </div> 
+                             </div>
+                             <div class="row" id="titulo">Resultado de Laboratorio</div>
+                             <div class="col-12" id="prueba">     
+                                <div class="row">
+                                   <div class="form-group col-2">
+                                        <label for="id_resultadopcvd">Resultado prueba</label>
+                                        <br>
+                                          {{form.resultadopcvd}}                               
+                                    </div>
+                                    <div class="form-group col-2">
+                                        <label for="id_fechaultprueba">Fecha última prueba</label>
+                                        <br>
+                                          {{form.fechaultprueba}}                               
+                                    </div>
+                                    <div class="form-group col-2">
+                                          <label for="id_estadoafectacion">Estado Afectación</label>
+                                          <br>
+                                          {{form.estadoafectacion}}                              
+                                    </div>
+                                 </div>                          
+                               </div>
+                             <div class="row">
+                                  <div class="form-group col-12">
+                                        <label for="id_hallazgo">Hallazgos</label>
+                                        <br>
+                                        {{form.hallazgo}}                               
+                                  </div>
+                             </div>  
+                             <div class="row" id="titulo">Datos de la persona que informa</div>
+                             <div class="col-12" id="prueba">
+                                 <div class="row">
+                                    <div class="form-group col-3">
+                                      <label for="id_nombreinforma">Nombre</label>
+                                      {{form.nombreinforma}}                               
+                                    </div>
+                                    <div class="form-group col-3">
+                                      <label for="id_cargoactividadinfo">Cargo o Actividad</label>
+                                      {{form.cargoactividadinfo}}                               
+                                    </div>
+                                    <div class="form-group col-2">
+                                      <label for="id_telfijoinfo">Teléfono</label>
+                                      {{form.telfijoinfo}}                               
+                                    </div>
+                                    <div class="form-group col-2">
+                                      <label for="id_celularinfo">Celular</label>
+                                      {{form.celularinfo}}                               
+                                    </div>
+                                    <div class="form-group col-2">
+                                      <label for="id_emailinfo">Email</label>
+                                      {{form.emailinfo}}                               
+                                    </div>
+                                 </div>
+                             </div>
+                             <div class="row" id="titulo">Actividades Pendientes</div>
+                             <div class="col-12" id="prueba">                               
+                                     <div class="row">
+                                           <div class="form-group col-2">
+                                                <label for="id_pendiente">Pendiente</label>
+                                                {{form.pendiente}}                               
+                                          </div>
+                                          <div class="form-group col-2">
+                                              <label for="id_fechaprog">Fecha Programación</label>
+                                               {{form.fechaprog}}                               
+                                          </div>
+                                          <div class="form-group col-8">
+                                                <label for="id_descpendiente">Actividades pendientes por realizar</label>
+                                                <br>
+                                                {{form.descpendiente}}                               
+                                          </div>                               
+                                     </div> 
+                             
+                             </div>
+                             {# <!  {{form.as_p}}  -->                #}
+                           
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                                  <a class="btn btn-success" href="{% url 'cvd:iec_seguimiento_list' %}">Cancelar</a>
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    </form>
+
+
+	
+{% endblock page_content %}
+
+{% block js_page %}
+
+ <script>
+$(function(){
+
+  $("#id_fecha, #id_fechaprog, #id_fechaultprueba").datetimepicker({
+    format:'d/m/Y',
+    timepicker:false
+  });
+
+    $('#id_fichaiec').select2({
+      placeholder: "Seleccione un Paciente",
+      allowClear: true
+    });
+
+   
+       
+ });
+ </script>
+  
+{% endblock js_page %}
+

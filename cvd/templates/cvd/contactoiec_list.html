@@ -1,0 +1,70 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+	  <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Seguimiento a Contactos</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                   <!-- <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Acciones:</div>
+                      <a class="dropdown-item"  href="{% url 'cvd:iec_new' %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>                      
+                    </div>-->
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  {% if not obj  %}
+                        No hay registro de Contactos
+                  {% endif %}
+                  <table data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-show-columns="true"
+                    data-toolbar=".buttons-toolbar"
+                    data-locale="es-MX"
+                    data-show-toggle="true"
+                    data-show-fullscreen="true">
+                    <thead>   
+                      <th>Caso Indice</th>
+                      <th>Ident Contacto</th>
+                      <th>Nombres y Apellidos</th> 
+                      <th>Dirección</th> 
+                      <th>Teléfono</th>                                            
+                      <th>Sintomatico</th> 
+                      <th>Fec Ini Sintomas</th> 
+                      <th>R. Pru Covid</th> 
+                      <th>Estado</th>
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in obj %}
+                        <tr>
+                            <td>{{item.fichaiec.paciente}}</td>                            
+                            <td> {{item.paciente.tipodoc.codigo}}:{{item.paciente.identificacion}}</td>
+                            <td>{{item.paciente}}</td>
+                            <td>{{item.paciente.direccion}}</td>                            
+                            <td>{{item.paciente.telefono}}</td>                    
+                            <td>{{item.sintomatico}}</td>                    
+                            <td>{{item.fechainisintomas|date:"d/m/Y"}}</td>
+                            <td>{{item.resultmxcovid}}</td>                            
+                            <td> {{item.estado }} </td>
+                            <td>
+                              <a href="{% url 'cvd:contacto_detalle' item.pk %}" class="btn btn-warning btn-circle"><i class="fas fa-cart-plus"></i></a>
+                            </td>
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+                </div>
+            </div>
+{% endblock page_content %}
+
+{% block js_page %}
+ 
+
+ {% endblock %}

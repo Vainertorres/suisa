@@ -1,0 +1,109 @@
+{% extends 'base/baserips.html' %}
+
+{% block page_content %}
+
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+ {% if obj %}
+  <form  method='POST' role='form' action = "{% url 'bai:cie10_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'bai:cie10_new' %}">
+    {% endif %}
+        {% csrf_token %}
+
+          <div class="col-xl-12 col-md-12 mb-12">
+            <div class="card border-left-success shadow h-100 py-2">
+                 <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              Registro de Diagnosticos:                              
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                           <div class="row">
+                               <div class="form-group col-2">
+                                      <label for="id_idcapitulo">Id Capitulo</label>
+                                      {{form.idcapitulo}}                             
+                                  </div>
+                                  <div class="form-group col-10">
+                                        <label for="id_capitulo">Capitulo</label>
+                                        <br>
+                                        {{form.capitulo}}                               
+                                  </div>
+                           </div>
+                            <div class="row">
+                                 <div class="form-group col-2">
+                                      <label for="id_codcie3">Id Grupo</label>
+                                      {{form.codcie3}}                             
+                                  </div>
+                                  <div class="form-group col-10">
+                                        <label for="id_descripcie3">Descripción grupo</label>
+                                        <br>
+                                        {{form.descripcie3}}                               
+                                  </div>
+                            </div>
+                            <div class="row">
+                              
+                            </div>
+                            <div class="row">
+                                 <div class="form-group col-2">
+                                      <label for="id_codigo">Código CIE10</label>
+                                      {{form.codigo}}                             
+                                  </div>
+                                  <div class="form-group col-10">
+                                        <label for="id_descripcion">Descripción</label>
+                                        <br>
+                                        {{form.descripcion}}                               
+                                  </div>
+                                                               
+                            </div>
+                            <div class="row">
+                                  <div class="form-group col-6">
+                                      <label for="id_notifobligatoria">Notificación obligatoria</label>
+                                      {{form.notifobligatoria}}                             
+                                  </div> 
+                            </div>
+
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+
+                                 <a class="btn btn-success" href="{% url 'bai:cie10list' %}">Cancelar</a>
+                              
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  </form>
+  </div>
+</div>
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+
+
+$(function(){  
+  $("#id_fechamuestra, #id_fechaposexpo, #id_fechainisintomas").datetimepicker({
+    format:'d/m/Y',
+    timepicker:false
+  });
+
+
+    $('#id_paciente').select2({
+      placeholder: "Seleccione un Paciente",
+      allowClear: true
+    });
+
+
+});
+
+  
+  </script>
+
+  {% endblock js_page%}

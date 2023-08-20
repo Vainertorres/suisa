@@ -1,0 +1,64 @@
+{% extends 'base/baserips.html' %}
+{% block page_content %}
+	  <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Archivo de Transacciones </h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  {% if not obj  %}
+                        No archivos Cargados
+                  {% endif %}
+                  
+                  <table                     
+                    data-toggle="table"
+                    data-pagination="true"              
+                    data-search="true"
+                    data-show-columns="true"
+                    data-toolbar=".buttons-toolbar"
+                    data-locale="es-MX"
+                    data-show-toggle="true"
+                    data-show-fullscreen="true"                    
+                    >
+                    <thead>   
+                      <th>Prestador</th>
+                      <th>No. factura</th>                      
+                      <th>Fecha Fact</th>
+                      <th>Entidad administradora</th> 
+                      <th>Contrato</th> 
+                      <th>Vlr Copago</th>
+                      <th>Vlr Comisión</th>
+                      <th>Vlr Descuento</th>                      
+                      <th>Vlr Neto</th>
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in obj %}
+                        <tr>
+                            <td>{{item.ips}}</td>
+                            <td>{{item.nrofactura}}</td>                           
+                            <td>{{item.fechaexpfac|date:"d/m/Y"}}</td>
+                            <td>{{item.eps}}</td>
+                            <td>{{item.nrocontrato}}</td>
+                            <td>{{item.vlrtotalcopago}}</td>
+                            <td>{{item.vlrcomision}}</td>
+                            <td>{{item.vlrdescuento}}</td>
+                            <td>{{item.vlrnetopagar}}</td>
+                            <th></th>
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+                </div>
+            </div>
+{% endblock page_content %}
+
+

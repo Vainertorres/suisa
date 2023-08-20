@@ -1,0 +1,88 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+<div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Reporte de Conglomerados</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+
+				<div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-4">
+                      <button class="btn btn-warning" type="button" id="btnprint">Imprimir</button>      
+                    </div>
+
+                    {{obj}}
+                    
+                  
+		<table class="table table-striped table-hover">
+                    <thead>   
+                      <th>Nro</th>
+                      <th>Categoria</th>
+                      <th>Direccion</th>
+                      <th>Comuna</th>
+                      <th>Conglomerado</th>
+                      <th>Nro Casos</th>
+                      <th>Casos Neg</th>
+                      <th>Casos pendiente</th>
+                      <th>No Per Aislada</th>
+                      <th>Fuente</th>
+                      <th>Municipios</th>
+                      <th>Causa Contagio</th>
+                      <th>Estado</th>
+                      <th>Medidas Empresa</th>
+                      <th>Medidas Secretaria</th>
+                      <th>Medidas Corrección</th>
+                      <th>Controlado</th>
+                      <th>Acción</th>
+
+
+
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in obj %}
+                        <tr>
+
+                    	<td>Nro</td>
+	                    <td>{{item.tipoconglomerado}}</td>
+	                    <td>{{item.direccion}}</td>
+	                    <td>Comuna</td>
+	                    <td>Conglomerado</td>
+	                    <td>Nro Casos</td>
+	                    <td>Casos Neg</td>
+	                    <td>Casos pendiente</td>
+	                    <td>No Per Aislada</td>
+	                    <td>Fuente</td>
+	                    <td>Municipios</td>
+	                    <td>Causa Contagio</td>
+	                    <td>Estado</td>
+	                    <td>{{item.descmedidasinstitucion}}</td>
+	                    <td>{{item.descmeorgasalud}}</td>
+	                    <td>Medidas Corrección</td>
+	                    <td>Controlado</td>
+	                    <td>
+                        </td>
+                            
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+
+            </div>      
+          </div>
+        </div>
+
+
+{% endblock page_content %}

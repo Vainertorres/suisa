@@ -1,0 +1,134 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+
+
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'cvd:config_conglomerado_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'cvd:config_conglomerado_new' %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} Conglomerado
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                            <div class="row">
+                                  <div class="form-group col-3">
+                                        <label for="id_conglomerado">Conglomerado</label>
+                                        {{form.conglomerado}}                               
+                                  </div> 
+                                  <div class="form-group col-1">
+                                        <label for="id_consecutivo">Consecutivo</label>
+                                        {{form.consecutivo}}                               
+                                  </div> 
+                                  <div class="form-group col-2">
+                                        <label for="id_nrocasospos">Cant. Afectados</label>
+                                        {{form.nrocasospos}}                               
+                                  </div> 
+                                   <div class="form-group col-2">
+                                        <label for="id_nrocasosneg">Nro Casos Neg</label>
+                                        {{form.nrocasosneg}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_nrocasospendiente">Nro Casos Pendiente</label>
+                                        {{form.nrocasospendiente}}                               
+                                  </div>
+                                   <div class="form-group col-2">
+                                        <label for="id_nrocasosrelacionados">nro casos relacionados</label>
+                                        {{form.nrocasosrelacionados}}                               
+                                  </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-2">
+                                        <label for="id_totalperaislados">No. Aislados</label>
+                                        {{form.totalperaislados}}                               
+                                </div>
+                                <div class="form-group col-2">
+                                        <label for="id_barrio">Barrio</label>
+                                        {{form.barrio}}                               
+                                  </div>
+                                   <div class="form-group col-2">
+                                        <label for="id_barrio">Fuente</label>
+                                        {{form.fuente}}          
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_causacontagio">Causa de contagio</label>
+                                        {{form.causacontagio}}          
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_estadoconglomerado">Estado</label>
+                                        {{form.estadoconglomerado}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_controlado">Controlado</label>
+                                        {{form.controlado}}          
+                                  </div>
+                            </div>
+                            <div class="row">
+                              <div class="form-group col-12">
+                                        <label for="id_descripcion">Descripción</label>
+                                        {{form.descripcion}}                               
+                                  </div>
+                            </div>
+                            <div class="row">
+                              <div class="form-group col-6">
+                                        <label for="id_descmedidasinstitucion">Medidas Tomadas por la Empresa / Institución</label>
+                                        {{form.descmedidasinstitucion}}                               
+                                  </div> 
+                                  <div class="form-group col-6">
+                                        <label for="id_descmeorgasalud">Medidas Tomadas Organismos de Salud</label>
+                                        {{form.descmeorgasalud}}                               
+                                  </div> 
+                                 
+                            </div>
+                            <div class="row">
+                                  <div class="form-group col-12">
+                                      <label for="id_medidascorrectivas">Medidas Correctivas</label>
+                                      {{form.medidascorrectivas}}                               
+                                  </div>                              
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                        <label for="id_fichaiec">Seleccionar Pacientes</label>
+                                        {{form.fichaiec}}                               
+                                </div>                                   
+                            </div>
+                            <!-- <div class="row">
+                                <div class="form-group col-8">
+                                        <label for="id_lat">Usuarios</label>
+                                        {{form.paciente}}                               
+                                </div> 
+                            </div> -->
+                            
+                             {# <!  {{form.as_p}}  -->                #}
+                           
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                                <a class="btn btn-success" href="{% url 'cvd:config_conglomerado_list' %}">Cancelar</a>                               
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    </form>
+
+
+	
+{% endblock page_content %}
+

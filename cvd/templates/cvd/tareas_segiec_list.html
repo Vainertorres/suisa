@@ -1,0 +1,105 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+	  <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Listado de tareas en Seguimiento IEC</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <input type="text" class="form-class" name="f1" id="f1" readonly>
+                    </div>
+                    <div class="col-md-4">
+                      <input type="text" class="form-class" name="f2" id="f2" readonly>                      
+                    </div>
+                    <div class="col-md-4">
+                      <button class="btn btn-warning" type="button" id="btnprint">Imprimir</button>      
+                    </div>
+                    
+                  </div>
+                  <table data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-show-columns="true"
+                    data-toolbar=".buttons-toolbar"
+                    data-locale="es-MX"
+                    data-show-toggle="true"
+                    data-show-fullscreen="true">
+                    <thead>   
+                      <th>Fecha</th>
+                      <th>Ident</th>
+                      <th>Nombres y Apellidos</th> 
+                      <th>Teléfono</th>                                            
+                      <th>Hallazgo</th> 
+                      <th>Tipo de contacto</th>                       
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in obj %}
+                        <tr>
+                            <td>{{item.fecha|date:"d/m/Y"}}</td>                            
+                            <td> {{item.fichaiec.paciente.tipodoc.codigo}}:{{item.fichaiec.paciente.identificacion}}</td>
+                            <td>{{item.fichaiec.paciente.nombres}} {{item.fichaiec.paciente.apellido1}} {{item.fichaiec.paciente.apellido2}}</td>
+                            <td>{{item.fichaiec.paciente.telefono}}</td>                    
+                            <td>{{item.hallazgo}}</td>                            
+                            <td>{{item.tipocontacto}}</td>                            
+                            <td>
+                              <a class="btn btn-warning btn-circle" onclick="return abrir_modal('{% url 'cvd:iec_seguimiento_edit' item.pk %}')" href="#" ><i class="far fa-edit"></i></a>
+                              <button>
+                                <i class="far fa-thumbs-down"></i>
+                              </button>
+                              
+                            </td>
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+                </div>
+            </div>
+{% endblock page_content %}
+
+{% block js_page %}
+<script>  
+
+$(function(){
+  $("#f1, #f2").datetimepicker({
+    format:'Y-m-d',
+    timepicker:false
+  });
+
+  $("#btnprint").click(function(e){
+    e.preventDefault();
+    var f1, f2;
+    f1 = $("#f1").val();
+    f2 = $("#f2").val();
+
+    if (f1=="" || f1==null)
+    {
+      f1="2020-01-01";
+    }
+
+    if (f2=="" || f2==null)
+    {
+      var f = new Date();
+      var f2 = f.getFullYear() + "-" + (f.getMonth()+1) + "-" + f.getDate()    }
+    var url="imprimir-todas/"+f1 +"/"+f2;
+    window.open(url,"tareas IEC")
+ 
+
+  });
+
+});
+
+</script>
+ 
+
+ {% endblock %}

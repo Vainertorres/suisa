@@ -1,0 +1,92 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12">
+			<figure class="highcharts-figure">
+                <div id="container">
+                    
+                </div>
+                    <p class="highcharts-description">
+                        Comportamiento casos relacionados con <code>COVID-19 </code>notificados por semana epidemiologica.
+                    </p>
+            </figure>
+		</div>
+	</div>
+</div>
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+
+	Highcharts.chart('container', {
+
+    title: {
+        text: 'CASOS SOSPECHOSOS DE CORONAVIRUS POR SEMANA EPIDEMIOLOGICA'
+    },
+
+    subtitle: {
+        text: 'Fuente: Notificados SIVIGILA - Evento - 346'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Número de casos'
+        }
+    },
+
+    xAxis: {
+        accessibility: {
+            rangeDescription: 'Range: 1 to 58'
+        }
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 1
+        }
+    },
+
+    series: [{
+        name: 'Sintomaticos Covid 19 : 346',
+        colorbypoint:true,
+        data: {{ sincovid|safe }}
+    },
+    {
+        name: 'Ira Grave : 348',
+        data: {{ iragrave|safe }}
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+
+</script>
+
+	
+{% endblock js_page %}

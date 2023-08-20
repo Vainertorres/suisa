@@ -1,0 +1,46 @@
+{% extends 'base/basedengue.html' %}
+{% block page_content %}
+
+<h1> Importar Casos de dengue: Eventos 210 - 220 - 580 </h1>
+<form action="" method="POST" role='form' enctype="multipart/form-data">
+    {% csrf_token %} 
+		<div class="dropdown-divider"></div> 
+        <div class="row">
+          <div class="form-group col-4">
+                <label for="id_semana">Semana Epidemiologica</label>
+                {{form.semepidemiologica}}                               
+          </div> 
+
+          <div class="form-group col-4">
+            	<label for="id_evento">Evento</label>
+                {{ form.evento }}                                    
+          </div>
+         	
+        </div>
+        <div class="row">
+	        <div class="form-group col-8">
+	           <label for="id_paciente">Evento</label>              
+              {{ form.file_name }} 
+	        </div>	        
+        </div>
+        
+       {% if dfc %}
+       		{{dfc}}
+       {% endif %}
+              
+    <button type="submit" class="btn btn-primary">Importar</button>
+</form>
+
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+	$('.custom-file-input').on('change', function(event) {
+	    var inputFile = event.currentTarget;
+	    $(inputFile).parent()
+	        .find('.custom-file-label')
+	        .html(inputFile.files[0].name);
+	}); 
+</script>
+{% endblock %}

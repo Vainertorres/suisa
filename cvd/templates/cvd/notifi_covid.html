@@ -1,0 +1,441 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+  <div class="col-xl-12 col-md-12 mb-12">
+      <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+              	{% if form.evento.codigo == 346 %}
+                  Pacientes Sospechosos de COVID - {{form.evento}}
+              	{% else %}
+                  Pacientes diagnosticados con COVID
+                  {% endif %}
+               </div>                      
+               <div class="dropdown-divider"></div> 
+
+                 <div class="col-12" id="prueba"> {# div.col_1 #}
+                 	<div class="row" id="infolbl">
+                 		<div class="col-2">
+                 			Fecha
+                 		</div>
+                 		<div class="col-4">
+                 			Evento
+                 		</div>
+                 		<div class="col-4">
+                 			Paciente
+                 		</div>
+                 		<div class="col-2">
+                 			Semana
+                 		</div>                 		
+                 	</div>
+                 	<div class="row">
+                 		<div class="col-2">
+                 			{{form.fec_not|date:"d/m/Y"}}
+                 		</div>
+                 		<div class="col-4">
+                 		    <b>{{form.evento}}</b>	
+                 		</div>
+                 		<div class="col-4">
+                 			<b>{{form.paciente}}</b>	
+                 		</div>
+                 		<div class="col-2">
+                 			{{form.semana}}
+                 		</div>                 		
+                 	</div>
+                 	<div class="row" id="infolbl">
+                 		<div class="col-2">
+                 			Sintomatico
+                 		</div>
+                 		<div class="col-1">
+                 			Tos
+                 		</div>
+                 		<div class="col-1">
+                 			Fiebre
+                 		</div>
+                 		<div class="col-2">
+                 			Odinofagia
+                 		</div>                 		
+                 		<div class="col-2">
+                 			Dificultad respitaria
+                 		</div> 
+                 		<div class="col-1">
+                 			Adinamia
+                 		</div> 
+                 		<div class="col-1">
+                 			vac_ei
+                 		</div> 
+                 		<div class="col-2">
+                 			dos_ei
+                 		</div> 
+                 	</div>
+                 	<div class="row">                 
+                 		<div class="col-2">
+                 			{%if form.sintomatico == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 		</div>
+                 		<div class="col-1">
+                 			{%if form.tos == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 			
+                 		</div>
+                 		<div class="col-1">
+                 			{%if form.fiebre == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 		
+                 		</div>
+                 		<div class="col-2">
+                 			{%if form.odinofagia == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}                 			
+                 		</div>                 		
+                 		<div class="col-2">
+                 			{%if form.dif_res == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}   
+                 		
+                 		</div>  
+                 		<div class="col-1">
+                 			{%if form.adinamia == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 			
+                 		</div>  
+                 		<div class="col-1">
+                 			{%if form.vac_ei == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 			
+                 		</div>  
+                 		<div class="col-2">
+
+                 			{%if form.dos_ei == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 		</div>                		
+                 	</div>
+
+                 	<div class="row" id="infolbl">
+                 		<div class="col-1">
+                 			Asma
+                 		</div>
+                 		<div class="col-1">
+                 			Epoc
+                 		</div>
+                 		<div class="col-1">
+                 			Diabetes
+                 		</div>
+                 		<div class="col-2">
+                 			Enf. Cardiaca
+                 		</div>                 		
+                 		<div class="col-1">
+                 			Cancer 
+                 		</div> 
+                 		<div class="col-1">
+                 			Obesidad
+                 		</div> 
+                 		<div class="col-2">
+                 			Enfermedad Renal
+                 		</div>
+                 		<div class="col-1">
+                 			Fumador
+                 		</div>	
+                 		<div class="col-1">
+                 			tuberculos
+                 		</div>
+                 		<div class="col-1">
+                 			Otr Coom
+                 		</div> 
+                 	</div>
+                 	<div class="row">                 
+                 		<div class="col-1">
+                 			{%if form.asma == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 		</div>
+                 		<div class="col-1">
+                 			{%if form.epoc == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 			
+                 		</div>
+                 		<div class="col-1">
+                 			{%if form.diabetes == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 		
+                 		</div>
+                 		<div class="col-2">
+                 			{%if form.enf_card == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}                 			
+                 		</div>                 		
+                 		<div class="col-1">
+                 			{%if form.cancer == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}   
+                 		
+                 		</div>  
+                 		<div class="col-1">
+                 			{%if form.obesidad == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 			
+                 		</div>  
+                 		<div class="col-2">
+                 			{%if form.ins_renal == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 			
+                 		</div>  
+                 		<div class="col-1">
+                 			{%if form.fumador == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 		</div>  
+                 		<div class="col-1">
+                 			{%if form.tuberculos == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 		</div>              		
+                 		<div class="col-1">
+                 			{%if form.otr_medinm == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 		</div>                		
+                 	</div>
+
+                 	<div class="row" id="infolbl">
+                 		<div class="col-2">
+                 			uso_antiv
+                 		</div>
+                 		<div class="col-2">
+                 			fec_antiv
+                 		</div>
+                 		<div class="col-2">
+                 			Hospitalizado
+                 		</div>
+                 		<div class="col-1">
+                 			Fec inguci
+                 		</div>                 		
+                 		<div class="col-1">
+                 			 septicem
+                 		</div> 
+                 		<div class="col-2">
+                 			Falla Respirtoria
+                 		</div> 
+                 		<div class="col-2">
+                 			Otros Sintomas
+                 		</div>                
+                 	</div>
+                 	<div class="row">                 
+                 		<div class="col-2">
+                 			{%if form.uso_antiv == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 		</div>
+                 		<div class="col-2">
+                 			{{form.fec_antiv|date:"d/m/Y"}}
+                 		</div>
+                 		<div class="col-2">
+                 			{%if form.serv_hosp == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 		
+                 		</div>
+                 		<div class="col-1">
+                 			{{form.fec_inguci|date:"d/m/Y"}}
+                 		</div>                 		
+                 		<div class="col-1">
+                 			{%if form.septicemia == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}   
+                 		
+                 		</div>  
+                 		<div class="col-2">
+                 			{%if form.falla_resp == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 			
+                 		</div>  
+                 		<div class="col-2">
+                 			{%if form.otros_sint == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 			
+                 		</div> 
+                 	</div>
+
+                 	<div class="row" id="infolbl">
+                 		<div class="col-2">
+                 			Rinorrea
+                 		</div>
+                 		<div class="col-2">
+                 			conjuntivi
+                 		</div>
+                 		<div class="col-2">
+                 			cefalea
+                 		</div>
+                 		<div class="col-1">
+                 			diarrea
+                 		</div>                 		
+                 		<div class="col-1">
+                 			 rx_torax
+                 		</div> 
+                 		<div class="col-2">
+                 			fec_tom_ra
+                 		</div>                  		               
+                 	</div>
+                 	<div class="row">                 
+                 		<div class="col-2">
+                 			{%if form.Rinorrea == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 		</div>
+                 		<div class="col-2">
+                 			{%if form.conjuntivi == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}	
+                 		</div>
+                 		<div class="col-2">
+                 			{%if form.cefalea == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 		
+                 		</div>
+                 		<div class="col-1">
+                 			{%if form.diarrea == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}
+                 		
+                 		</div>
+                 		<div class="col-1">                 			
+                 			{%if form.rx_torax == 1 %}
+                 			Si
+                 			{% else %}
+                 			No
+                 			{% endif %}                   			
+                 		</div>                 		
+                 		<div class="col-2">
+                 			{{fec_tom_ra}}                 		
+                 		</div>
+                 	</div>                  
+                 </div> {# div.col_1 #}
+
+                
+			<div class="col-12" id="prueba"> {# div.col_2 #}
+				<div><h4>Seguimiento de casos</h4></div>
+                 <div class="buttons-toolbar">
+                    <a class="dropdown-item" onclick="return abrir_modal('{% url 'cnf:paciente_new' %}')"  href="#"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                  </div>
+
+                 	<table data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-show-columns="true"
+                    data-toolbar=".buttons-toolbar"
+                    data-locale="es-MX"
+                    data-show-toggle="true"
+                    data-show-fullscreen="true">
+                    <thead>   
+                      <th>Fecha</th>
+                      <th>Hallazgos</th>
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in obj %}
+                        <tr>
+                        	<td>Uno</td>
+                        	<td>Dos</td>
+                            <td>
+                              <a href="{% url 'cvd:iec_edit' item.pk %}" class="btn btn-warning btn-circle"><i class="far fa-edit"></i></a>
+                            </td>
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+
+                 </div>{# div.col_2 #}
+
+               
+
+                
+                
+                 {# <!  {{form.as_p}}  -->                #}
+               
+               <div class="dropdown-divider"></div>
+                 <div class="row">
+                   <div class="col">
+                     <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                    <a href="{% url 'cvd:notif_covid_sivigila_list' %}" class="btn btn-success">Cancelar</a>
+                   
+                   </div>
+                 </div> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+{% endblock page_content %}

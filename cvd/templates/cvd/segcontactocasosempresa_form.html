@@ -1,0 +1,148 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+
+
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'cvd:segcontactopacnotif_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'cvd:segcontactopacnotif_new' idcontacto %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} Seguimiento : {{contacto}}
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                            <div class="row">
+                              <input type="hidden" name="contactoaislado" value = "{{contacto.pk}}">
+                                  <div class="form-group col-2">
+                                        <label for="id_fecha">Fecha</label>
+                                        {{form.fecha}}     
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_sintomas">Sintomas</label>
+                                        {{form.sintomas}}     
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_tos">tos</label>
+                                        {{form.tos}}     
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_Fiebre">Fiebre</label>
+                                        {{form.Fiebre}}     
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_odinofagia">odinofagia</label>
+                                        {{form.odinofagia}}                               
+                                  </div> 
+
+                            </div>
+                            <div class="row">
+                              
+                                  <div class="form-group col-2">
+                                        <label for="id_dificultadrespirar">Dif. Respirar</label>
+                                        {{form.dificultadrespirar}}                               
+                                  </div>
+                                  <div class="form-group col-2">
+                                        <label for="id_fatiga">Fatiga</label>
+                                        {{form.fatiga}}                               
+                                  </div>
+                                  
+                                  <div class="form-group col-2">
+                                        <label for="id_hospitalizado">Hospitalizado</label>
+                                        {{form.hospitalizado}}                               
+                                  </div>
+                                  <div class="form-group col-4">
+                                        <label for="id_funcionario">Funcionario</label>
+                                        {{form.funcionario}}                               
+                                  </div>
+                                  
+                            </div>
+                             
+                            <div class="form-group col-12">
+                                   <label for="id_observacion">Observación</label>
+                                   {{form.observacion}}                               
+                            </div> 
+                                  
+                        
+
+                             {# <!  {{form.as_p}}  -->                #}
+                           
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                                <a class="btn btn-success" href="{% url 'cvd:contactopacnotif_edit' idcontacto %}">Cancelar</a>                               
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    </form>
+
+	
+{% endblock page_content %}
+
+{% block js_page %}
+
+<script>
+
+
+$(function(){
+
+  $("#id_fecha").datetimepicker({
+    format:'d/m/Y',
+    timepicker:false
+  });
+  
+    $('#id_paciente').select2({
+      placeholder: "Seleccione un Paciente",
+      allowClear: true
+    });
+       
+ });
+
+function inactivar(id)
+  {
+    var data={id:id};
+    data= JSON.stringify(data);
+    var token = "{{ csrf_token }}";
+    //alert("data" + token);
+    $.ajax({
+      headers : {"X-CSRFToken":token},
+      type:"POST",
+      url:"con/emp/notifpac/"+id,
+      data:data,
+      success:function(response){
+        if(response === "OK")
+        {
+          location.reload(true);
+        }
+        else
+        {
+          mensaje("Error intentando cambiar el estado del Cliente");
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrow){
+        console.log(textStatus, errorThrow);
+        mensaje(errorThrow,'red');
+        cerrar_modal();
+      }
+    });
+  }
+
+
+ </script> 
+{% endblock js_page %}

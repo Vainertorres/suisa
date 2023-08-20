@@ -1,0 +1,474 @@
+{% extends 'base/baserips.html' %}
+
+{% block page_content %}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12">
+			<div id="containerdb">
+				
+			</div>
+		</div>
+	</div>
+    <div class="row">
+        <div class="dropdown-divider"></div> 
+    </div>
+    
+    
+    <div class="row">
+        <div class="col-lg-6">
+            <div id="containerfinalidad">
+                
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div id="containercausaexterna">
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="dropdown-divider"></div> 
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="containertipoconsulta">
+                
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="dropdown-divider"></div> 
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="container">
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="dropdown-divider"></div> 
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div id="containersexo">
+                
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div id="containeretnia">
+                
+                
+            </div>
+        </div>
+        
+    </div>
+
+     <div class="row">
+        <div class="dropdown-divider"></div> 
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="containerbarrio">
+                <p>barrio</p>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('container', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'ESTADISTICA DE COOMORBILIDADES - DIAGNOSTICOS CIE-10'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Cantidad',
+        colorByPoint: true,
+        data: {{ cie10|safe }} 
+
+    }]
+});
+	
+</script>
+
+//SCRIPT DE FINALIDAD
+<script>
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('containerfinalidad', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'ESTADISTICA DE CONSULTA EXTERNA - FINALIDAD'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Porcentaje',
+        colorByPoint: true,
+        data: {{ finalidad|safe }} 
+
+    }]
+});
+    
+</script>
+
+
+//SCRIPT DE CAUSA EXTERNA
+<script>
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('containercausaexterna', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'ESTADISTICA DE CONSULTA EXTERNA - CAUSA EXERNA'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Porcentaje',
+        colorByPoint: true,
+        data: {{ causaexterna|safe }} 
+
+    }]
+});
+    
+</script>
+
+//SCRIPT DE TIPO DE CONSULTA
+<script>
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('containertipoconsulta', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'ESTADISTICA TIPO DE CONSULTA EXTERNA - CUPS'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Brands',
+        colorByPoint: true,
+        data: {{ reportetipoconsulta|safe }} 
+
+    }]
+});
+    
+</script>
+
+//script cie10 diagrama de barras
+<script type="text/javascript">
+
+// Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
+
+// Create the chart
+Highcharts.chart('containerdb', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        align: 'left',
+        text: 'Diagnósticos de consulta externa'
+    },
+    subtitle: {
+        align: 'left',
+        text: 'Código CIE10'
+    },
+    accessibility: {
+        announceNewData: {
+            enabled: true
+        }
+    },
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: 'Total usurios diagnosticados'
+        }
+
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:.0f}'
+            }
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.nombredx}</span>: <b>{point.y:.0f}</b> Paciente(s)<br/>'
+    },
+
+    series: [
+        {
+            name: 'Diagnósticos',
+            colorByPoint: true,
+            data: {{ cie10db|safe }}      
+        }
+    ],
+    
+});
+</script>
+
+
+//SCRIPT X SEXO
+<script type="text/javascript">
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('containersexo', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'ESTADISTICA DE CONSULTA EXTERNA POR SEXO'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Brands',
+        colorByPoint: true,
+        data: {{ sexo|safe }} 
+
+    }]
+});
+</script>
+
+
+//SCRIPT X ETNIA
+<script type="text/javascript">
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('containeretnia', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'ESTADISTICA DE CONSULTA EXTERNA POR ETNIA'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Brands',
+        colorByPoint: true,
+        data: {{ etnia|safe }} 
+
+    }]
+});
+</script>
+
+
+//script barrio diagrama de barras
+<script type="text/javascript">
+
+// Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
+
+// Create the chart
+Highcharts.chart('containerbarrio', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        align: 'left',
+        text: 'Barrios de consulta externa'
+    },
+    subtitle: {
+        align: 'left',
+        text: 'Barrio de los usuarios atendidos por consulta externa'
+    },
+    accessibility: {
+        announceNewData: {
+            enabled: true
+        }
+    },
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: 'Total usurios x barrio'
+        }
+
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:.0f}'
+            }
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b> of total<br/>'
+    },
+
+    series: [
+        {
+            name: 'Cantidad',
+            colorByPoint: true,
+            data: {{ barrio|safe }}      
+        }
+    ],
+    
+});
+</script>
+
+	
+{% endblock js_page %}

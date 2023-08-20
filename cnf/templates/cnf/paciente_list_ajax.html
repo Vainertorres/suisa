@@ -1,0 +1,113 @@
+{% load static %}
+{% extends 'base/base.html' %}
+
+{% block head_list %}
+   <script src="{% static 'paciente/js/listapac.js' %}"></script> 
+{% endblock head_list%} 
+
+{% block page_content %}
+	  <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Listado de Pacientes</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Acciones:</div>
+                     {#  <a class="dropdown-item" href="{% url 'cnf:paciente_new' %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a> #}
+
+                     <a class="dropdown-item" onclick="return abrir_modal('{% url 'cnf:paciente_new_ajax' %}')"  href="#"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                    
+                      
+                    </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  {% if not obj  %}
+                        No hay Pacientes
+                  {% endif %}
+                  <div class="buttons-toolbar">    
+                   <a class="dropdown-item" onclick="return abrir_modal('{% url 'cnf:paciente_new_ajax' %}')"  href="#"> <span class="fa fa-calendar-plus"></span>Nuevo</a> 
+
+                   <!--  <a class="dropdown-item" href="{% url 'cnf:paciente_new' %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a> -->
+                  </div>
+                  <table id="tblpaciente">
+                    <thead>   
+                      <th>Tipo Doc</th>
+                      <th>Identificacion</th>
+                      <th>Nombres</th> 
+                      <th>Apellidos</th> 
+                      <th>Dirección</th> 
+                      <th>Teléfono</th>                       
+                      <th>Estado</th> 
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in obj %}
+                        <tr>
+                            <td>{{item.tipodoc.codigo}}</td>
+                            <td>{{item.identificacion}}</td>
+                            <td>{{item.nombre1}} {{item.nombre2}}</td>
+                            <td>{{item.apellido1}} {{item.apellido2}}</td>
+                            <td>{{item.direccion}}</td>                            
+                            <td>{{item.telefono}}</td>
+                            <td onclick="inactivar({{ item.id }})">
+                              {% if item.estado %}
+                              <i class="far fa-thumbs-up text-primary"></i>
+                              {% else %}
+                              <i class="far fa-thumbs-down text-danger"></i>
+                              {% endif %}
+
+                            </td>
+                            <td>
+                              <a class="btn btn-warning btn-circle" onclick="return abrir_modal('{% url 'cnf:paciente_edit' item.id %}')"  href="#"><i class="far fa-edit"></i></a>
+                            </td>
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+                </div>
+            </div>
+{% endblock page_content %}
+
+{% block js_page %}
+ 
+
+ <script>
+  function inactivar(id)
+  {
+    var data={id:id};
+    data= JSON.stringify(data);
+    var token = "{{ csrf_token }}";    
+    $.ajax({
+      headers : {"X-CSRFToken":token},
+      type:"POST",
+      url:"/paciente/estado/"+id,
+      data:data,
+      success:function(response){
+        if(response === "OK")
+        {
+          location.reload(true);
+        }
+        else
+        {
+          mensaje("Error intentando cambiar el estado del Cliente");
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrow){
+        console.log(textStatus, errorThrow);
+        mensaje(errorThrow,'red');
+        cerrar_modal();
+      }
+    });
+  }
+
+ 
+ 
+ </script>
+
+ {% endblock %}

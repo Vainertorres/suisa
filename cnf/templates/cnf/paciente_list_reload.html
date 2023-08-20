@@ -1,0 +1,334 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+    <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Listado de Pacientes</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Acciones:</div>
+                     {#  <a class="dropdown-item" href="{% url 'cnf:paciente_new' %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a> #}
+
+                     <a class="dropdown-item" onclick="return abrir_modal('{% url 'cnf:paciente_new_ajax' %}')"  href="#"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                    
+                      
+                    </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  {% if not obj  %}
+                        No hay Pacientes
+                  {% endif %}
+                  <div class="buttons-toolbar">    
+                   <a class="dropdown-item" onclick="return abrir_modal('{% url 'cnf:paciente_new_ajax' %}')"  href="#"> <span class="fa fa-calendar-plus"></span>Nuevo</a> 
+
+                   <!--  <a class="dropdown-item" href="{% url 'cnf:paciente_new' %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a> -->
+                  </div>
+                  <table class="table table-hover" id="tbl">
+                    <thead>  
+                      <tr>  
+                     <th></th>                              
+                      <th scope="col">id</th>
+                      <th scope="col">Tipo Doc</th>
+                      <th scope="col">Identificacion</th>
+                      <th scope="col">Nombres y apellidos</th> 
+                      <th scope="col">Dirección</th> 
+                      <th scope="col">Teléfono</th>  
+                      <th scope="col">EAPB</th>
+                      <th scope="col">Estado</th> 
+                      <th></th> 
+                      <th></th> 
+
+                    </tr>                    
+                    </thead>  
+                    <tbody>
+                      
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal_edit_new" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden
+   data-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal_titulo">Agregar/Editar Registro</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="idModal">Id</label>
+              <input type="text" id="idModal" class="form-control" placeholder="Id" readonly>
+            </div>
+            <div class="form-group">
+              <label for="codigoModal">Código</label>
+              <input type="text" id="codigoModal" class="form-control" placeholder="Código">
+            </div>
+            <div class="form-group">
+              <label for="descripcionModal">Descripción</label>
+              <input type="text" id="descripcionModal" class="form-control" placeholder="Descripción">
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btnSaveModal">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>            
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+  var $tbl
+  $(document).ready( function (){
+    $tbl = $('#tbl').DataTable({
+      
+      ajax: {
+        url:"{% url 'cnf:list_paciente_reload'%}",
+        dataSrc: 'datos'
+      },
+      columnDefs: [
+        {
+          data: null,
+          orderable: false,
+          defaultContent: '',
+          className: 'select-checkbox',
+          targets: 0
+        }
+    ],
+    select: {
+        style: 'os',
+        selector: 'td:first-child'
+    },
+    order: [[0, 'asc']],
+      columns: [
+      {
+        targets: 0,
+        data: null,
+        defaultContent: '',
+        orderable: false,
+        className: 'select-checkbox'
+      },        
+        {data: "id"},
+        {data: "tipodoc__codigo"},
+        {data: "identificacion"},
+        {data: "razonsocial"},
+        {data: "direccion"},
+        {data: "telefono"},
+        {data: "eps__descripcion"},
+        {data: "estado"},
+        {
+          data: null,
+          className: "dt-center editor-edit text-success",
+          defaultContent: '<i class="fa-solid fa-pen-to-square"></i>',
+          orderable: false
+        },
+        {
+          data: null,
+          className: "dt-center editor-delete text-danger",
+          defaultContent: '<i class="fa-solid fa-trash-can"></i>',
+          orderable: false
+        }
+      ],
+      select: true,
+      dom: 'Bfrtip',
+      processing:true,serverSide:true,pageLength:15,
+      buttons: [        
+        {
+          text: '<i class="fa-regular fa-file"></i>',
+          className: 'text-primary',
+          action: function(e){
+            nuevoPaciente()
+          }
+        },
+        {
+          text : '<i class="fa-solid fa-pen-to-square"></i>', className: 'text-success',
+          action: function(e,dt,node,config){
+            var row = dt.rows({selected:true}).data()
+            // console.log(row)
+            if(row.length==1){
+              // console.log("Una fila")
+              // console.log(row[0].codigo)
+              var i = row[0].id
+              var d = row[0].descripcion
+              var c = row[0].codigo
+              console.log(i,d,c)
+
+              $("#idModal").val(i)
+              $("#codigoModal").val(c)
+              $("#descripcionModal").val(d)
+              
+              abrirModal()
+            }else{
+              mensaje("Dee Seleccionar una fila","","warning")
+            }
+          }
+        },
+        {
+          text : '<i class="fa-solid fa-trash-can"></i>', className: 'text-danger',
+          action: function(e,dt,node,config){
+            var row = dt.rows({selected:true}).data()
+            if(row.length==1){
+              var i = row[0].id
+              borrar(i)
+            }else{
+              mensaje("Dee Seleccionar una fila para Borrar","","warning")
+            }
+          }
+        }
+      ]
+    });
+});
+
+//Botón Editar
+$("#tbl").on("click","td.editor-edit",function(e){
+  e.preventDefault()
+  
+  var row = $tbl.rows({selected:true}).data()
+  //var row = $tbl.rows(this).data()
+   
+  let id= row.pluck("id").join('');
+  var $dato =  "/paciente/edit/"+id; 
+  //alert($dato);
+ // window.location = $dato
+  return abrir_modal($dato);
+  /*$.ajax({
+      headers: {'X-CSRFToken': "{{csrf_token}}"},
+      url: $dato,  
+      type:"GET",
+      success: function(r){
+        mensaje("Guardado Satisfatoriamente")
+      },
+      error: function(jqXHR,textStatus,error){
+        console.log(error)
+      },
+      complete: function(xhr,status){
+        console.log("FINALIZADO")
+        cerrarModal()
+        $tbl.ajax.reload()
+      }
+    })*/   
+})
+
+function abrirModal(){
+    $("#modal_edit_new").modal('show')
+  }
+
+function cerrarModal(){
+    $("#modal_edit_new").modal('hide')
+  }
+
+function saveModal(codigo,desc){
+    var data = {"codigo":codigo,"desc":desc}
+
+    $.ajax({
+      headers: {'X-CSRFToken': "{{csrf_token}}"},
+      url:"{% url 'cnf:paciente_new'%}",
+      data:data,
+      type:"POST",
+      success: function(r){
+        mensaje("Guardado Satisfatoriamente")
+        cerrarModal()
+      },
+      error: function(jqXHR,textStatus,error){
+        console.log(error)
+      },
+      complete: function(xhr,status){
+        console.log("FINALIZADO")
+        cerrarModal()
+        $tbl.ajax.reload()
+      }
+    })
+}
+
+$("#btnSaveModal").click(function(e){
+    var c = $("#codigoModal").val()
+    var d = $("#descripcionModal").val()
+
+    saveModal(c,d)
+})
+
+function borrar(id){
+    Swal.fire({
+      title: `¿Borrar ${id}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Borrar',
+      cancelButtonText: "No. No Borrar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        var url = `paciente/estado/${id}`
+
+        $.ajax ({
+            url : url,
+            headers: {'X-CSRFToken': "{{csrf_token}}"},
+            type: "POST",
+            success: function(r){
+              // alert("Borrado")
+              mensaje("Borrado Satisfactoriamente","¡Atención!")
+            },
+            error: function(jqXHR,textStatus,error)
+            {
+              console.log(error)
+            },
+            complete: function(xhr,status){
+              console.log("Finalizada")
+              $tbl.ajax.reload()
+            }
+          })    
+      }else{
+        mensaje("No se borró nada")
+      }
+    })
+}
+
+  //Botom Borrar
+  $("#tbl").on("click","td.editor-delete",function(e){
+    e.preventDefault();
+    alert('Hola de borrado');
+    var row = $tbl.rows({selected:true}).data()
+    //var row = $tbl.rows(this).data();
+    var i = row.pluck("id").join('');
+    console.log(i)
+   
+    //borrar(i);
+  })
+
+  function nuevoPaciente(){
+    $data={}
+    $.ajax({
+      headers: {'X-CSRFToken': "{{csrf_token}}"},
+      url:"{% url 'cnf:paciente_new'%}",
+      data:data,
+      type:"POST",
+      success: function(r){
+        mensaje("Guardado Satisfatoriamente")
+      },
+      error: function(jqXHR,textStatus,error){
+        console.log(error)
+      },
+      complete: function(xhr,status){
+        console.log("FINALIZADO")
+        cerrarModal()
+        $tbl.ajax.reload()
+      }
+    })    
+
+  }
+
+</script>
+
+ {% endblock %}

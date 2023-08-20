@@ -1,0 +1,70 @@
+{% extends 'base/baserips.html' %}
+	
+{% block page_content %}
+<h1> Importar CIE10 - CUPS </h1>
+<form action="" method="POST" role='form' enctype="multipart/form-data">
+    {% csrf_token %} 
+		<div class="dropdown-divider"></div> 
+        
+        <div class="row">
+	        <div class="form-group col-6">
+	           <label for="id_file_name">Archivo CIE-10</label>              
+              {{ form.file_name }} 
+	        </div>
+	    </div>
+	    <div class="row">
+	        <div class="form-group col-6">
+	           <label for="id_file_cups">Archivo CUPS</label>              
+              {{ form.file_cups }} 
+	        </div>
+	        <div class="form-group col-6">
+	           <label for="id_file_cums">Archivo CUMS</label>              
+              {{ form.file_cums }} 
+	        </div>	        
+        </div>
+        <div class="row">
+        	<button type="submit" class="btn btn-primary">Importar</button>	        
+        </div>
+        
+	
+</form>
+
+<div class="dropdown-divider"></div> 
+
+        <div class="row">
+        	<div class="form-group col-8">
+	        	<p>Configuración de encabezado - CIE10 - Revisar antes de Importar</p>
+	        	<ul>
+	        		<li>idcapitulo</li>
+	        		<li>capitulo</li>
+	        		<li>idgrupo</li>
+	        		<li>grupo</li>
+	        		<li>codcie10</li>
+	        		<li>descripcion</li>
+	        	</ul>
+        	</div>
+        </div>
+        <div class="row">
+        	<div class="form-group col-8">
+
+        	<p>Configuración de encabezado - CUPS - Revisar antes de Importar</p>
+        	<ul>
+        		<li>codigo</li>
+        		<li>descripcion</li>
+        	</ul>        				
+        </div>
+        </div>
+
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+	$('.custom-file-input').on('change', function(event) {
+	    var inputFile = event.currentTarget;
+	    $(inputFile).parent()
+	        .find('.custom-file-label')
+	        .html(inputFile.files[0].name);
+	}); 
+</script>
+{% endblock %}
