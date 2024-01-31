@@ -1,0 +1,77 @@
+{% extends 'base/basepai.html' %}
+{% load static %}
+
+ {% block head_list %}   
+   
+ {% endblock head_list%} 
+
+{% block page_content %}
+	  <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Seguimiento a Rediarios</h6>
+
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    <div class="Search">
+                    <form method="POST">
+                       {% csrf_token %}
+
+                      <label>Digite identificación</label>
+                      <input type="text" name="dato" id="dato">
+                      <button type="submit">Buscar</button>
+                    </form>
+                  </div>
+                    </a>
+                   <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Acciones:</div>
+                      <a class="dropdown-item"  href="{% url 'pai:rediario_new' %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>                      
+                    </div>
+
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  {% if not obj  %}
+                        No hay registro de rediarios
+                  {% endif %}
+                  <table id="datarediarios" class="table"
+                    data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-locale="es-MX">
+                    <thead>   
+                      <th>Fecha Vac</th>
+                      <th>Identificación</th>
+                      <th>Nombres y Apellidos</th>                      
+                      <th>Edad (A)</th>                                   
+                      <th>Edad (M)</th>                                                
+                      <th>Ips</th> 
+                      <th>Oservación</th>
+                      <th class="all">Acciones</th>      
+                      
+                    </thead>  
+                    <tbody>
+                       {% for item in obj %}
+                      <tr>
+                        <td>{{item.fecha|date:"d/m/Y"}}</td>
+                        <td>{{item.paciente.identificacion}}</td>
+                        <td>{{item.paciente.razonsocial}}</td>
+                        <td>{{item.edadanios}}</td>
+                        <td>{{item.edadtotalmeses}}</td>
+                        <td>{{item.ips}}</td>
+                        <td>{{item.observacion}}</td>
+                        <td></td>
+                      </tr>
+                     {%  endfor %}
+                     
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+{% endblock page_content %}
+
+{% block js_page %}
+
+{% endblock %}

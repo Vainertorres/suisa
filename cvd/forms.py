@@ -1,7 +1,9 @@
 from django import forms 
 from .models import Bac, Fichaiec, Antecedenteviaje, SegFichaIec, Conglomerado, ImportSivCvdFile, \
 Notif_covid, AntecHospitalizacion, FileFichaIec, ContactosIec, DesplazaContacto, SegContacto, \
-NotifPaConglomerado, ContactoAislado, SegContactoAislado, ConfigConglomerado
+NotifPaConglomerado, ContactoAislado, SegContactoAislado, ConfigConglomerado, Segnotifcovid
+
+from cnf.models import Paciente
 
 
 class ConfigConglomeradoForm(forms.ModelForm):
@@ -75,6 +77,15 @@ class ContactoAisladoForm(forms.ModelForm):
 		self.fields['feciniaislamiento'].widget.attrs['readonly'] = True
 		self.fields['fechafinaislamiento'].widget.attrs['readonly'] = True
 		self.fields['fechatomamuestra'].widget.attrs['readonly'] = True
+		if 'paciente' in self.data:
+			idpac = self.data['paciente']	
+			print(idpac)		
+			self.fields['paciente'].queryset = Paciente.objects.all()	
+		elif self.instance.pk:
+			self.fields['paciente'].queryset = Paciente.objects.all().filter(pk=self.instance.paciente.pk)
+		else:
+			self.fields['paciente'].queryset = Paciente.objects.none()
+		
 
 
 
@@ -99,6 +110,15 @@ class NotifPaConglomeradoForm(forms.ModelForm):
 				})
 		self.fields['fecinisintomas'].widget.attrs['readonly'] = True
 		self.fields['fechatomamuestra'].widget.attrs['readonly'] = True
+		if 'paciente' in self.data:
+			idpac = self.data['paciente']	
+			print(idpac)		
+			self.fields['paciente'].queryset = Paciente.objects.all()	
+		elif self.instance.pk:
+			self.fields['paciente'].queryset = Paciente.objects.all().filter(pk=self.instance.paciente.pk)
+		else:
+			self.fields['paciente'].queryset = Paciente.objects.none()
+		
 
 
 class SeguimientoContactoForm(forms.ModelForm):
@@ -146,6 +166,16 @@ class ContactosForm(forms.ModelForm):
 		self.fields['fechamuestra'].widget.attrs['readonly'] = True
 		self.fields['fechainisintomas'].widget.attrs['readonly'] = True
 
+		if 'paciente' in self.data:
+			idpac = self.data['paciente']	
+			print(idpac)		
+			self.fields['paciente'].queryset = Paciente.objects.all()	
+		elif self.instance.pk:
+			self.fields['paciente'].queryset = Paciente.objects.all().filter(pk=self.instance.paciente.pk)
+		else:
+			self.fields['paciente'].queryset = Paciente.objects.none()
+		
+
 
 class FileIecForm(forms.ModelForm):
 	class Meta:
@@ -176,6 +206,33 @@ class NotifCovidForm(forms.ModelForm):
 				'class':"form-control", #colocar la clase de bootsTrap a todos los controles o campos
 				'readonly' : "True"
 			})
+		if 'paciente' in self.data:
+			idpac = self.data['paciente']	
+			print(idpac)		
+			self.fields['paciente'].queryset = Paciente.objects.all()	
+		elif self.instance.pk:
+			self.fields['paciente'].queryset = Paciente.objects.all().filter(pk=self.instance.paciente.pk)
+		else:
+			self.fields['paciente'].queryset = Paciente.objects.none()
+
+class SegNotifCovidForm(forms.ModelForm):
+	class Meta:
+		model= Segnotifcovid
+		fields=['notifcovid','fecha','hallazgo','proxseg','fecproxseg','fileseg']
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs) #para que se inicialice
+		for field in iter(self.fields):
+			if field.lower() == "hallazgo".lower():
+				self.fields[field].widget.attrs.update({				
+				'class':"form-control", #colocar la clase de bootsTrap a todos los controles o campos
+				'rows':"3"
+				})
+			else:
+				self.fields[field].widget.attrs.update({				
+				'class':"form-control" #colocar la clase de bootsTrap a todos los controles o campos
+				})
+		
 
 class ImportFileCvdForm(forms.ModelForm):
 	class Meta:
@@ -206,7 +263,20 @@ class BacForm(forms.ModelForm):
 				'class':"form-control" #colocar la clase de bootsTrap a todos los controles o campos
 				})
 
+		if 'paciente' in self.data:
+			idpac = self.data['paciente']			
+			self.fields['paciente'].queryset = Paciente.objects.all()	
+		elif self.instance.pk:
+			self.fields['paciente'].queryset = Paciente.objects.all().filter(pk=self.instance.paciente.pk)
+		else:
+			self.fields['paciente'].queryset = Paciente.objects.none()
+		
+
 class FichaiecForm(forms.ModelForm):
+
+
+	#ambitoatencion = forms.ForeignKeyField(required=True)
+
 	class Meta:
 		model = Fichaiec
 		fields=['fecha','paciente','fecinisintomas','desplazamientos','contact_pac','lugarcontact','antinflamatorios','fiebre','tos','dificultadrespirar', \
@@ -229,6 +299,14 @@ class FichaiecForm(forms.ModelForm):
 		self.fields['fechaprimuestra'].widget.attrs['readonly'] = True
 		self.fields['fechareslab'].widget.attrs['readonly'] = True
 		self.fields['fechaegreso'].widget.attrs['readonly'] = True
+		
+		if 'paciente' in self.data:
+			idpac = self.data['paciente']
+			self.fields['paciente'].queryset = Paciente.objects.all()
+		elif self.instance.pk:
+			self.fields['paciente'].queryset = Paciente.objects.all().filter(pk=self.instance.paciente.pk)
+		else:
+			self.fields['paciente'].queryset = Paciente.objects.none()
 		
 
 class AntViajeForm(forms.ModelForm):

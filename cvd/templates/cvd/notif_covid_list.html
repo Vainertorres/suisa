@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base/basecvd.html' %}
 {% block page_content %}
 	  <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
@@ -9,8 +9,7 @@
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Acciones:</div>
-                      <a class="dropdown-item" href="#"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                      <div class="dropdown-header">Acciones:</div>                    
                       
                     </div>
                   </div>
@@ -21,12 +20,7 @@
                         No hay Pacientes notificados con Covid
                   {% endif %}
 
-                  <div class="buttons-toolbar">
-                    <a class="dropdown-item" onclick="return abrir_modal('{% url 'cnf:paciente_new' %}')"  href="#"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
-                  </div>
-
-
-                  <table data-toggle="table"
+                 <table data-toggle="table"
                     data-pagination="true"
                     data-search="true"
                     data-show-columns="true"
@@ -62,7 +56,7 @@
 
                             <a class="btn btn-warning btn-circle" href="{% url 'cvd:notif_covid_sivigila_ver' item.id %}"><i class="far fa-edit"></i></a>  
 
-                            <a href="{% url 'den:dengue_inact' item.id %}"><i class="far fa-thumbs-down"></i></a> 
+                            
                             </td>
                           </tr>                   
                       {% endfor %}

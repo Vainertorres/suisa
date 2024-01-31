@@ -139,12 +139,26 @@
 
 <script>
 
-$(function(){
-    $('#id_paciente').select2();
+    $(document).ready(function () {
+      $('#id_paciente').select2({
+            ajax: {
+                url: '{% url 'cvd:busqpac' %}',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {id: item.id, text: item.identificacion +':'+ item.razonsocial};
+                        })
+                    };
+                }
+            },
+            minimumInputLength: 1
+        });
+    });
 
-    
-});
+</script>
 
+<script>
  $(document).ready(function(){  
 
     {% if obj %}

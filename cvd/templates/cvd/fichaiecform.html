@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base/basecvd.html' %}
 
 {% block page_content %}
 
@@ -27,8 +27,7 @@
                                <div class="row">
                                   <div class="form-group col-2">
                                         <label for="id_fecha">Fecha</label>
-                                         <!--<input type="text" name="fecha" class="form-control" id="id_fecha" value="{{iec.fecha|date:'Y-m-d'}}"> -->
-                                         {{form.fecha}}                                
+                                        {{form.fecha}}                                
                                   </div> 
 
                                   <div class="form-group col-4">
@@ -336,11 +335,13 @@
                                
                                </div>
                              </div> 
+
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
     </form>
 
   <div class="modal fade" id="newpac" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
@@ -352,8 +353,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          
+        <div class="modal-body">       
            
            <div class="col-xl-12 col-md-12 mb-12">
                   <div class="card border-left-success shadow h-100 py-1">
@@ -535,6 +535,7 @@
          
          {#  mensaje al ajax #}
         </div>
+
       </div>
     </div>
   </div>
@@ -544,10 +545,34 @@
   
 {% block js_page %}
 
+ <script>
+    $(document).ready(function () {
+
+      $('#id_paciente').select2({
+            ajax: {
+                url: '{% url 'cvd:busqpac' %}',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                          return {id: item.id, text: item.identificacion +':'+ item.razonsocial};
+                        })
+                    };
+                }
+            },
+            minimumInputLength: 1
+        });
+    });
+
+    $("#id_fechaprimuestra, #id_fecha, #id_fecinisintomas, #id_fechareslab, #id_fechaegreso, #fechaNac").datetimepicker({
+        format:'d/m/Y',
+        timepicker:false
+      });
+
+</script>
+
+
 <script>
-
-
-
 $(function(){
 
   
@@ -561,23 +586,18 @@ $(function(){
   $("#idmpio").val("{{obj.municipio.id}}").change();
   $("#idmpio").chained("#iddepto");
 
-  $("#id_fechaprimuestra, #id_fecha, #id_fecinisintomas, #id_fechareslab, #id_fechaegreso, #fechaNac").datetimepicker({
-    format:'d/m/Y',
-    timepicker:false
-  });
+  
 
 
-    $('#id_paciente').select2({
+   /* $('#id_paciente').select2({
       placeholder: "Seleccione un Paciente",
       allowClear: true
-    });
+    });*/
     
  });
 
 
  $(document).ready(function(){
-
-
   $('#crearpac').click(function(e){
      
 
@@ -648,11 +668,7 @@ $(function(){
 
   });
 
+ </script>
 
-
-
- 
-
- </script> 
 {% endblock js_page %}
 

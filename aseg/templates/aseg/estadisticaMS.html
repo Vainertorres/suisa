@@ -1,0 +1,237 @@
+{% extends 'base/basebdua.html' %}
+
+{% block page_content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="containereapb">
+                <h1>Hola Mundo</h1>
+                {{ eps }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="dropdown-divider"></div> 
+    </div>
+    
+   
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="containertipotbpie">
+                
+            </div>
+        </div>        
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div id="containersex">
+                
+            </div>
+        </div>        
+        <div class="col-lg-6">
+            <div id="containerarea">
+                
+            </div>
+        </div>        
+    </div>
+
+</div>
+    
+{% endblock page_content %}
+
+{% block js_page %}
+
+
+// script Estadistica por eapb
+<script type="text/javascript">
+
+// Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
+
+// Create the chart
+Highcharts.chart('containereapb', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        align: 'left',
+        text: 'Usuarios Maestro Subsidiadio por EAPB'
+    },
+    subtitle: {
+        align: 'left',
+        text: 'Maestro Subsidiadio'
+    },
+    accessibility: {
+        announceNewData: {
+            enabled: true
+        }
+    },
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: 'Número de usurios'
+        }
+
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:.0f}'
+            }
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.nombredx}</span>: <b>{point.y:.0f}</b> Usuario(s)<br/>'
+    },
+
+    series: [
+        {
+            name: 'Subsidiado',
+            colorByPoint: true,
+            data: {{ eps|safe }}      
+        }
+    ],
+    
+});
+</script>
+
+
+
+<script>
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('containertipotbpie', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'ESTADISTICA USUARIOS POR TIPO DE POBLACIÓN'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Cantidad',
+        colorByPoint: true,
+        data: {{ tipopob|safe }} 
+
+    }]
+});
+    
+</script>
+
+
+<script>
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('containerarea', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'ESTADISTICA USUARIOS POR AREA DE RESIDENCIA'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Cantidad',
+        colorByPoint: true,
+        data: {{ area|safe }} 
+
+    }]
+});
+    
+</script>
+
+<script>
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('containersex', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'ESTADISTICA USUARIOS POR SEXO'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Cantidad',
+        colorByPoint: true,
+        data: {{ sexo|safe }} 
+
+    }]
+});
+    
+</script>
+    
+{% endblock js_page %}

@@ -4,7 +4,7 @@ from django_userforeignkey.models.fields import UserForeignKey
 from django.contrib.auth.models import User
 
 from mpl_toolkits.basemap.test import Basemap
-from geopy.geocoders import Nominatim
+#from geopy.geocoders import Nominatim
 import time
 import math
 
@@ -31,6 +31,32 @@ class ClaseModelo2(models.Model):
 
     class Meta:
         abstract = True
+
+class Mes(ClaseModelo2):
+    codigo = models.IntegerField(unique=True)
+    descripcion = models.CharField(max_length=20)
+
+    class Meta:
+        verbose_name='Mes'
+        verbose_name_plural='Meses'
+        ordering=['codigo']
+
+    def __str__(self):
+        return "{}".format(self.descripcion)
+
+class Periodo(ClaseModelo2):
+    codigo=models.CharField(max_length=6, unique=True)
+    descripcion =models.CharField(max_length=80)
+    mes = models.ForeignKey(Mes, on_delete=models.CASCADE)
+    anio = models.IntegerField()
+
+    class Meta:
+        verbose_name='Periodo'
+        verbose_name_plural='Periodos'
+        ordering=['-fc']
+
+    def __str__(self):
+        return "{}".format(self.descripcion)
 
 class ActividadEconomica(ClaseModelo2):
     codigo = models.CharField(max_length=10)
@@ -71,12 +97,13 @@ class Tipodoc(ClaseModelo):
         return "{}-{}".format(self.codigo, self.descripcion)
 
     class Meta:
-        verbose_name_plural = "Tipo documentos"
+        verbose_name_plural = "Tipos de documentos"
         ordering=['descripcion']
 
 class Pais(ClaseModelo):
     codigo = models.IntegerField(null=True, blank=True)
     descripcion = models.CharField(max_length=80)
+    nacional = models.BooleanField(default=False)
 
     def __str__(self):
         return "{}".format(self.descripcion)
@@ -502,7 +529,8 @@ class Paciente(ClaseModelo2):
     nombre2 = models.CharField(max_length=60, blank=True, null=True)
     apellido1 = models.CharField(max_length=60)
     apellido2 = models.CharField(max_length=60, blank=True, null=True)
-    fechaNac = models.DateField(null=True, blank=True)
+    fechanac = models.DateField(null=True, blank=True)
+    pais = models.ForeignKey(Pais, on_delete=models.CASCADE, null=True, blank=True)
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, null=True, blank=True)
     municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE,null=True, blank=True)
     direccion = models.CharField(max_length=150, blank= True, null= True)
@@ -533,11 +561,11 @@ class Paciente(ClaseModelo2):
     def save(self):
         nombre = self.nombre1
 
-        if not (self.nombre2 == "" or self.nombre2==None or self.nombre2=='Nan'):
+        if not (self.nombre2 == "" or self.nombre2==None or self.nombre2=='Nan' or self.nombre2 == 0):
             nombre += " " + self.nombre2
 
         nombre += " " + self.apellido1
-        if not (self.apellido2 == "" or self.apellido2==None or self.apellido2 =='Nan'):
+        if not (self.apellido2 == "" or self.apellido2==None or self.apellido2 =='Nan' or self.apellido2==0):
             nombre += " " + self.apellido2
         self.razonsocial = nombre
         super(Paciente, self).save() #llamar al metodo guardar del padre
@@ -557,6 +585,8 @@ class RedLaboratorios(ClaseModelo2):
 
     def __str__(self):
         return "{}".format(self.descripcion)
+
+
 
 
 

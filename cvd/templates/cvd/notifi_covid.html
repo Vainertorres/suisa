@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base/basecvd.html' %}
 
 {% block page_content %}
 
@@ -33,17 +33,21 @@
                  	</div>
                  	<div class="row">
                  		<div class="col-2">
-                 			{{form.fec_not|date:"d/m/Y"}}
+                 			{{covid.fec_not}}
                  		</div>
+
                  		<div class="col-4">
-                 		    <b>{{form.evento}}</b>	
+                 		    <b>{{covid.evento}}</b>	
                  		</div>
+
                  		<div class="col-4">
-                 			<b>{{form.paciente}}</b>	
+                 			<b>{{covid.paciente}}</b>	
                  		</div>
+
                  		<div class="col-2">
-                 			{{form.semana}}
+                 			{{covid.semana}}
                  		</div>                 		
+
                  	</div>
                  	<div class="row" id="infolbl">
                  		<div class="col-2">
@@ -73,14 +77,14 @@
                  	</div>
                  	<div class="row">                 
                  		<div class="col-2">
-                 			{%if form.sintomatico == 1 %}
+                 			{%if covid.sintomatico == '1' %}
                  			Si
                  			{% else %}
                  			No
                  			{% endif %}
                  		</div>
                  		<div class="col-1">
-                 			{%if form.tos == 1 %}
+                 			{%if covid.tos == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -88,7 +92,7 @@
                  			
                  		</div>
                  		<div class="col-1">
-                 			{%if form.fiebre == 1 %}
+                 			{%if covid.fiebre == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -96,14 +100,14 @@
                  		
                  		</div>
                  		<div class="col-2">
-                 			{%if form.odinofagia == 1 %}
+                 			{%if covid.odinofagia == '1' %}
                  			Si
                  			{% else %}
                  			No
                  			{% endif %}                 			
                  		</div>                 		
                  		<div class="col-2">
-                 			{%if form.dif_res == 1 %}
+                 			{%if covid.dif_res == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -111,7 +115,7 @@
                  		
                  		</div>  
                  		<div class="col-1">
-                 			{%if form.adinamia == 1 %}
+                 			{%if covid.adinamia == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -119,7 +123,7 @@
                  			
                  		</div>  
                  		<div class="col-1">
-                 			{%if form.vac_ei == 1 %}
+                 			{%if covid.vac_ei == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -128,7 +132,7 @@
                  		</div>  
                  		<div class="col-2">
 
-                 			{%if form.dos_ei == 1 %}
+                 			{%if covid.dos_ei == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -170,14 +174,14 @@
                  	</div>
                  	<div class="row">                 
                  		<div class="col-1">
-                 			{%if form.asma == 1 %}
+                 			{%if covid.asma == '1' %}
                  			Si
                  			{% else %}
                  			No
                  			{% endif %}
                  		</div>
                  		<div class="col-1">
-                 			{%if form.epoc == 1 %}
+                 			{%if covid.epoc == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -185,22 +189,22 @@
                  			
                  		</div>
                  		<div class="col-1">
-                 			{%if form.diabetes == 1 %}
+                 			{%if covid.diabetes == '1' %}
                  			Si
                  			{% else %}
                  			No
                  			{% endif %}
                  		
                  		</div>
-                 		<div class="col-2">
-                 			{%if form.enf_card == 1 %}
+                 		<div class="col-2">                      
+                 			{% if covid.enf_card == '1' %}
                  			Si
                  			{% else %}
                  			No
-                 			{% endif %}                 			
+                 			{% endif %}
                  		</div>                 		
                  		<div class="col-1">
-                 			{%if form.cancer == 1 %}
+                 			{%if covid.cancer == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -208,7 +212,7 @@
                  		
                  		</div>  
                  		<div class="col-1">
-                 			{%if form.obesidad == 1 %}
+                 			{%if covid.obesidad == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -216,7 +220,7 @@
                  			
                  		</div>  
                  		<div class="col-2">
-                 			{%if form.ins_renal == 1 %}
+                 			{%if covid.ins_renal == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -224,21 +228,21 @@
                  			
                  		</div>  
                  		<div class="col-1">
-                 			{%if form.fumador == 1 %}
+                 			{%if covid.fumador == '1' %}
                  			Si
                  			{% else %}
                  			No
                  			{% endif %}
                  		</div>  
                  		<div class="col-1">
-                 			{%if form.tuberculos == 1 %}
+                 			{%if covid.tuberculos == '1' %}
                  			Si
                  			{% else %}
                  			No
                  			{% endif %}
                  		</div>              		
                  		<div class="col-1">
-                 			{%if form.otr_medinm == 1 %}
+                 			{%if covid.otr_medinm == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -271,17 +275,17 @@
                  	</div>
                  	<div class="row">                 
                  		<div class="col-2">
-                 			{%if form.uso_antiv == 1 %}
+                 			{%if covid.uso_antiv == '1' %}
                  			Si
                  			{% else %}
                  			No
                  			{% endif %}
                  		</div>
                  		<div class="col-2">
-                 			{{form.fec_antiv|date:"d/m/Y"}}
+                 			{{covid.fec_antiv}}
                  		</div>
                  		<div class="col-2">
-                 			{%if form.serv_hosp == 1 %}
+                 			{%if covid.serv_hosp == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -289,10 +293,10 @@
                  		
                  		</div>
                  		<div class="col-1">
-                 			{{form.fec_inguci|date:"d/m/Y"}}
+                 			{{covid.fec_inguci}}
                  		</div>                 		
                  		<div class="col-1">
-                 			{%if form.septicemia == 1 %}
+                 			{%if covid.septicemia == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -300,7 +304,7 @@
                  		
                  		</div>  
                  		<div class="col-2">
-                 			{%if form.falla_resp == 1 %}
+                 			{%if covid.falla_resp == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -308,7 +312,7 @@
                  			
                  		</div>  
                  		<div class="col-2">
-                 			{%if form.otros_sint == 1 %}
+                 			{%if covid.otros_sint == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -339,21 +343,21 @@
                  	</div>
                  	<div class="row">                 
                  		<div class="col-2">
-                 			{%if form.Rinorrea == 1 %}
+                 			{%if covid.Rinorrea == '1' %}
                  			Si
                  			{% else %}
                  			No
                  			{% endif %}
                  		</div>
                  		<div class="col-2">
-                 			{%if form.conjuntivi == 1 %}
+                 			{%if covid.conjuntivi == '1' %}
                  			Si
                  			{% else %}
                  			No
                  			{% endif %}	
                  		</div>
                  		<div class="col-2">
-                 			{%if form.cefalea == 1 %}
+                 			{%if covid.cefalea == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -361,7 +365,7 @@
                  		
                  		</div>
                  		<div class="col-1">
-                 			{%if form.diarrea == 1 %}
+                 			{%if covid.diarrea == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -369,7 +373,7 @@
                  		
                  		</div>
                  		<div class="col-1">                 			
-                 			{%if form.rx_torax == 1 %}
+                 			{%if covid.rx_torax == '1' %}
                  			Si
                  			{% else %}
                  			No
@@ -381,11 +385,14 @@
                  	</div>                  
                  </div> {# div.col_1 #}
 
-                
-			<div class="col-12" id="prueba"> {# div.col_2 #}
+      <div class="row"> 
+        <br>        
 				<div><h4>Seguimiento de casos</h4></div>
+      </div>
+      <div class="row">
+			 <div class="col-12" id="prueba"> {# div.col_2 #}
                  <div class="buttons-toolbar">
-                    <a class="dropdown-item" onclick="return abrir_modal('{% url 'cnf:paciente_new' %}')"  href="#"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                    <a class="dropdown-item" onclick="return abrir_modal('{% url 'cvd:seg_notif_covid_add' idnotif %}')"   href="#"> <span class="fa fa-calendar-plus"></span>Prueba Nuevo</a>
                   </div>
 
                  	<table data-toggle="table"
@@ -402,12 +409,12 @@
                       <th class="all">Acciones</th> 
                     </thead>  
                     <tbody>
-                      {% for item in obj %}
+                      {% for item in seg %}
                         <tr>
-                        	<td>Uno</td>
-                        	<td>Dos</td>
+                        	<td>{{ item.fecha }}</td>
+                        	<td>{{ item.hallazgo }}</td>
                             <td>
-                              <a href="{% url 'cvd:iec_edit' item.pk %}" class="btn btn-warning btn-circle"><i class="far fa-edit"></i></a>
+                              <a href="{% url 'cvd:seg_notif_covid_change' item.pk %}" class="btn btn-warning btn-circle"><i class="far fa-edit"></i></a>
                             </td>
                           </tr>                   
                       {% endfor %}
@@ -416,12 +423,8 @@
                   </table>
 
                  </div>{# div.col_2 #}
-
+              </div> 
                
-
-                
-                
-                 {# <!  {{form.as_p}}  -->                #}
                
                <div class="dropdown-divider"></div>
                  <div class="row">
@@ -436,6 +439,4 @@
         </div>
       </div>
     </div>
-
-
 {% endblock page_content %}

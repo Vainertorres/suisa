@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.db.models import Q
 import folium
@@ -10,10 +10,11 @@ from twilio.rest import Client
 from bai.models import Diagnosticos
 from cnf.models import Paciente, Tipodoc, Regimen, Area, Sexo, Etnia, UmEdad, Ocupacion, \
  	Departamento, Municipio,ClasiFinicial, Upgd, Evento, Eps, Pais, Barrio
+
 from .models import Bac, Fichaiec, Antecedenteviaje, SegFichaIec, Conglomerado, Notif_covid, \
 	ImportSivCvdFile, AntecHospitalizacion, FileFichaIec, ContactosIec, SegContacto,\
 	DesplazaContacto, SegContacto, NotifPaConglomerado, ContactoAislado, SegContactoAislado, \
-	ConfigConglomerado
+	ConfigConglomerado, Notif_covid, Segnotifcovid
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
 from cnf.views import Sin_privilegio
@@ -22,7 +23,7 @@ from django.views import generic
 from .forms import BacForm, FichaiecForm, AntViajeForm, SegFichaIecForm, ConglomeradoForm, \
 		ImportFileCvdForm, NotifCovidForm, AntHospitalizacionForm, FileIecForm, ContactosForm,\
 		DesplazaContactoForm, SeguimientoContactoForm, NotifPaConglomeradoForm, ContactoAisladoForm, \
-		SegContactoAisladoForm, ConfigConglomeradoForm
+		SegContactoAisladoForm, ConfigConglomeradoForm, SegNotifCovidForm
 
 from cnf.views import PacienteForm
 
@@ -31,7 +32,22 @@ from django.contrib import messages
 from datetime import date
 from datetime import datetime
 import webbrowser
+
 # Create your views here.
+
+class PrincipalCovid(Sin_privilegio, generic.TemplateView):
+	permission_required="cvd.view_fichaiec"	
+	template_name='base/basecvd.html'
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+def busqpaciente(request):
+	term = request.GET.get('term') 	
+	if is_ajax(request=request):		
+		paciente = Paciente.objects.all().filter(Q(razonsocial__icontains=term) | Q(identificacion__icontains=term))
+		response_content=list(paciente.values())
+		return JsonResponse(response_content, safe=False)
 
 def createNewPac(request):
 	tipodocid = request.GET.get('idtipodoc')
@@ -815,18 +831,65 @@ class AntecedenteViajeUpdate(Sin_privilegio, generic.UpdateView):
 		idficha=self.request.POST['fichaiec']
 		return reverse_lazy('cvd:ver_fichaiec', kwargs={'id':idficha})
 
-def seguimientoNotifCovid(request, id):    
-	template_name= 'cvd/notifi_covid.html'
-	obj = Notif_covid.objects.filter(pk=id).first()
-	contexto = {'form':obj}
-	form_class = NotifCovidForm
-	return render(request, template_name, contexto)
+
+
+class SeguimientoNotifCovid(Sin_privilegio, generic.CreateView):
+	permission_required="den.add_segnotifcovid"
+	form_class = SegNotifCovidForm	
+	model = Segnotifcovid
+	template_name = 'cvd/segnotificadoscovid_form.html'
+	context_object_name = 'obj'
+	login_url = 'cnf:login'
+
+	def get_context_data(self, **kwargs):
+		context = super(SeguimientoNotifCovid,self).get_context_data(**kwargs)
+		pk = self.kwargs.get('idnotif') # El mismo nombre que en tu URL
+		notifcovid = Notif_covid.objects.get(pk=pk)
+		context['notifcovid'] = notifcovid
+		context['idnotif'] = pk	
+		print('Seguimiento notificacion covid')	
+		return context
+
+	def get_success_url(self):
+		idnotif=self.request.POST['notifcovid']
+		return reverse_lazy('cvd:notif_covid_sivigila_ver', kwargs={'id':idnotif})
+
+
+class SeguimientoNotifCovidUpdate(Sin_privilegio, generic.UpdateView):
+	permission_required="den.change_segnotifcovid"
+	form_class = SegNotifCovidForm	
+	model = Segnotifcovid
+	template_name = 'cvd/segnotificadoscovid_form.html'
+	context_object_name = 'obj'
+	login_url = 'cnf:login'
+
+	def get_context_data(self, **kwargs):
+		context = super(SeguimientoNotifCovidUpdate,self).get_context_data(**kwargs)
+		pk = self.kwargs.get('pk') # El mismo nombre que en tu URL
+		segnotif=Segnotifcovid.objects.filter(pk=pk).first()
+		notifcovid = Notif_covid.objects.get(pk=segnotif.notifcovid.pk)
+		context['notifcovid'] = notifcovid
+		context['idnotif'] = notifcovid.pk	
+		print('Seguimiento notificacion covid')	
+		return context
+
+	def get_success_url(self):
+		idnotif=self.request.POST['notifcovid']
+		return reverse_lazy('cvd:notif_covid_sivigila_ver', kwargs={'id':idnotif})
 	
 def notifCovidList(request):
     modelo = Notif_covid.objects.all().order_by('-fec_not')[:500]
     template_name='cvd/notif_covid_list.html'
     contexto ={"obj":modelo}
     return render(request, template_name, contexto)
+
+def notifCovidEdit(request, id):
+	model = Notif_covid.objects.filter(pk=id).first()
+	form = NotifCovidForm(instance=model)	
+	seguimiento = Segnotifcovid.objects.filter(notifcovid=model)	
+	contexto = {'covid':model, 'seg':seguimiento, 'idnotif':id, 'form':form}	
+	template='cvd/notifi_covid.html'
+	return render(request,template, contexto)
 
 def geolocConglomerado(request):	
 	conglomerado = Conglomerado.objects.filter(~Q(lat='SD')).filter(~Q(lon='SD'))
@@ -880,10 +943,10 @@ class BacList(Sin_privilegio, generic.ListView):
 
 class BacCreate(Sin_privilegio, generic.CreateView):
 	permission_required="cvd.add_bac"
+	form_class = BacForm
 	model = Bac
 	template_name = 'cvd/bac_form.html'
 	context_object_name = 'obj'
-	form_class = BacForm
 	success_url = reverse_lazy('cvd:bac_list')
 	login_url = 'cnf:login'
 
@@ -910,10 +973,10 @@ class FichaIecList(Sin_privilegio, generic.ListView):
 
 
 class FichaIecCreate(Sin_privilegio, generic.CreateView):
-	permission_required="cvd.new_fichaiec"
+	permission_required="cvd.add_fichaiec"
+	form_class=FichaiecForm
 	model = Fichaiec
 	template_name="cvd/fichaiecform.html"
-	form_class=FichaiecForm
 	context_object_name = 'obj'
 	success_url = reverse_lazy('cvd:iec_list')
 	login_url = 'cnf:login'
@@ -1004,7 +1067,7 @@ def importarCovid19(request):
 		form = ImportFileCvdForm()
 		obj = ImportSivCvdFile.objects.get(activated=False)
 		with open(obj.file_name.path, 'r') as url:
-			df = pd.read_excel(obj.file_name, encoding='latin1')
+			df = pd.read_excel(obj.file_name)
 			#df = pd.read_excel(url)
 
 			dfnew = df.fillna(value=0)
@@ -1031,12 +1094,12 @@ def importarCovid19(request):
 				gp_gestan =  int(row['gp_gestan'])
 
 							
-				td = Tipodoc.objects.get(codigo=tipodoc)
+				td = Tipodoc.objects.filter(codigo=tipodoc).first()
 				if reg != 0:
 					regimen = Regimen.objects.filter(codigo=reg).first()				
-				ar = Area.objects.get(codigo=area)
-				sex = Sexo.objects.get(codigo=sexo)
-				et = Etnia.objects.get(pk=etnia)
+				ar = Area.objects.filter(codigo=area).first()
+				sex = Sexo.objects.filter(codigo=sexo).first()
+				et = Etnia.objects.filter(pk=etnia).first()
 				if epsvar != '0':
 					eapb = Eps.objects.filter(codigo=epsvar).first()
 
@@ -1173,15 +1236,16 @@ def importarCovid19(request):
 				septicemia = int(row['septicemia'])
 				falla_resp = int(row['falla_resp'])
 				otros_sint = int(row['otros']) #Otros sintomas
-				dol_gar = int(row['dol_gar'])
-				rinorrea = int(row['rinorrea'])
-				conjuntivi = int(row['conjuntivi'])
-				diarrea = int(row['diarrea'])
-				rx_torax = int(row['rx_torax'])
-				fec_tom_ra = row['fec_tom_ra']
-				fec_atib =  row['fec_atib']
 				otros_cual = row['otros_cual']
-				if row['dx_ini']==0.0:
+				#dol_gar = int(row['dol_gar'])
+				#rinorrea = int(row['rinorrea'])
+				#conjuntivi = int(row['conjuntivi'])
+				#diarrea = int(row['diarrea'])
+				#rx_torax = int(row['rx_torax'])
+				#fec_tom_ra = row['fec_tom_ra']
+				#fec_atib =  row['fec_atib']
+				
+				'''if row['dx_ini']==0.0:
 					dx_ini = '0'
 				else:
 					dx_ini = row['dx_ini']
@@ -1191,7 +1255,7 @@ def importarCovid19(request):
 				else:
 					dx_egr = row['dx_egr']
 
-				semana_ges = int(row['semana_ges'])
+				semana_ges = int(row['semana_ges'])'''
 
 				even = Evento.objects.filter(codigo=cod_eve).first()
 
@@ -1328,7 +1392,7 @@ def importarCovid19(request):
 					vac_sp
 					dos_sp
 					fud_sp
-					fud_ei"""
+					fud_ei
 					covid.dol_gar = int(dol_gar)
 					covid.rinorrea = int(rinorrea)
 					covid.conjuntivi = int(conjuntivi)
@@ -1344,13 +1408,13 @@ def importarCovid19(request):
 					if (fec_atib =='  -   -' or fec_atib == 0):
 						fec_atib = '-1'
 					else:
-						covid.fec_atib = fec_atib
+						covid.fec_atib = fec_atib"""
 
 					if not otros_cual == 0.0:
 						covid.otros_cual = otros_cual
-					covid.dx_ini = dx_ini
-					covid.dx_egr = dx_egr
-					covid.semana_ges = int(semana_ges)
+					#covid.dx_ini = dx_ini
+					#covid.dx_egr = dx_egr
+					#covid.semana_ges = int(semana_ges)
 					covid.save() 
 				
 			contexto.update({'dfc':linea})		

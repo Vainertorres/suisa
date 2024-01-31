@@ -1,6 +1,9 @@
 from django import forms 
 
+from cnf.models import Paciente
+
 from .models import RepLaboratorio
+
 
 
 class RepLaboratorioForm(forms.ModelForm):
@@ -18,4 +21,12 @@ class RepLaboratorioForm(forms.ModelForm):
 			})
 		self.fields['fechamuestra'].widget.attrs['readonly'] = True
 		self.fields['fecharesultado'].widget.attrs['readonly'] = True
+
+		if 'paciente' in self.data:
+			idpac = self.data['paciente']	
+			self.fields['paciente'].queryset = Paciente.objects.all()	
+		elif self.instance.pk:
+			self.fields['paciente'].queryset = Paciente.objects.all().filter(pk=self.instance.paciente.pk)
+		else:
+			self.fields['paciente'].queryset = Paciente.objects.none()
 		

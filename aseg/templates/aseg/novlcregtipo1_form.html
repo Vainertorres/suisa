@@ -1,0 +1,1216 @@
+{% extends 'base/basebdua.html' %}
+
+{% block page_content %}
+
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'aseg:novlcregtipo1_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'aseg:novlcregtipo1_create' %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} Novedad listado censal.
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                            <div class="row">
+                                  <div class="form-group col-2">
+                                        <label for="id_tiporegistro">Tipo registro</label> 
+                                        {{form.tiporegistro}}                               
+                                  </div> 
+
+                                  <div class="form-group col-2">
+                                    <label for="id_tipoentidad">Tipo entidad</label>
+                                      {{ form.tipoentidad }}                                    
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="id_nroidententidad">Identi. Entidad que reporta</label>
+                                      <br>
+                                      {{ form.nroidententidad }}                                    
+                                  </div>
+                                  <div class="form-group col-2">
+                                    <label for="id_fechafinal">Fecha final periodo</label>
+                                      <br>
+                                      {{ form.fechafinal }}                                    
+                                  </div>
+                                  <div class="form-group col-2">
+                                  <label for="id_nrototalreg">Nro. Total registros</label>
+                                  {{form.nrototalreg}}                               
+                              </div> 
+                            </div>
+
+                  <!-- inline form for NovlcReg Tipo 2 start -->
+
+                  <!-- EXPLAINING with named_formsets.variants as formset -->
+                  <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                  <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                  {% with named_formsets.novlcregtipo2 as formset %}
+                      {{ formset.management_form }}
+                      <script type="text/html" id="novlcregtipo2-template">  // id="inlineformsetname-template"
+                          // id='inlineformsetname-__prefix__' 
+                          <tr id="novlcregtipo2-__prefix__" class= hide_all>
+                              {% for fields in formset.empty_form.hidden_fields %}
+                                  {{ fields }}
+                              {% endfor %}
+                          
+                              {% for fields in formset.empty_form.visible_fields %}
+                                  <td>{{fields}}</td>
+                              {% endfor %}
+                          </tr>
+                      </script>
+                      <div class="table-responsive card mt-4">
+                          <div class="card-header card-header-secondary">
+                              <h4 class="card-title">Actualizar documento de identificación</h4>
+                          </div>
+                          <table class="table card-header">
+                              <thead class="text-secondary">
+                                  <th>Tipo Registro <span style="color: red;" class="required">*</span></th>
+                                  <th>Documento <span style="color: red;" class="required">*</span></th>   
+                                  <th>Identificación <span style="color: red;" class="required">*</span></th>                                  
+                                  <th>Documento nuevo <span style="color: red;" class="required">*</span></th>   
+                                  <th>Identificación nueva<span style="color: red;" class="required">*</span></th> 
+                                  <th>Causa actualización<span style="color: red;" class="required">*</span></th>      
+                                  <th>Fec.Aplica. Novedad<span style="color: red;" class="required">*</span></th>                                  
+                                  <th>Eliminar?</th>
+                                  <th>Eliminar</th>
+                              </thead>
+                              <tbody id="item-novlcregtipo2">  <!-- id="item-inlineformsetname" -->
+                                  <!-- formset non forms errors -->
+                                  {% for error in formset.non_form_errors %}
+                                      <span style="color: red">{{ error }}</span>
+                                  {% endfor %}
+                                  {% for formss in formset %}
+                                      {{ formss.management_form }}
+                                      <tr id="novlcregtipo2-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                          {{ formss.id }}
+                                          {% for field in formss.visible_fields %}
+                                              <td>
+                                                  {{field}}
+                                                  {% for error in field.errors %}
+                                                      <span style="color: red">{{ error }}</span>
+                                                  {% endfor %}
+                                                  
+                                                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                                              </td>
+                                          {% endfor %}
+                                          {% comment %} for delete {% endcomment %}
+                                          {% if formss.instance.pk %}
+                                              <td>
+                                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#novlcregtipo2{{formss.instance.pk}}">
+                                                      Delete
+                                                  </button>
+                                                  <!-- Modal -->
+                                                  <div class="modal fade" id="novlcregtipo2{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="novlcregtipo2Label{{formss.instance.pk}}" aria-hidden="true">
+                                                      <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                          <h5 class="modal-title" id="novlcregtipo2Label{{formss.instance.pk}}">Estas seguro(a) de eliminar novedad actualizar identificación?</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <a href="{% url 'aseg:delete_novlcregtipo2' formss.instance.pk %}" type="button" class="btn btn-primary">Si, Eliminar</a>
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                  </div>
+                                              </td>            
+                                          {% endif %}
+                                      </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                          <a href="#" id="add-novlcregtipo2-button" class="btn btn-secondary add-novlcregtipo2">Agregar otro</a> <!-- id="add-inlineformsetname-button" -->
+                      </div>
+
+                      
+                      
+                      {% endwith %}
+                      <!-- inline form for Images end -->
+
+
+
+                  <!-- inline form for NovlcReg Tipo 3 start -->
+
+                  <!-- EXPLAINING with named_formsets.variants as formset -->
+                  <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                  <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                  {% with named_formsets.novlcregtipo3 as formset %}
+                      {{ formset.management_form }}
+                      <script type="text/html" id="novlcregtipo3-template">  // id="inlineformsetname-template"
+                          // id='inlineformsetname-__prefix__' 
+                          <tr id="novlcregtipo3-__prefix__" class= hide_all>
+                              {% for fields in formset.empty_form.hidden_fields %}
+                                  {{ fields }}
+                              {% endfor %}
+                          
+                              {% for fields in formset.empty_form.visible_fields %}
+                                  <td>{{fields}}</td>
+                              {% endfor %}
+                          </tr>
+                      </script>
+                      <div class="table-responsive card mt-4">
+                          <div class="card-header card-header-secondary">
+                              <h4 class="card-title">Actualizar Nombres</h4>
+                          </div>
+                          <table class="table card-header">
+                              <thead class="text-secondary">
+                                  <th>Tipo Registro <span style="color: red;" class="required">*</span></th>
+                                  <th>Documento <span style="color: red;" class="required">*</span></th>   
+                                  <th>Identificación <span style="color: red;" class="required">*</span></th>                                  
+                                  <th>Primer nombre Actualizado<span style="color: red;" class="required">*</span></th>      
+                                  <th>Segundo nombre Actualizado</th>
+                                  <th>Eliminar?</th>
+                                  <th>Eliminar</th>
+                              </thead>
+                              <tbody id="item-novlcregtipo3">  <!-- id="item-inlineformsetname" -->
+                                  <!-- formset non forms errors -->
+                                  {% for error in formset.non_form_errors %}
+                                      <span style="color: red">{{ error }}</span>
+                                  {% endfor %}
+                                  {% for formss in formset %}
+                                      {{ formss.management_form }}
+                                      <tr id="novlcregtipo3-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                          {{ formss.id }}
+                                          {% for field in formss.visible_fields %}
+                                              <td>
+                                                  {{field}}
+                                                  {% for error in field.errors %}
+                                                      <span style="color: red">{{ error }}</span>
+                                                  {% endfor %}
+                                                  
+                                                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                                              </td>
+                                          {% endfor %}
+                                          {% comment %} for delete {% endcomment %}
+                                          {% if formss.instance.pk %}
+                                              <td>
+                                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#novlcregtipo3{{formss.instance.pk}}">
+                                                      Delete
+                                                  </button>
+                                                  <!-- Modal -->
+                                                  <div class="modal fade" id="novlcregtipo3{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="novlcregtipo3Label{{formss.instance.pk}}" aria-hidden="true">
+                                                      <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                          <h5 class="modal-title" id="novlcregtipo3Label{{formss.instance.pk}}">Estas seguro(a) de eliminar novedad actualizar nombres?</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <a href="{% url 'aseg:delete_novlcregtipo3' formss.instance.pk %}" type="button" class="btn btn-primary">Si, Eliminar</a>
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                  </div>
+                                              </td>            
+                                          {% endif %}
+                                      </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                          <a href="#" id="add-novlcregtipo3-button" class="btn btn-secondary add-novlcregtipo3">Agregar otro</a> <!-- id="add-inlineformsetname-button" -->
+                      </div>
+
+                      {% endwith %}
+                      <!-- inline novedad Reg Tipo 3 end -->
+
+
+                  <!-- inline form for NovlcReg Tipo 4 start -->
+
+                  <!-- EXPLAINING with named_formsets.variants as formset -->
+                  <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                  <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                  {% with named_formsets.novlcregtipo4 as formset %}
+                      {{ formset.management_form }}
+                      <script type="text/html" id="novlcregtipo4-template">  // id="inlineformsetname-template"
+                          // id='inlineformsetname-__prefix__' 
+                          <tr id="novlcregtipo4-__prefix__" class= hide_all>
+                              {% for fields in formset.empty_form.hidden_fields %}
+                                  {{ fields }}
+                              {% endfor %}
+                          
+                              {% for fields in formset.empty_form.visible_fields %}
+                                  <td>{{fields}}</td>
+                              {% endfor %}
+                          </tr>
+                      </script>
+                      <div class="table-responsive card mt-4">
+                          <div class="card-header card-header-secondary">
+                              <h4 class="card-title">Actualizar Apellidos</h4>
+                          </div>
+                          <table class="table card-header">
+                              <thead class="text-secondary">
+                                  <th>Tipo Registro <span style="color: red;" class="required">*</span></th>
+                                  <th>Documento <span style="color: red;" class="required">*</span></th>   
+                                  <th>Identificación <span style="color: red;" class="required">*</span></th>                                  
+                                  <th>Primer apellido Actualizado<span style="color: red;" class="required">*</span></th>      
+                                  <th>Segundo apellido Actualizado</th>
+                                  <th>Eliminar?</th>
+                                  <th>Eliminar</th>
+                              </thead>
+                              <tbody id="item-novlcregtipo4">  <!-- id="item-inlineformsetname" -->
+                                  <!-- formset non forms errors -->
+                                  {% for error in formset.non_form_errors %}
+                                      <span style="color: red">{{ error }}</span>
+                                  {% endfor %}
+                                  {% for formss in formset %}
+                                      {{ formss.management_form }}
+                                      <tr id="novlcregtipo4-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                          {{ formss.id }}
+                                          {% for field in formss.visible_fields %}
+                                              <td>
+                                                  {{field}}
+                                                  {% for error in field.errors %}
+                                                      <span style="color: red">{{ error }}</span>
+                                                  {% endfor %}
+                                                  
+                                                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                                              </td>
+                                          {% endfor %}
+                                          {% comment %} for delete {% endcomment %}
+                                          {% if formss.instance.pk %}
+                                              <td>
+                                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#novlcregtipo4{{formss.instance.pk}}">
+                                                      Delete
+                                                  </button>
+                                                  <!-- Modal -->
+                                                  <div class="modal fade" id="novlcregtipo4{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="novlcregtipo4Label{{formss.instance.pk}}" aria-hidden="true">
+                                                      <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                          <h5 class="modal-title" id="novlcregtipo4Label{{formss.instance.pk}}">Estas seguro(a) de eliminar novedad actualizar apellidos?</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <a href="{% url 'aseg:delete_novlcregtipo4' formss.instance.pk %}" type="button" class="btn btn-primary">Si, Eliminar</a>
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                  </div>
+                                              </td>            
+                                          {% endif %}
+                                      </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                          <a href="#" id="add-novlcregtipo4-button" class="btn btn-secondary add-novlcregtipo4">Agregar otro</a> <!-- id="add-inlineformsetname-button" -->
+                      </div>
+
+                      {% endwith %}
+                      <!-- inline novedad Reg Tipo 4 end -->
+
+
+                  <!-- inline form for NovlcReg Tipo 5 start -->
+
+                  <!-- EXPLAINING with named_formsets.variants as formset -->
+                  <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                  <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                  {% with named_formsets.novlcregtipo5 as formset %}
+                      {{ formset.management_form }}
+                      <script type="text/html" id="novlcregtipo5-template">  // id="inlineformsetname-template"
+                          // id='inlineformsetname-__prefix__' 
+                          <tr id="novlcregtipo5-__prefix__" class= hide_all>
+                              {% for fields in formset.empty_form.hidden_fields %}
+                                  {{ fields }}
+                              {% endfor %}
+                          
+                              {% for fields in formset.empty_form.visible_fields %}
+                                  <td>{{fields}}</td>
+                              {% endfor %}
+                          </tr>
+                      </script>
+                      <div class="table-responsive card mt-4">
+                          <div class="card-header card-header-secondary">
+                              <h4 class="card-title">Actualizar Municipio</h4>
+                          </div>
+                          <table class="table card-header">
+                              <thead class="text-secondary">
+                                  <th>Tipo Registro <span style="color: red;" class="required">*</span></th>
+                                  <th>Documento <span style="color: red;" class="required">*</span></th>   
+                                  <th>Identificación <span style="color: red;" class="required">*</span></th>                                  
+                                  <th>Municipio de residencia<span style="color: red;" class="required">*</span></th>      
+                                  
+                                  <th>Eliminar?</th>
+                                  <th>Eliminar</th>
+                              </thead>
+                              <tbody id="item-novlcregtipo5">  <!-- id="item-inlineformsetname" -->
+                                  <!-- formset non forms errors -->
+                                  {% for error in formset.non_form_errors %}
+                                      <span style="color: red">{{ error }}</span>
+                                  {% endfor %}
+                                  {% for formss in formset %}
+                                      {{ formss.management_form }}
+                                      <tr id="novlcregtipo5-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                          {{ formss.id }}
+                                          {% for field in formss.visible_fields %}
+                                              <td>
+                                                  {{field}}
+                                                  {% for error in field.errors %}
+                                                      <span style="color: red">{{ error }}</span>
+                                                  {% endfor %}
+                                                  
+                                                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                                              </td>
+                                          {% endfor %}
+                                          {% comment %} for delete {% endcomment %}
+                                          {% if formss.instance.pk %}
+                                              <td>
+                                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#novlcregtipo5{{formss.instance.pk}}">
+                                                      Delete
+                                                  </button>
+                                                  <!-- Modal -->
+                                                  <div class="modal fade" id="novlcregtipo5{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="novlcregtipo5Label{{formss.instance.pk}}" aria-hidden="true">
+                                                      <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                          <h5 class="modal-title" id="novlcregtipo5Label{{formss.instance.pk}}">Estas seguro(a) de eliminar novedad actuializar municipio de residencia?</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <a href="{% url 'aseg:delete_novlcregtipo5' formss.instance.pk %}" type="button" class="btn btn-primary">Si, Eliminar</a>
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                  </div>
+                                              </td>            
+                                          {% endif %}
+                                      </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                          <a href="#" id="add-novlcregtipo5-button" class="btn btn-secondary add-novlcregtipo5">Agregar otro</a> <!-- id="add-inlineformsetname-button" -->
+                      </div>
+
+                      {% endwith %}
+                      <!-- inline novedad Reg Tipo 5 end -->
+
+
+                  <!-- inline form for NovlcReg Tipo 6 start -->
+
+                  <!-- EXPLAINING with named_formsets.variants as formset -->
+                  <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                  <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                  {% with named_formsets.novlcregtipo6 as formset %}
+                      {{ formset.management_form }}
+                      <script type="text/html" id="novlcregtipo6-template">  // id="inlineformsetname-template"
+                          // id='inlineformsetname-__prefix__' 
+                          <tr id="novlcregtipo6-__prefix__" class= hide_all>
+                              {% for fields in formset.empty_form.hidden_fields %}
+                                  {{ fields }}
+                              {% endfor %}
+                          
+                              {% for fields in formset.empty_form.visible_fields %}
+                                  <td>{{fields}}</td>
+                              {% endfor %}
+                          </tr>
+                      </script>
+                      <div class="table-responsive card mt-4">
+                          <div class="card-header card-header-secondary">
+                              <h4 class="card-title">Actualizar estado</h4>
+                          </div>
+                          <table class="table card-header">
+                              <thead class="text-secondary">
+                                  <th>Tipo Registro <span style="color: red;" class="required">*</span></th>
+                                  <th>Documento <span style="color: red;" class="required">*</span></th>   
+                                  <th>Identificación <span style="color: red;" class="required">*</span></th>                                  
+                                  <th>Población especial<span style="color: red;" class="required">*</span></th>      
+                                  <th>Nuevo Estado<span style="color: red;" class="required">*</span></th>
+                                  <th>Eliminar?</th>
+                                  <th>Eliminar</th>
+                              </thead>
+                              <tbody id="item-novlcregtipo6">  <!-- id="item-inlineformsetname" -->
+                                  <!-- formset non forms errors -->
+                                  {% for error in formset.non_form_errors %}
+                                      <span style="color: red">{{ error }}</span>
+                                  {% endfor %}
+                                  {% for formss in formset %}
+                                      {{ formss.management_form }}
+                                      <tr id="novlcregtipo6-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                          {{ formss.id }}
+                                          {% for field in formss.visible_fields %}
+                                              <td>
+                                                  {{field}}
+                                                  {% for error in field.errors %}
+                                                      <span style="color: red">{{ error }}</span>
+                                                  {% endfor %}
+                                                  
+                                                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                                              </td>
+                                          {% endfor %}
+                                          {% comment %} for delete {% endcomment %}
+                                          {% if formss.instance.pk %}
+                                              <td>
+                                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#novlcregtipo6{{formss.instance.pk}}">
+                                                      Delete
+                                                  </button>
+                                                  <!-- Modal -->
+                                                  <div class="modal fade" id="novlcregtipo6{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="novlcregtipo6Label{{formss.instance.pk}}" aria-hidden="true">
+                                                      <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                          <h5 class="modal-title" id="novlcregtipo6Label{{formss.instance.pk}}">Estas seguro(a) de eliminar novedad actualización estado?</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <a href="{% url 'aseg:delete_novlcregtipo6' formss.instance.pk %}" type="button" class="btn btn-primary">Si, Eliminar</a>
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                  </div>
+                                              </td>            
+                                          {% endif %}
+                                      </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                          <a href="#" id="add-novlcregtipo6-button" class="btn btn-secondary add-novlcregtipo6">Agregar otro</a> <!-- id="add-inlineformsetname-button" -->
+                      </div>
+
+                      {% endwith %}
+                      <!-- inline novedad Reg Tipo 6 end -->
+
+                  <!-- inline form for NovlcReg Tipo 7 start Sexo-->
+
+                  <!-- EXPLAINING with named_formsets.variants as formset -->
+                  <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                  <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                  {% with named_formsets.novlcregtipo7 as formset %}
+                      {{ formset.management_form }}
+                      <script type="text/html" id="novlcregtipo7-template">  // id="inlineformsetname-template"
+                          // id='inlineformsetname-__prefix__' 
+                          <tr id="novlcregtipo7-__prefix__" class= hide_all>
+                              {% for fields in formset.empty_form.hidden_fields %}
+                                  {{ fields }}
+                              {% endfor %}
+                          
+                              {% for fields in formset.empty_form.visible_fields %}
+                                  <td>{{fields}}</td>
+                              {% endfor %}
+                          </tr>
+                      </script>
+                      <div class="table-responsive card mt-4">
+                          <div class="card-header card-header-secondary">
+                              <h4 class="card-title">Actualizar sexo</h4>
+                          </div>
+                          <table class="table card-header">
+                              <thead class="text-secondary">
+                                  <th>Tipo Registro <span style="color: red;" class="required">*</span></th>
+                                  <th>Documento <span style="color: red;" class="required">*</span></th>   
+                                  <th>Identificación <span style="color: red;" class="required">*</span></th>                                  
+                                  <th>sexo<span style="color: red;" class="required">*</span></th>      
+                                  <th>Eliminar?</th>
+                                  <th>Eliminar</th>
+                              </thead>
+                              <tbody id="item-novlcregtipo7">  <!-- id="item-inlineformsetname" -->
+                                  <!-- formset non forms errors -->
+                                  {% for error in formset.non_form_errors %}
+                                      <span style="color: red">{{ error }}</span>
+                                  {% endfor %}
+                                  {% for formss in formset %}
+                                      {{ formss.management_form }}
+                                      <tr id="novlcregtipo7-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                          {{ formss.id }}
+                                          {% for field in formss.visible_fields %}
+                                              <td>
+                                                  {{field}}
+                                                  {% for error in field.errors %}
+                                                      <span style="color: red">{{ error }}</span>
+                                                  {% endfor %}
+                                                  
+                                                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                                              </td>
+                                          {% endfor %}
+                                          {% comment %} for delete {% endcomment %}
+                                          {% if formss.instance.pk %}
+                                              <td>
+                                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#novlcregtipo7{{formss.instance.pk}}">
+                                                      Delete
+                                                  </button>
+                                                  <!-- Modal -->
+                                                  <div class="modal fade" id="novlcregtipo7{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="novlcregtipo7Label{{formss.instance.pk}}" aria-hidden="true">
+                                                      <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                          <h5 class="modal-title" id="novlcregtipo7Label{{formss.instance.pk}}">Estas seguro(a) de eliminar novedad actualizar sexo?</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <a href="{% url 'aseg:delete_novlcregtipo7' formss.instance.pk %}" type="button" class="btn btn-primary">Si, Eliminar</a>
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                  </div>
+                                              </td>            
+                                          {% endif %}
+                                      </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                          <a href="#" id="add-novlcregtipo7-button" class="btn btn-secondary add-novlcregtipo7">Agregar otro</a> <!-- id="add-inlineformsetname-button" -->
+                      </div>
+
+                      {% endwith %}
+                      <!-- inline novedad Reg Tipo 7 end -->
+
+
+                  <!-- inline form for NovlcReg Tipo 8 start -->
+
+                  <!-- EXPLAINING with named_formsets.variants as formset -->
+                  <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                  <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                  {% with named_formsets.novlcregtipo8 as formset %}
+                      {{ formset.management_form }}
+                      <script type="text/html" id="novlcregtipo8-template">  // id="inlineformsetname-template"
+                          // id='inlineformsetname-__prefix__' 
+                          <tr id="novlcregtipo8-__prefix__" class= hide_all>
+                              {% for fields in formset.empty_form.hidden_fields %}
+                                  {{ fields }}
+                              {% endfor %}
+                          
+                              {% for fields in formset.empty_form.visible_fields %}
+                                  <td>{{fields}}</td>
+                              {% endfor %}
+                          </tr>
+                      </script>
+                      <div class="table-responsive card mt-4">
+                          <div class="card-header card-header-secondary">
+                              <h4 class="card-title">Actualizar fecha de nacimiento</h4>
+                          </div>
+                          <table class="table card-header">
+                              <thead class="text-secondary">
+                                  <th>Tipo Registro <span style="color: red;" class="required">*</span></th>
+                                  <th>Documento <span style="color: red;" class="required">*</span></th>   
+                                  <th>Identificación <span style="color: red;" class="required">*</span></th>                                  
+                                  <th>Fecha de nacimiento<span style="color: red;" class="required">*</span></th>      
+                                  <th>Eliminar?</th>
+                                  <th>Eliminar</th>
+                              </thead>
+                              <tbody id="item-novlcregtipo8">  <!-- id="item-inlineformsetname" -->
+                                  <!-- formset non forms errors -->
+                                  {% for error in formset.non_form_errors %}
+                                      <span style="color: red">{{ error }}</span>
+                                  {% endfor %}
+                                  {% for formss in formset %}
+                                      {{ formss.management_form }}
+                                      <tr id="novlcregtipo8-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                          {{ formss.id }}
+                                          {% for field in formss.visible_fields %}
+                                              <td>
+                                                  {{field}}
+                                                  {% for error in field.errors %}
+                                                      <span style="color: red">{{ error }}</span>
+                                                  {% endfor %}
+                                                  
+                                                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                                              </td>
+                                          {% endfor %}
+                                          {% comment %} for delete {% endcomment %}
+                                          {% if formss.instance.pk %}
+                                              <td>
+                                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#novlcregtipo8{{formss.instance.pk}}">
+                                                      Delete
+                                                  </button>
+                                                  <!-- Modal -->
+                                                  <div class="modal fade" id="novlcregtipo8{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="novlcregtipo8Label{{formss.instance.pk}}" aria-hidden="true">
+                                                      <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                          <h5 class="modal-title" id="novlcregtipo8Label{{formss.instance.pk}}">Estas seguro(a) de eliminar novedad fecha de nacimiento?</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <a href="{% url 'aseg:delete_novlcregtipo8' formss.instance.pk %}" type="button" class="btn btn-primary">Si, Eliminar</a>
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                  </div>
+                                              </td>            
+                                          {% endif %}
+                                      </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                          <a href="#" id="add-novlcregtipo8-button" class="btn btn-secondary add-novlcregtipo8">Agregar otro</a> <!-- id="add-inlineformsetname-button" -->
+                      </div>
+
+                      {% endwith %}
+                      <!-- inline novedad Reg Tipo 8 end -->
+
+                  <!-- inline form for NovlcReg Tipo 9 start -->
+
+                  <!-- EXPLAINING with named_formsets.variants as formset -->
+                  <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                  <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                  {% with named_formsets.novlcregtipo9 as formset %}
+                      {{ formset.management_form }}
+                      <script type="text/html" id="novlcregtipo9-template">  // id="inlineformsetname-template"
+                          // id='inlineformsetname-__prefix__' 
+                          <tr id="novlcregtipo9-__prefix__" class= hide_all>
+                              {% for fields in formset.empty_form.hidden_fields %}
+                                  {{ fields }}
+                              {% endfor %}
+                          
+                              {% for fields in formset.empty_form.visible_fields %}
+                                  <td>{{fields}}</td>
+                              {% endfor %}
+                          </tr>
+                      </script>
+                      <div class="table-responsive card mt-4">
+                          <div class="card-header card-header-secondary">
+                              <h4 class="card-title">Actualizar condición elegible</h4>
+                          </div>
+                          <table class="table card-header">
+                              <thead class="text-secondary">
+                                  <th>Tipo Registro <span style="color: red;" class="required">*</span></th>
+                                  <th>Documento <span style="color: red;" class="required">*</span></th>   
+                                  <th>Identificación <span style="color: red;" class="required">*</span></th>                                  
+                                  <th>Tipo población especial<span style="color: red;" class="required">*</span></th>    
+                                  <th>Condición de elegibilidad<span style="color: red;" class="required">*</span></th>     
+                                  <th>Eliminar?</th>
+                                  <th>Eliminar</th>
+                              </thead>
+                              <tbody id="item-novlcregtipo9">  <!-- id="item-inlineformsetname" -->
+                                  <!-- formset non forms errors -->
+                                  {% for error in formset.non_form_errors %}
+                                      <span style="color: red">{{ error }}</span>
+                                  {% endfor %}
+                                  {% for formss in formset %}
+                                      {{ formss.management_form }}
+                                      <tr id="novlcregtipo9-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                          {{ formss.id }}
+                                          {% for field in formss.visible_fields %}
+                                              <td>
+                                                  {{field}}
+                                                  {% for error in field.errors %}
+                                                      <span style="color: red">{{ error }}</span>
+                                                  {% endfor %}
+                                                  
+                                                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                                              </td>
+                                          {% endfor %}
+                                          {% comment %} for delete {% endcomment %}
+                                          {% if formss.instance.pk %}
+                                              <td>
+                                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#novlcregtipo9{{formss.instance.pk}}">
+                                                      Delete
+                                                  </button>
+                                                  <!-- Modal -->
+                                                  <div class="modal fade" id="novlcregtipo9{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="novlcregtipo9Label{{formss.instance.pk}}" aria-hidden="true">
+                                                      <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                          <h5 class="modal-title" id="novlcregtipo9Label{{formss.instance.pk}}">Estas seguro(a) de eliminar novedad condición de elegibilidad?</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <a href="{% url 'aseg:delete_novlcregtipo9' formss.instance.pk %}" type="button" class="btn btn-primary">Si, Eliminar</a>
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                  </div>
+                                              </td>            
+                                          {% endif %}
+                                      </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                          <a href="#" id="add-novlcregtipo9-button" class="btn btn-secondary add-novlcregtipo9">Agregar otro</a> <!-- id="add-inlineformsetname-button" -->
+                      </div>
+
+                      {% endwith %}
+                      <!-- inline novedad Reg Tipo 9 end -->
+
+
+                  <!-- inline form for NovlcReg Tipo 10 start Tipo población especial -->
+
+                  <!-- EXPLAINING with named_formsets.variants as formset -->
+                  <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                  <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                  {% with named_formsets.novlcregtipo10 as formset %}
+                      {{ formset.management_form }}
+                      <script type="text/html" id="novlcregtipo10-template">  // id="inlineformsetname-template"
+                          // id='inlineformsetname-__prefix__' 
+                          <tr id="novlcregtipo10-__prefix__" class= hide_all>
+                              {% for fields in formset.empty_form.hidden_fields %}
+                                  {{ fields }}
+                              {% endfor %}
+                          
+                              {% for fields in formset.empty_form.visible_fields %}
+                                  <td>{{fields}}</td>
+                              {% endfor %}
+                          </tr>
+                      </script>
+                      <div class="table-responsive card mt-4">
+                          <div class="card-header card-header-secondary">
+                              <h4 class="card-title">Actualizar población especial</h4>
+                          </div>
+                          <table class="table card-header">
+                              <thead class="text-secondary">
+                                  <th>Tipo Registro <span style="color: red;" class="required">*</span></th>
+                                  <th>Documento <span style="color: red;" class="required">*</span></th>   
+                                  <th>Identificación <span style="color: red;" class="required">*</span></th>                                  
+                                  <th>Tipo población especial<span style="color: red;" class="required">*</span></th>    
+                                  <th>Condición de elegibilidad<span style="color: red;" class="required">*</span></th>     
+                                  <th>Eliminar?</th>
+                                  <th>Eliminar</th>
+                              </thead>
+                              <tbody id="item-novlcregtipo10">  <!-- id="item-inlineformsetname" -->
+                                  <!-- formset non forms errors -->
+                                  {% for error in formset.non_form_errors %}
+                                      <span style="color: red">{{ error }}</span>
+                                  {% endfor %}
+                                  {% for formss in formset %}
+                                      {{ formss.management_form }}
+                                      <tr id="novlcregtipo10-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                          {{ formss.id }}
+                                          {% for field in formss.visible_fields %}
+                                              <td>
+                                                  {{field}}
+                                                  {% for error in field.errors %}
+                                                      <span style="color: red">{{ error }}</span>
+                                                  {% endfor %}
+                                                  
+                                                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                                              </td>
+                                          {% endfor %}
+                                          {% comment %} for delete {% endcomment %}
+                                          {% if formss.instance.pk %}
+                                              <td>
+                                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#novlcregtipo10{{formss.instance.pk}}">
+                                                      Delete
+                                                  </button>
+                                                  <!-- Modal -->
+                                                  <div class="modal fade" id="novlcregtipo10{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="novlcregtipo10Label{{formss.instance.pk}}" aria-hidden="true">
+                                                      <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                          <h5 class="modal-title" id="novlcregtipo10Label{{formss.instance.pk}}">Estas seguro(a) de eliminar novedad población especial?</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <a href="{% url 'aseg:delete_novlcregtipo10' formss.instance.pk %}" type="button" class="btn btn-primary">Si, Eliminar</a>
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                  </div>
+                                              </td>            
+                                          {% endif %}
+                                      </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                          <a href="#" id="add-novlcregtipo10-button" class="btn btn-secondary add-novlcregtipo10">Agregar otro</a> <!-- id="add-inlineformsetname-button" -->
+                      </div>
+
+                      {% endwith %}
+                      <!-- inline novedad Reg Tipo 10 end -->
+
+                  <!-- inline form for NovlcReg Tipo 11 start identificacion del titular -->
+
+                  <!-- EXPLAINING with named_formsets.variants as formset -->
+                  <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                  <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                  {% with named_formsets.novlcregtipo11 as formset %}
+                      {{ formset.management_form }}
+                      <script type="text/html" id="novlcregtipo11-template">  // id="inlineformsetname-template"
+                          // id='inlineformsetname-__prefix__' 
+                          <tr id="novlcregtipo11-__prefix__" class= hide_all>
+                              {% for fields in formset.empty_form.hidden_fields %}
+                                  {{ fields }}
+                              {% endfor %}
+                          
+                              {% for fields in formset.empty_form.visible_fields %}
+                                  <td>{{fields}}</td>
+                              {% endfor %}
+                          </tr>
+                      </script>
+                      <div class="table-responsive card mt-4">
+                          <div class="card-header card-header-secondary">
+                              <h4 class="card-title">Actualizar Identificación del titular</h4>
+                          </div>
+                          <table class="table card-header">
+                              <thead class="text-secondary">
+                                  <th>Tipo Registro <span style="color: red;" class="required">*</span></th>
+                                  <th>Documento <span style="color: red;" class="required">*</span></th>   
+                                  <th>Identificación <span style="color: red;" class="required">*</span></th>                                  
+                                  <th>Documento del titular<span style="color: red;" class="required">*</span></th>    
+                                  <th>Identificación del titular<span style="color: red;" class="required">*</span></th>     
+                                  <th>Eliminar?</th>
+                                  <th>Eliminar</th>
+                              </thead>
+                              <tbody id="item-novlcregtipo11">  <!-- id="item-inlineformsetname" -->
+                                  <!-- formset non forms errors -->
+                                  {% for error in formset.non_form_errors %}
+                                      <span style="color: red">{{ error }}</span>
+                                  {% endfor %}
+                                  {% for formss in formset %}
+                                      {{ formss.management_form }}
+                                      <tr id="novlcregtipo11-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                          {{ formss.id }}
+                                          {% for field in formss.visible_fields %}
+                                              <td>
+                                                  {{field}}
+                                                  {% for error in field.errors %}
+                                                      <span style="color: red">{{ error }}</span>
+                                                  {% endfor %}
+                                                  
+                                                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                                              </td>
+                                          {% endfor %}
+                                          {% comment %} for delete {% endcomment %}
+                                          {% if formss.instance.pk %}
+                                              <td>
+                                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#novlcregtipo11{{formss.instance.pk}}">
+                                                      Delete
+                                                  </button>
+                                                  <!-- Modal -->
+                                                  <div class="modal fade" id="novlcregtipo11{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="novlcregtipo11Label{{formss.instance.pk}}" aria-hidden="true">
+                                                      <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                          <h5 class="modal-title" id="novlcregtipo11Label{{formss.instance.pk}}">Estas seguro(a) de eliminar novedad actualizar identificación del titular?</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <a href="{% url 'aseg:delete_novlcregtipo11' formss.instance.pk %}" type="button" class="btn btn-primary">Si, Eliminar</a>
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                  </div>
+                                              </td>            
+                                          {% endif %}
+                                      </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                          <a href="#" id="add-novlcregtipo11-button" class="btn btn-secondary add-novlcregtipo11">Agregar otro</a> <!-- id="add-inlineformsetname-button" -->
+                      </div>
+
+                      {% endwith %}
+                      <!-- inline novedad Reg Tipo 11 end -->
+
+                      <!-- inline form for NovlcReg Tipo 12 start Eliminación -->
+
+                  <!-- EXPLAINING with named_formsets.variants as formset -->
+                  <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                  <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                  {% with named_formsets.novlcregtipo12 as formset %}
+                      {{ formset.management_form }}
+                      <script type="text/html" id="novlcregtipo12-template">  // id="inlineformsetname-template"
+                          // id='inlineformsetname-__prefix__' 
+                          <tr id="novlcregtipo12-__prefix__" class= hide_all>
+                              {% for fields in formset.empty_form.hidden_fields %}
+                                  {{ fields }}
+                              {% endfor %}
+                          
+                              {% for fields in formset.empty_form.visible_fields %}
+                                  <td>{{fields}}</td>
+                              {% endfor %}
+                          </tr>
+                      </script>
+                      <div class="table-responsive card mt-4">
+                          <div class="card-header card-header-secondary">
+                              <h4 class="card-title">Cambio - Eliminación</h4>
+                          </div>
+                          <table class="table card-header">
+                              <thead class="text-secondary">
+                                  <th>Tipo Registro <span style="color: red;" class="required">*</span></th>
+                                  <th>Documento <span style="color: red;" class="required">*</span></th>   
+                                  <th>Identificación <span style="color: red;" class="required">*</span></th>                                  
+                                  <th>Tipo población especial<span style="color: red;" class="required">*</span></th>                                     
+                                  <th>Eliminar?</th>
+                                  <th>Eliminar</th>
+                              </thead>
+                              <tbody id="item-novlcregtipo12">  <!-- id="item-inlineformsetname" -->
+                                  <!-- formset non forms errors -->
+                                  {% for error in formset.non_form_errors %}
+                                      <span style="color: red">{{ error }}</span>
+                                  {% endfor %}
+                                  {% for formss in formset %}
+                                      {{ formss.management_form }}
+                                      <tr id="novlcregtipo12-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                          {{ formss.id }}
+                                          {% for field in formss.visible_fields %}
+                                              <td>
+                                                  {{field}}
+                                                  {% for error in field.errors %}
+                                                      <span style="color: red">{{ error }}</span>
+                                                  {% endfor %}
+                                                  
+                                                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                                              </td>
+                                          {% endfor %}
+                                          {% comment %} for delete {% endcomment %}
+                                          {% if formss.instance.pk %}
+                                              <td>
+                                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#novlcregtipo12{{formss.instance.pk}}">
+                                                      Delete
+                                                  </button>
+                                                  <!-- Modal -->
+                                                  <div class="modal fade" id="novlcregtipo12{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="novlcregtipo12Label{{formss.instance.pk}}" aria-hidden="true">
+                                                      <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                          <h5 class="modal-title" id="novlcregtipo12Label{{formss.instance.pk}}">Estas seguro(a) de eliminar novedad cambio eliminación?</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <a href="{% url 'aseg:delete_novlcregtipo12' formss.instance.pk %}" type="button" class="btn btn-primary">Si, Eliminar</a>
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                  </div>
+                                              </td>            
+                                          {% endif %}
+                                      </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                          <a href="#" id="add-novlcregtipo12-button" class="btn btn-secondary add-novlcregtipo12">Agregar otro</a> <!-- id="add-inlineformsetname-button" -->
+                      </div>
+
+                      {% endwith %}
+                      <!-- inline novedad Reg Tipo 12 end -->
+
+
+
+
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                              
+                                <a href="{% url 'aseg:novlcregtipo1_list' %}" class="btn btn-success">Cancelar</a>
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+  </form>
+{% endblock page_content %}
+
+{% block js_page %}
+    <script>
+    $(document).ready(function () {
+      $('#id_paciente').select2({
+            ajax: {
+                url: '{% url 'cvd:busqpac' %}',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {id: item.id, text: item.identificacion +':'+ item.razonsocial};
+                        })
+                    };
+                }
+            },
+            minimumInputLength: 1
+        });
+    });
+</script>
+
+<script>
+
+   
+ $(document).ready(function() {
+
+
+    $(".pr").datetimepicker({
+        format:'d/m/Y',
+        timepicker:false
+      });
+
+    // when user clicks add more btn of seguimiento
+      $('.add-novlcregtipo2').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-novlcregtipo2').children().length;
+          var tmplMarkup = $('#novlcregtipo2-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-novlcregtipo2').append(compiledTmpl);
+  
+          // update form count
+          $('#id_novlcregtipo2-TOTAL_FORMS').attr('value', count+1);
+      });
+
+      $('.add-novlcregtipo3').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-novlcregtipo3').children().length;
+          var tmplMarkup = $('#novlcregtipo3-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-novlcregtipo3').append(compiledTmpl);
+  
+          // update form count
+          $('#id_novlcregtipo3-TOTAL_FORMS').attr('value', count+1);
+      });
+
+      $('.add-novlcregtipo4').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-novlcregtipo4').children().length;
+          var tmplMarkup = $('#novlcregtipo4-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-novlcregtipo4').append(compiledTmpl);
+  
+          // update form count
+          $('#id_novlcregtipo4-TOTAL_FORMS').attr('value', count+1);
+      });
+
+      $('.add-novlcregtipo5').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-novlcregtipo5').children().length;
+          var tmplMarkup = $('#novlcregtipo5-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-novlcregtipo5').append(compiledTmpl);
+  
+          // update form count
+          $('#id_novlcregtipo5-TOTAL_FORMS').attr('value', count+1);
+      });
+
+      $('.add-novlcregtipo6').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-novlcregtipo6').children().length;
+          var tmplMarkup = $('#novlcregtipo6-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-novlcregtipo6').append(compiledTmpl);
+  
+          // update form count
+          $('#id_novlcregtipo6-TOTAL_FORMS').attr('value', count+1);
+      });
+
+      $('.add-novlcregtipo7').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-novlcregtipo7').children().length;
+          var tmplMarkup = $('#novlcregtipo7-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-novlcregtipo7').append(compiledTmpl);
+  
+          // update form count
+          $('#id_novlcregtipo7-TOTAL_FORMS').attr('value', count+1);
+      });
+
+      $('.add-novlcregtipo8').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-novlcregtipo8').children().length;
+          var tmplMarkup = $('#novlcregtipo8-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-novlcregtipo8').append(compiledTmpl);
+  
+          // update form count
+          $('#id_novlcregtipo8-TOTAL_FORMS').attr('value', count+1);
+      });
+
+      $('.add-novlcregtipo9').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-novlcregtipo9').children().length;
+          var tmplMarkup = $('#novlcregtipo9-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-novlcregtipo9').append(compiledTmpl);
+  
+          // update form count
+          $('#id_novlcregtipo9-TOTAL_FORMS').attr('value', count+1);
+
+      });
+
+      $('.add-novlcregtipo10').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-novlcregtipo10').children().length;
+          var tmplMarkup = $('#novlcregtipo10-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-novlcregtipo10').append(compiledTmpl);
+  
+          // update form count
+          $('#id_novlcregtipo10-TOTAL_FORMS').attr('value', count+1);
+
+      });
+
+      $('.add-novlcregtipo11').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-novlcregtipo11').children().length;
+          var tmplMarkup = $('#novlcregtipo11-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-novlcregtipo11').append(compiledTmpl);
+  
+          // update form count
+          $('#id_novlcregtipo11-TOTAL_FORMS').attr('value', count+1);
+
+      });
+
+      $('.add-novlcregtipo12').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-novlcregtipo12').children().length;
+          var tmplMarkup = $('#novlcregtipo12-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-novlcregtipo12').append(compiledTmpl);
+  
+          // update form count
+          $('#id_novlcregtipo12-TOTAL_FORMS').attr('value', count+1);
+
+      });
+
+
+
+  
+  });
+</script>
+
+<script>
+
+$(function(){
+
+    
+      $("#id_fechafinal").datetimepicker({
+        format:'d/m/Y',
+        timepicker:false
+      });
+
+    $('#id_eps').select2({
+      placeholder: "Seleccione una EPS",
+      allowClear: true
+    });
+    
+ });
+</script>
+{% endblock js_page %}
+

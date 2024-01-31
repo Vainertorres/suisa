@@ -1,10 +1,7 @@
-{% extends 'base/base.html' %}
+{% extends 'base/basecvd.html' %}
 
 {% block page_content %}
 
-
-<div class="modal-dialog modal-lg">
-  <div class="modal-content">
     {% if obj %}
     <form  method='POST' role='form' action = "{% url 'cvd:bac_edit' obj.pk %}"> 
     {% else %}  
@@ -25,25 +22,23 @@
                            </div>                      
                            <div class="dropdown-divider"></div> 
                             <div class="row">
-                                  <div class="form-group col-3">
+                                  <div class="form-group col-2">
                                         <label for="id_fecha">Fecha</label>
-                                        <br>
                                         {{form.fecharealiza}}                               
                                   </div> 
 
                                   <div class="form-group col-5">
                                     <label for="id_paciente">Paciente</label>
-                                      <br>
                                       {{ form.paciente }}                                    
                                   </div>
+
                                   <div class="form-group col-2">
                                     <label for="id_edad">Edad</label>
-                                      <br>
                                       {{ form.edad }}                                    
                                   </div>
+
                                   <div class="form-group col-2">
                                     <label for="id_umedad">Uni Med</label>
-                                      <br>
                                       {{ form.umedad }}                                    
                                   </div>
                             </div>
@@ -55,14 +50,13 @@
                               </div> 
 
                               <div class="form-group col-4">
-                                <label for="id_eps">Eps</label>
-                                  <br>
+                                <label for="id_eps">Eps</label>    
+                                <br>                             
                                   {{ form.eps }}                                    
                               </div>
 
                               <div class="form-group col-4">
                                 <label for="id_riesgopsicosoc">Riesgo Psico social</label>
-                                  <br>
                                   {{ form.riesgopsicosoc }}                                    
                               </div>                              
                             </div>
@@ -192,16 +186,13 @@
                               </div>                              
                             </div>
 
-                             {# <!  {{form.as_p}}  -->                #}
                            
                            <div class="dropdown-divider"></div>
                              <div class="row">
                                <div class="col">
                                  <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
                               
-                               <button type="button" class="btn btn-success" onclick="return cerrar_modal()">
-                                 Cancelar
-                               </button>
+                               <a href="{% url 'cvd:bac_list' %}" class="btn btn-success">Cancelar</a>
                                </div>
                              </div> 
                         </div>
@@ -210,9 +201,45 @@
                   </div>
                 </div>
     </form>
-  </div>
-</div>
 
-	
 {% endblock page_content %}
+
+{% block js_page %}
+    <script>
+    $(document).ready(function() {
+      $('#id_paciente').select2({
+            ajax: {
+                url: '{% url 'cvd:busqpac' %}',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {id: item.id, text: item.identificacion +':'+ item.razonsocial};
+                        })
+                    };
+                }
+            },
+            minimumInputLength: 1
+        });
+    });
+</script>
+
+<script>
+
+$(function(){
+  
+      $("#id_fecharealiza").datetimepicker({
+        format:'d/m/Y',
+        timepicker:false
+      });
+
+
+    $('#id_eps').select2({
+      placeholder: "Seleccione una EPS",
+      allowClear: true
+    });
+    
+ });
+</script>
+{% endblock js_page %}
 

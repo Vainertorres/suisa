@@ -7,13 +7,18 @@ from django.views import generic
 
 from .views import importarRediarios, RediarioList, GrafLaborartio, GrafVacunaIps, \
 GrafPaiDosisAplicadas, RediarioCreate, RediarioUpdate, RediarioListAjax, RediarioPrint, \
-GrafVacunaModalidad, GrafVacunaEtapa, GrafTipoPoblacion, GrafTipoSexo
+GrafVacunaModalidad, GrafVacunaEtapa, GrafTipoPoblacion, GrafTipoSexo, PrincipalPai, \
+importarRediariosPaiRegular, listar_rediario_regular
 
 
 app_name='pai'
 
 urlpatterns = [
+path('', PrincipalPai.as_view(), name='home'),
 path('rediario/import', importarRediarios, name='importar_rediarios'),
+path('red/import/paireg', importarRediariosPaiRegular, name='import_red_pai_reg'),
+path('rediario/reg/list', listar_rediario_regular, name='rediario_reg_list'),
+
 path('rediario/list/', RediarioList.as_view(), name='rediario_list'),
 path('rediario/print/<int:id>', RediarioPrint.as_view(), name='Imprimir_datos_vacuna'),
 path('rediario/search/<str:dato>', RediarioListAjax.as_view(), name='rediario_search'),

@@ -26,8 +26,6 @@ import webbrowser
 
 from folium.plugins import HeatMap
 
-
-
 class Home(LoginRequiredMixin, generic.TemplateView):
     template_name='base/basedengue.html'
     login_url='cnf:login'

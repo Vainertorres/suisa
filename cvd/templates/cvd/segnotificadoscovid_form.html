@@ -1,0 +1,95 @@
+{% extends 'base/basecvd.html' %}
+
+{% block page_content %}
+
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Nuevo Paciente</h2>
+      <button class="close" type="button" aria-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      
+    </div>
+    <div class="modal-body">  
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'cvd:seg_notif_covid_change' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'cvd:seg_notif_covid_add' idnotif %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} Seguimiento : {{notifcovid}}
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                           <div class="row">
+                                 <div class="form-group col-4">
+                                        <label for="id_fecha">Fecha</label>
+                                        {{form.fecha}}     
+                                 </div>
+                                 <div class="form-group col-4">
+                                        <label for="id_fecha">Próximo seguimiento?</label>
+                                        {{form.proxseg}}     
+                                  </div>
+                                  <div class="form-group col-4">
+                                        <label for="id_sintomas">Fecha</label>
+                                        {{form.fecproxseg}}     
+                                  </div>
+                             
+                           </div>
+                            <div class="row">
+                              <input type="hidden" name="notifcovid" value = "{{notifcovid.pk}}">
+
+                              <div class="form-group col-12">
+                                        <label for="id_hallazgo">Hallazgo</label>
+                                        {{form.hallazgo}}     
+                                  </div>
+
+                            </div>
+                            <div class="row">                                  
+                                  <div class="form-group col-12">
+                                        <label for="id_tos">Archivo digitalizado de seguimiento</label>
+                                        {{form.fileseg}}     
+                                  </div>
+                                  
+                            </div>                                                      
+                           
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                               <button type="button" class="btn btn-success"   onclick="cerrar_modal();"> Cancelar
+                               </button>                               
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    </form>
+  </div>
+
+</div>
+</div>
+
+	
+{% endblock page_content %}
+
+{% block js_page %}
+<script>
+  $("#id_fecha, #id_fecproxseg").datetimepicker({
+        format:'d/m/Y',
+        timepicker:false
+      });
+</script>
+{% endblock js_page %}

@@ -4,7 +4,8 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from .models import Paciente, Ocupacion, Departamento, Municipio, Comuna, Barrio
+from .models import Paciente, Ocupacion, Departamento, Municipio, Comuna, Barrio, \
+    Pais
 from .forms import PacienteForm
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -116,7 +117,8 @@ def listadopacientereload(request):
 
 def obtener_lat_lon(direcc):
     latlong = {'lat':'SD', 'lon':'SD'}
-    if direcc != '':
+    print(direcc)
+    if (direcc != '') and (direcc != None) :
         if direcc.strip() != '':
             geo = Nominatim(user_agent='MyApp', timeout=10)
             direcc = direcc.lower()
@@ -137,8 +139,7 @@ class PacienteEdit(LoginRequiredMixin, generic.UpdateView):
     login_url = 'cnf:login'  
 
     def get_context_data(self, **kwargs):
-        pk = self.kwargs.get('pk')
-        print("Hola mundo", pk)
+        pk = self.kwargs.get('pk')       
         context = super(PacienteEdit,self).get_context_data(**kwargs)
         context['departamentos'] = Departamento.objects.all()
         context['municipios'] = Municipio.objects.all()             
@@ -149,6 +150,8 @@ class PacienteEdit(LoginRequiredMixin, generic.UpdateView):
     def form_valid(self, form):
         direcc = form.instance.direccion
         latlong = obtener_lat_lon(form.cleaned_data.get('direccion'))
+        print('Latitud: ',latlong['lat'])
+
         if latlong['lat'] != 'SD':
             form.instance.lat = latlong['lat']
         if  latlong['lon'] != 'SD':
@@ -163,6 +166,12 @@ class PacienteCreate(LoginRequiredMixin, generic.CreateView):
     form_class = PacienteForm
     success_url = reverse_lazy('cnf:paciente_list')
     login_url = 'cnf:login'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['pais'] = Pais.objects.filter(nacional=True).first()
+        return initial 
+
 
     def form_valid(self, form):
         form.instance.uc = self.request.user
@@ -182,7 +191,8 @@ class PacienteCreate(LoginRequiredMixin, generic.CreateView):
         context = super(PacienteCreate,self).get_context_data(**kwargs)
         context['departamentos'] = Departamento.objects.all()
         context['municipios'] = Municipio.objects.all()      
-        context['barrios'] = Barrio.objects.all()       
+        context['barrios'] = Barrio.objects.all()  
+          
         return context 
 
   
@@ -246,7 +256,11 @@ class PacienteAjaxCreate(LoginRequiredMixin, generic.CreateView):
         context = super(PacienteAjaxCreate,self).get_context_data(**kwargs)
         context['departamentos'] = Departamento.objects.all()
         context['municipios'] = Municipio.objects.all()             
-        return context 
+        return context
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['pais'] = Pais.objects.filter(nacional=True).first()
+        return initial 
 
 def load_barrios(request):
     municipio_id = request.GET.get('idmunicipio')

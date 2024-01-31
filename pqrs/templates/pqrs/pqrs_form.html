@@ -1,0 +1,313 @@
+{% extends 'base/basepqrs.html' %}
+
+{% block page_content %}
+
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'pqrs:pqrs_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'pqrs:pqrs_new' %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} PQRS
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                            <div class="row">
+                                  <div class="form-group col-2">
+                                        <label for="id_fecha">Fecha</label> 
+                                        {{form.fecha}}                               
+                                  </div> 
+
+                                  <div class="form-group col-5">
+                                    <label for="id_paciente">Paciente</label>
+                                      {{ form.paciente }}                                    
+                                  </div>
+                                  <div class="form-group col-1">
+                                    <label for="id_edad">Edad</label>
+                                      <br>
+                                      {{ form.edad }}                                    
+                                  </div>
+                                  <div class="form-group col-2">
+                                    <label for="id_victima">Victima</label>
+                                      <br>
+                                      {{ form.victima }}                                    
+                                  </div>
+                                  <div class="form-group col-2">
+                                  <label for="id_desplazado">Desplazado</label>
+                                  {{form.desplazado}}                               
+                              </div> 
+                            </div>
+
+                            <div class="row">
+                              
+                              <div class="form-group col-1">
+                                  <label for="id_pqrscontra">Pqrs Contra</label>
+                                  {{form.pqrscontra}}                               
+                              </div> 
+
+                              <div class="form-group col-4">
+                                <label for="id_eps">Eps</label>
+                                  <br>
+                                  {{ form.eps }}                                    
+                              </div>
+
+                              <div class="form-group col-4">
+                                <label for="id_riesgopsicosoc">IPS</label>
+                                  <br>
+                                  {{ form.ips }}                                    
+                              </div>
+
+                              <div class="form-group col-3">
+                                <label for="id_otrainstobjetoqueja">Otra institución</label>
+                                  <br>
+                                  {{ form.otrainstobjetoqueja }}                                    
+                              </div>                           
+                            </div>
+
+                            <div class="row">                             
+
+                              <div class="form-group col-2">
+                                <label for="id_resolinmediata">Respuesta inmediata</label>
+                                  {{ form.resolinmediata }}                                    
+                              </div>
+
+                              <div class="form-group col-2">
+                                <label for="id_periodoresolucion">Resolución (días)</label>                                  
+                                  {{ form.periodoresolucion }}                                    
+                              </div>
+
+                              <div class="form-group col-2">
+                                <label for="id_iniciaderepeticion">Inicia derecho pentición</label>                                
+                                  {{ form.iniciaderepeticion }}                                    
+                              </div>
+                               <div class="form-group col-2">
+                                  <label for="id_iniciatutela">Inicia en tutela</label>
+                                  {{form.iniciatutela}}                               
+                              </div>
+                              <div class="form-group col-2">
+                                <label for="id_terderepeticion">Term. derecho petición</label>
+                                  {{ form.terderepeticion }}                                    
+                              </div>
+                              <div class="form-group col-2">
+                                <label for="id_tertutela">Termina en Tutela</label>                                                                
+                                  {{ form.tertutela }}                                    
+                              </div>
+                            </div>
+
+                            <div class="row">
+                                                         
+                              
+                            </div>
+
+                            <div class="row">
+                              <div class="form-group col-12">
+                                <label for="id_explicacion">Explicacion de la queja</label>
+                                  {{ form.explicacion }}                                    
+                              </div>                              
+                            </div>                           
+
+                            <div class="row">
+                             <div class="form-group col-12">
+                                <label for="id_serviciosobjqueja">Servicios objeto de queja </label>                                  
+                                  {{ form.serviciosobjqueja }}                                    
+                              </div>                              
+                            </div>
+
+
+
+                           <!-- inline form for Seguimiento start -->
+
+                  <!-- EXPLAINING with named_formsets.variants as formset -->
+                  <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                  <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                  {% with named_formsets.seguimientopqrs as formset %}
+                      {{ formset.management_form }}
+                      <script type="text/html" id="seguimientopqrs-template">  // id="inlineformsetname-template"
+                          // id='inlineformsetname-__prefix__' 
+                          <tr id="seguimientopqrs-__prefix__" class= hide_all>
+                              {% for fields in formset.empty_form.hidden_fields %}
+                                  {{ fields }}
+                              {% endfor %}
+                          
+                              {% for fields in formset.empty_form.visible_fields %}
+                                  <td>{{fields}}</td>
+                              {% endfor %}
+                          </tr>
+                      </script>
+                      <div class="table-responsive card mt-4">
+                          <div class="card-header card-header-secondary">
+                              <h4 class="card-title">Agregrar seguimiento</h4>
+                          </div>
+                          <table class="table card-header">
+                              <thead class="text-secondary">
+                                  <th>Fecha <span style="color: red;" class="required">*</span></th>
+                                  <th>Observación <span style="color: red;" class="required">*</span></th>                                  
+                                  <th>Delete?</th>
+                                  <th>Custom Delete btn</th>
+                              </thead>
+                              <tbody id="item-seguimientopqrs">  <!-- id="item-inlineformsetname" -->
+                                  <!-- formset non forms errors -->
+                                  {% for error in formset.non_form_errors %}
+                                      <span style="color: red">{{ error }}</span>
+                                  {% endfor %}
+                                  {% for formss in formset %}
+                                      {{ formss.management_form }}
+                                      <tr id="seguimientopqrs-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                          {{ formss.id }}
+                                          {% for field in formss.visible_fields %}
+                                              <td>
+                                                  {{field}}
+                                                  {% for error in field.errors %}
+                                                      <span style="color: red">{{ error }}</span>
+                                                  {% endfor %}
+                                                  
+                                                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                                              </td>
+                                          {% endfor %}
+                                          {% comment %} for delete {% endcomment %}
+                                          {% if formss.instance.pk %}
+                                              <td>
+                                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{formss.instance.pk}}">
+                                                      Delete
+                                                  </button>
+                                                  <!-- Modal -->
+                                                  <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{formss.instance.pk}}" aria-hidden="true">
+                                                      <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                          <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}">Are Your Sure You Want To Delete This?</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <a href="{% url 'pqrs:delete_seguimiento' formss.instance.pk %}" type="button" class="btn btn-primary">Yes, Delete</a>
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                  </div>
+                                              </td>            
+                                          {% endif %}
+                                      </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                          <a href="#" id="add-seguimiento-button" class="btn btn-secondary add-seguimiento">Agregar otro</a> <!-- id="add-inlineformsetname-button" -->
+                      </div>
+
+                      
+                      
+                      {% endwith %}
+                      <!-- inline form for Images end -->
+
+                      <div class="dropdown-divider"></div>
+
+                      <div class="row">
+
+                         <div class="form-group col-3">
+                            <label for="id_respondida">Respondida</label>
+                            {{ form.respondida }}
+                         </div>
+                         <div class="form-group col-5">
+                            <label for="id_tiporespuestapqrs">Tipo respuesta</label>
+                            {{ form.tiporespuestapqrs }}
+                         </div>
+                         <div class="form-group col-4">
+                            <label for="id_fecharespuesta">Fecha respuesta</label>
+                            {{ form.fecharespuesta }}
+                         </div>
+                        
+                      </div>
+
+
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                              
+                                <a href="{% url 'pqrs:pqrs_list' %}" class="btn btn-success">Cancelar</a>
+                               </div>
+                             </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+  </form>
+{% endblock page_content %}
+
+{% block js_page %}
+    <script>
+    $(document).ready(function () {
+      $('#id_paciente').select2({
+            ajax: {
+                url: '{% url 'cvd:busqpac' %}',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {id: item.id, text: item.identificacion +':'+ item.razonsocial};
+                        })
+                    };
+                }
+            },
+            minimumInputLength: 1
+        });
+    });
+</script>
+
+<script>
+
+   $(".pr").datetimepicker({
+        format:'d/m/Y',
+        timepicker:false
+      });
+
+ $(document).ready(function() {
+    // when user clicks add more btn of seguimiento
+      $('.add-seguimiento').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-seguimientopqrs').children().length;
+          var tmplMarkup = $('#seguimientopqrs-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-seguimientopqrs').append(compiledTmpl);
+  
+          // update form count
+          $('#id_seguimientopqrs-TOTAL_FORMS').attr('value', count+1);
+      });
+
+
+  
+  });
+</script>
+
+<script>
+
+$(function(){
+
+    
+      $("#id_fecha, #id_fecharespuesta").datetimepicker({
+        format:'d/m/Y',
+        timepicker:false
+      });
+
+    $('#id_eps').select2({
+      placeholder: "Seleccione una EPS",
+      allowClear: true
+    });
+    
+ });
+</script>
+{% endblock js_page %}
+

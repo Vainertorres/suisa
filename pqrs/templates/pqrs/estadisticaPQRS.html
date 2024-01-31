@@ -1,0 +1,290 @@
+{% extends 'base/basepqrs.html' %}
+
+{% block page_content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="containerservicio">                
+                {{ eps }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="dropdown-divider"></div> 
+    </div>
+    
+   
+    <div class="row">
+        <div class="col-lg-6">
+            <div id="containertipoinst">
+                
+            </div>
+        </div>    
+         <div class="col-lg-6">
+            <div id="containereps">
+                
+            </div>
+        </div>      
+    </div>
+
+    <div class="row">
+        <div class="dropdown-divider"></div> 
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div id="containertiporesp">
+                
+            </div>
+        </div>        
+        <div class="col-lg-6">
+            <div id="containeresp">
+                
+            </div>
+        </div>        
+    </div>
+
+</div>
+    
+{% endblock page_content %}
+
+{% block js_page %}
+
+
+// script Estadistica por eapb
+<script type="text/javascript">
+
+// Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
+
+// Create the chart
+Highcharts.chart('containerservicio', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        align: 'left',
+        text: 'Estadística por servicio objeto de PQRS'
+    },
+    subtitle: {
+        align: 'left',
+        text: 'Pqrs'
+    },
+    accessibility: {
+        announceNewData: {
+            enabled: true
+        }
+    },
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: 'Número de usurios'
+        }
+
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:.0f}'
+            }
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.nombredx}</span>: <b>{point.y:.0f}</b> Usuario(s)<br/>'
+    },
+
+    series: [
+        {
+            name: 'Servicio',
+            colorByPoint: true,
+            data: {{ servicio|safe }}      
+        }
+    ],
+    
+});
+</script>
+
+
+
+<script>
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('containertipoinst', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Peticiones, quejas, reclamos y sugerencias por Tipo de Institución'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Cantidad',
+        colorByPoint: true,
+        data: {{ tipoinst|safe }} 
+
+    }]
+});
+    
+</script>
+
+
+<script>
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('containereps', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Peticiones, quejas, reclamos y sugerencias por EAPB'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Cantidad',
+        colorByPoint: true,
+        data: {{ eps|safe }} 
+
+    }]
+});
+    
+</script>
+
+<script>
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('containertiporesp', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'PQRS Por tipo de respuesta'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Cantidad',
+        colorByPoint: true,
+        data: {{ tipores|safe }} 
+
+    }]
+});
+    
+</script>
+
+<script>
+
+//datos=[{'name': 'OBRERO', 'y': 1},{'name': 'ZAMANES', 'y': 2}] 
+
+Highcharts.chart('containeresp', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'PQRS estado respondidas'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Cantidad',
+        colorByPoint: true,
+        data: {{ respondida|safe }} 
+
+    }]
+});
+    
+</script>
+
+
+
+    
+{% endblock js_page %}

@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'sam',
     'pai',
     'aseg',
+    'pqrs',
    # 'rips',
 ]
 
@@ -144,6 +145,7 @@ DATE_INPUT_FORMATS = ['%d-%m-%Y']
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles/')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 MEDIA_URL = '/media/'

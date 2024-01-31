@@ -92,6 +92,25 @@
 {% block js_page %}
 
 <script>
+    $(document).ready(function () {
+      $('#id_paciente').select2({
+            ajax: {
+                url: '{% url 'cvd:busqpac' %}',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {id: item.id, text: item.identificacion +':'+ item.razonsocial};
+                        })
+                    };
+                }
+            },
+            minimumInputLength: 1
+        });
+    });
+</script>
+
+<script>
 
 $(function(){
 
@@ -99,12 +118,7 @@ $(function(){
     format:'d/m/Y',
     timepicker:false
   });
-  
-  $('#id_paciente').select2({
-      placeholder: "Seleccione un Paciente",
-      allowClear: true
-    });
-       
+         
  });
 
  </script> 

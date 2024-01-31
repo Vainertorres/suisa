@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import RediarioCargado, Rediario
+from .models import RediarioCargado, Rediario, RediarioPaiRegCargado
 
 class ImportFileForm(forms.ModelForm):	
 	class Meta:
@@ -16,6 +16,19 @@ class ImportFileForm(forms.ModelForm):
 				
 			})
 
+class ImportFilePaiRegForm(forms.ModelForm):	
+	class Meta:
+		model=RediarioPaiRegCargado		
+		fields=['fecha','periodo','file_name', 'ips']
+		exclude=['uploaded','activated','um','uc','fm','fc']
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs) #para que se inicialice
+		for field in iter(self.fields):
+			self.fields[field].widget.attrs.update({				
+				'class':"form-control" #colocar la clase de bootsTrap a todos los controles o campos
+				
+			})
 
 class RediarioCreateForm(forms.ModelForm):	
 	class Meta:

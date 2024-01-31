@@ -163,6 +163,10 @@ class Fichaiec(ClaseModelo2):
 	def __str__(self):
 		return "{} - {}".format(self.fecha, self.paciente)
 
+	def save(self):
+		print(self)
+		super(Fichaiec, self).save()
+
 	class Meta:
 		verbose_name = "Fichas IEC"
 		ordering=['fecha','paciente']
@@ -479,18 +483,16 @@ class Notif_covid(ClaseModelo2):
 	def __str__(self):
 		return "{} {} {} - {}".format(self.fec_not, self.semana ,self.evento.descripcion, self.paciente)
 
-
-
 class Segnotifcovid(ClaseModelo2):
 	SINO = (
         ('1', 'Si'),
         ('2', 'No'),
     )
 	notifcovid = models.ForeignKey(Notif_covid, on_delete=models.CASCADE)
-	fecha = models.DateField(auto_now_add=True)
+	fecha = models.DateField()
 	hallazgo = models.TextField()
 	proxseg = models.CharField(max_length=1, choices=SINO, null=True, blank=True)
-	fecproxseg = models.DateField()
+	fecproxseg = models.DateField(null=True, blank=True)
 	fileseg = models.FileField(upload_to='cvd', null=True, blank=True)
 
 class NotifPaConglomerado(ClaseModelo2):

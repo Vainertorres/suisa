@@ -1,0 +1,446 @@
+{% extends 'base/basebdua.html' %}
+
+{% block page_content %}
+
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'aseg:movilidad_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'aseg:movilidad_create' %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} Movilidad.
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+
+                                                  
+                               <div class="row">
+
+                                <div class="form-group col-3">
+                                    <label for="id_fechasolicitud">Fecha de solicitud</label>
+                                      {{form.fechasolicitud}}
+                                </div>
+
+                                  <div class="form-group col-5">
+                                    <label for="id_paciente">Paciente</label>
+                                     {{form.paciente}}                  
+                                  </div>
+
+                                  <div class="form-group col-1">
+                                   <br>
+                                    <a href="#newpac" data-toggle="modal"><i class="fas fa-user-plus"></i></a>
+                                  </div>                               
+                                
+                                 <div class="form-group col-3">
+                                    <label for="id_fechaefectivamov">Fecha efectiva de movilidad</label>
+                                      {{form.fechaefectivamov}}
+                                  </div>                                  
+                              </div> 
+                              <div class="row">
+                                  <div class="form-group col-3">
+                                    <label for="id_departamento">Departamento</label>
+                                      {{ form.departamento}}
+                                    </div>
+                                    <div class="form-group col-3">
+                                    <label for="id_municipio">Municipio</label>
+                                      {{ form.municipio}}
+                                    </div>
+                                    <div class="form-group col-3">
+                                    <label for="id_departamentosis">Departamento sisbén</label>
+                                      {{ form.departamentosis}}
+                                    </div>
+                                    <div class="form-group col-3">
+                                    <label for="id_municipiosis">Municipio sisbén</label>
+                                      {{ form.municipiosis}}
+                                    </div>
+                                
+                              </div>   
+                              <div class="row">
+                                  <div class="form-group col-3">
+                                      <label for="id_nivelsisbenpe">Nivel sisbén o PE</label>
+                                      {{ form.nivelsisbenpe}}
+                                    </div>
+
+                                    <div class="form-group col-3">
+                                      <label for="id_usuarioregsat">Usuario registrado en SAT</label>
+                                      {{ form.usuarioregsat}}
+                                    </div>
+
+                                     <div class="form-group col-3">
+                                      <label for="id_nrofuasat">Número FUA - SAT</label>
+                                      {{ form.nrofuasat}}
+                                    </div>
+                                    <div class="form-group col-3">
+                                      <label for="id_tipopoblacionesp">Tipo de población especial</label>
+                                      {{ form.tipopoblacionesp}}
+                                    </div>
+                                
+                              </div>                                       
+                                                        
+                                <div class="row">
+                                    <div class="form-group col-2">
+                                    <label for="id_regimen">Régimen</label>
+                                      {{ form.regimen}}
+                                    </div>
+
+                                  <div class="form-group col-4">
+                                    <label for="id_eps">Eps</label>
+                                      {{ form.eps}}
+                                    </div>
+
+                                  <div class="form-group col-4">
+                                    <label for="id_tipoafiliado">Tipo de usuario</label>
+                                    {{form.tipoafiliado}}                         
+                                  </div>                                   
+
+                                  <div class="form-group col-2">
+                                    <label for="id_subgruposisbeniv">Categoría Sisbén</label>
+                                      {{ form.subgruposisbeniv}}
+                                    </div>
+                            </div>
+                            
+                           <div class="row">
+                             <div class="form-group col-12">
+                                    <label for="id_observacion">Observación</label>
+                                    {{form.observacion}}        
+                             </div>                             
+                           </div>
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                                <a href="{% url 'aseg:movilidad_list' %}" class="btn btn-success">Cancelar</a>
+                               
+                               </div>
+                             </div> 
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+     
+    </form>
+
+  <div class="modal fade" id="newpac" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo Paciente</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">       
+           
+           <div class="col-xl-12 col-md-12 mb-12">
+                  <div class="card border-left-success shadow h-100 py-1">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                               Nuevo Paciente {{context}}
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+                          <div class="col-12"> {# div.col_1 #}
+                            <div class="row"> 
+                                <div class="form-group col-4">
+                                    <label for="id_tipodoc">Tipo Documento</label>
+                                      
+                                     <select name="tipodoc" id="tipodoc" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for td in tipodocs %}
+                                              <option value="{{td.id}}">{{td.descripcion}}</option>
+                                        {% endfor %}                                        
+                                      </select>                                
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="id_identificacion">Identificación</label>
+                                      
+                                      <input type="text" name="identificacion" id ="identificacion" class="form-control">
+                                  </div>                                 
+                           </div>
+                           <div class="row">
+                                  <div class="form-group col-3">
+                                    <label for="id_nombre1">Primer Nombre</label>
+                                                                           
+                                      <input type="text" name="nombre1" id="nombre1" class="form-control">                                  
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="id_nombre2">Segundo Nombre</label>
+                                     
+                                      <input type="text" name="nombre2" id="nombre2" class="form-control">                                  
+                                                                      
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="apellido1">Primer Apellido</label>
+                                      <input type="text" name="apellido1" id="apellido1" class="form-control">
+                                                                        
+                                  </div>
+                                  <div class="form-group col-3">
+                                    <label for="apellido2">Segundo Apellido</label>
+                                      <input type="text" name="apellido2" id="apellido2" class="form-control">         
+                                  </div>
+                           </div>
+                           <div class="row">
+                              <div class="form-group col-4" >                                
+                                    <label for="iddepto">Departamento: </label>
+                                   {#  {{form.departamento}} #}
+                                     <select name="iddepto" id="iddepto" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for dpto in departamentos %}
+                                              <option value="{{dpto.id}}">{{dpto.descripcion}}</option>
+                                        {% endfor %}                                        
+                                      </select> 
+
+                                 </div>
+                                 <div class="form-group col-4" >                                
+                                    <label for="idmpio">Municipio: </label>
+                                    {# {{form.municipio}} #}
+                                    <select name="idmpio" id="idmpio" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for mpio in municipios %}
+                                              <option value="{{mpio.id}}" data-chained="{{mpio.departamento_id}}">{{mpio.descripcion}}</option>
+                                        {% endfor %}                                        
+                                    </select>                                                       
+                                 </div>  
+                                 <div class="form-group col-4">
+                                    <label for="barrio">Barrio</label>
+                                    <br>
+                                     <select name="barrio" id="barrio" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for barrio in barrios %}
+                                              <option value="{{barrio.id}}">{{barrio.descripcion}}</option>
+                                        {% endfor %}                                        
+                                    </select>
+                                                                    
+                                </div>
+                            </div>
+                            <div class="row">                                
+                              <div class="form-group col-4">
+                                    <label for="direccion">Dirección</label>
+                                    <input type="text" name="direccion" id="direccion" class="form-control">         
+                                                                      
+                              </div>
+                              <div class="form-group col-3">
+                                    <label for="telefono">Teléfono</label>
+                                    <input type="text" name="telefono" id="telefono" class="form-control"> 
+                                                                     
+                              </div>
+                               <div class="form-group col-5">
+                                    <label for="correoelectronico">Correo electrónico</label>
+                                    <input type="text" name="correoelectronico" id="correoelectronico" class="form-control"> 
+                                                                       
+                              </div>
+                             
+                           </div>
+                           <div class="row">
+                             <div class="form-group col-5">
+                                    <label for="area">Area</label>
+                                    <select name="area" id="area" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for area in areas %}
+                                              <option value="{{area.id}}">{{area.descripcion}}</option>
+                                        {% endfor %}                                        
+                                    </select>
+
+                              </div>
+                              <div class="form-group col-3">
+                                    <label for="fechaNac">Fecha Nacimiento</label>
+                                    <input type="text" name="fechaNac" id="fechaNac" class="form-control">        
+                              </div>
+                              <div class="form-group col-4">
+                                    <label for="id_sexo">Sexo</label>    
+                                      <select name="sexo" id="sexo" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for sex in sexos %}
+                                              <option value="{{sex.id}}">{{sex.descripcion}}</option>
+                                        {% endfor %}                                        
+                                      </select>  
+                                    <br>    
+                              </div>
+                                                            
+                            </div>
+                            <div class="row">
+                              <div class="form-group col-4">
+                                    <label for="etnia">Etnia</label>
+                                    <select name="etnia" id="etnia" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for etnia in etnias %}
+                                              <option value="{{etnia.id}}">{{etnia.descripcion}}</option>
+                                        {% endfor %}                                        
+                                    </select> 
+                                                                    
+                              </div>
+                              <div class="form-group col-4">
+                                    <label for="regimen">Régimen</label>
+                                    <select name="regimen" id="regimen" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for regimen in regimenes %}
+                                              <option value="{{regimen.id}}">{{regimen.descripcion}}</option>
+                                        {% endfor %}                                        
+                                    </select>  
+
+                                                                    
+                              </div>
+                              <div class="form-group col-4">
+                                    <label for="eps">EPS</label>
+                                    <br>
+                                     <select name="eps" id="eps" class="form-control">
+                                        <option value="0">-----------</option>
+                                        {% for eps in epss %}
+                                              <option value="{{eps.id}}">{{eps.descripcion}}</option>
+                                        {% endfor %}                                        
+                                      </select>         
+                              </div>
+                                
+                              
+                            </div>
+                          </div>   
+                     
+                           <div class="dropdown-divider"></div>
+                             
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary" id="crearpac">Guardar</button>
+         
+         {#  mensaje al ajax #}
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+{% endblock page_content %}
+  
+{% block js_page %}
+
+ <script>
+    $(document).ready(function () {
+
+      $('#id_paciente').select2({
+            ajax: {
+                url: '{% url 'cvd:busqpac' %}',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                          return {id: item.id, text: item.identificacion +':'+ item.razonsocial};
+                        })
+                    };
+                }
+            },
+            minimumInputLength: 1
+        });
+    });
+
+    $("#id_fechasolicitud, #id_fechaefectivamov").datetimepicker({
+        format:'d/m/Y',
+        timepicker:false
+      });
+
+</script>
+
+
+<script>
+ $(document).ready(function(){
+
+  $("#departamento").val("{{obj.departamento.id}}").change();
+  $("#municipio").val("{{obj.municipio.id}}").change();
+  $("#municipio").chained("#departamento");
+
+  $("#iddepto").val("{{obj.departamento.id}}").change();
+  $("#idmpio").val("{{obj.municipio.id}}").change();
+  $("#idmpio").chained("#iddepto");
+
+  $('#crearpac').click(function(e){
+     
+
+      var url = "/cvd/iec/paciente";  // get the url of the `load_cities` view
+      var idtipodoc = $("#tipodoc").val(); 
+      var ident = $("#identificacion").val();       
+      var nombre1 = $("#nombre1").val(); 
+      var nombre2 = $("#nombre2").val(); 
+      var apellido1 = $("#apellido1").val(); 
+      var apellido2 = $("#apellido2").val(); 
+      var iddpto = $("#iddepto").val(); 
+      var idmunicipio = $("#idmpio").val(); 
+      var idbarrio = $("#barrio").val(); 
+      var direccion = $("#direccion").val(); 
+      var telefono = $("#telefono").val(); 
+      var correoelectronico = $("#correoelectronico").val(); 
+      var area = $("#area").val(); 
+      var fechanac = $("#fechaNac").val(); 
+      var idsexo = $("#sexo").val(); 
+      var idetnia = $("#etnia").val(); 
+      var idregimen = $("#regimen").val(); 
+      var ideps = $("#eps").val(); 
+
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'idtipodoc': idtipodoc,
+          'ident': ident,
+          'nombre1':nombre1,
+          'nombre2': nombre2,
+          'apellido1': apellido1,
+          'apellido2': apellido2,
+          'iddpto': iddpto,
+          'idmunicipio' : idmunicipio, 
+          'idbarrio' : idbarrio, 
+          'direccion' : direccion, 
+          'telefono' : telefono,
+          'correoelectronico' : correoelectronico,
+          'area' : area,
+          'fechanac' : fechanac,
+          'idsexo' : idsexo,
+          'idetnia' : idetnia,
+          'idregimen' : idregimen,
+          'ideps' : ideps 
+
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          console.log(data);
+          $("#id_paciente").html(data);  // replace the contents of the city input with the data that came from the server
+        },
+        error: function(jqXHR, textStatus, errorThrow){
+        console.log(textStatus, errorThrow);
+        mensaje(errorThrow,'red');
+        //cerrar_modal();
+        }        
+      }); 
+
+
+     alert("Hola: " + ident + " Nombre: " + nombre1 + " " + fechanac);
+
+      e.preventDefault();
+     //cerrar modal
+      $("#newpac").modal('hide');   
+      return false;   
+
+   });
+
+  });
+
+ </script>
+
+{% endblock js_page %}
+

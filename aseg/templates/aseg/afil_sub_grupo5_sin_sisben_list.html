@@ -1,0 +1,103 @@
+{% extends 'base/basebdua.html' %}
+{% block page_content %}
+	  <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">{{titulo}}</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Acciones:</div>
+                      <a class="dropdown-item" href="{% url 'aseg:afil_sub_g5_sin_sisben_create' %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                      
+                    </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  {% if not obj  %}
+                        No hay Reporte de afiliados subsidiado grupo 5 sin encuesta Sisben IV
+                  {% endif %}
+
+                  <div class="buttons-toolbar">
+                    <a class="dropdown-item" href="{% url 'aseg:afil_sub_g5_sin_sisben_create' %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                  </div>
+
+
+                  <table data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-show-columns="true"
+                    data-toolbar=".buttons-toolbar"
+                    data-locale="es-MX"
+                    data-show-toggle="true"
+                    data-show-fullscreen="true"
+
+                  >
+                    <thead>   
+                      <th>Nombres y apellidos</th>
+                      <th>Eps</th>
+                      <th>Zona</th>
+                      <th>Población especial</th> 
+                      <th>Modalidad</th>                       
+                      <th>Encuestado</th>                       
+                      <th>fecha encuesta</th>
+                      <th class="all">Acciones</th> 
+                    </thead>  
+                    <tbody>
+                      {% for item in obj %}
+                        <tr>
+                            <td>{{ item.paciente }}</td>                            
+                            <td>{{ item.eps }}</td>
+                            <td>{{ item.area }}</td>                        
+                            <td>{{ item.tipopoblacionesp }}</td>
+                            <td>{{ item.modalidad }}</td>
+                            <td>{{ item.usuarioencuestado }}</td>
+                            <td>{{ item.fechaencuesta|date:"d/m/Y" }}</td>
+                            <td>
+                              <a class="btn btn-warning btn-circle" href="{% url 'aseg:afil_sub_g5_sin_sisben_edit' item.id %}"><i class="far fa-edit"></i></a>                              
+                            </td>
+                          </tr>                   
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+                </div>
+            </div>
+{% endblock page_content %}
+
+{% block js_page %}
+ <script>
+  //llamada al DataTable 
+ /*   $(document).ready(function() { 
+
+      $("#sidebarToggle").click();       
+      
+      $(".table").DataTable({
+         language: {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ Registros",
+        "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 Registros",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Registros",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "No se encontraron resultados",
+        "paginate": {
+            "first": "<span class='fa fa-angle-double-left'></span>",
+            "last": "<span class='fa fa-angle-double-right'></span>",
+            "next": "<span class='fa fa-angle-right'></span>",
+            "previous": "<span class='fa fa-angle-left'></span>"
+        }
+    	},
+      });
+	});*/
+ </script>
+
+ {% endblock %}

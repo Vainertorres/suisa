@@ -76,35 +76,8 @@
       <div class="sidebar-heading">
         Opciones de Menú
       </div>
-       <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'sam:home' %}">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Salud Ambiental</span></a>          
-      </li>
 
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'aseg:bdua' %}">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Aseguramiento</span></a>          
-      </li>
-
-       <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'bai:home' %}">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Rips</span></a>          
-      </li>
-
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'sint:easytb' %}">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>EasyTB</span></a>          
-      </li>
-
-      <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item active">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
@@ -112,7 +85,7 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Catálogo de Sintomaticos:</h6>
+            <h6 class="collapse-header">Catálogo</h6>
           
             {% if perms.cnf.view_paciente %} 
               <a class="collapse-item show" href="{% url 'cnf:paciente_list' %}">Datos personales </a>
@@ -127,19 +100,66 @@
         </div>
       </li> 
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsempresa" aria-expanded="true" aria-controls="collapsempresa">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Empresa</span>
-        </a>
-        <div id="collapsempresa" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Conglomerado:</h6>
-              <a class="collapse-item" href="{% url 'cvd:paconglomerado_list' %}">Reportar casos covid</a>
-          </div>
-        </div>
-      </li> 
 
+       
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'aseg:bdua' %}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Aseguramiento</span></a>          
+      </li>
+
+      <!-- Nav Item - Dashboard Acceso a Covid-->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'cvd:home' %}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Covid</span></a>          
+      </li>
+
+       <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'den:home' %}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dengue</span></a>          
+      </li>
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'sint:easytb' %}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>EasyTB</span></a>          
+      </li>
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'pai:home' %}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>PAI</span></a>          
+      </li>
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'pqrs:home' %}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>PQRS</span></a>          
+      </li>
+
+       <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'bai:home' %}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Rips</span></a>          
+      </li>
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'sam:home' %}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Salud Ambiental</span></a>          
+      </li>
+
+      
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapslaboratorios" aria-expanded="true" aria-controls="collapslaboratorios">
           <i class="fas fa-fw fa-cog"></i>
@@ -153,71 +173,7 @@
         </div>
       </li> 
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsecovid" aria-expanded="true" aria-controls="collapsecovid">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Covid</span>
-           </a>
-            <div id="collapsecovid" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-              <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Entradas</h6>
-                <a class="collapse-item" href="{% url 'cvd:import_covid' %}">Importar casos</a>
-                <a class="collapse-item" href="{% url 'cvd:notif_covid_sivigila_list' %}">Notificados con Covid</a>
-                <a class="collapse-item" href="{% url 'cvd:conglomerado_list' %}">Conglomerados</a>
-                <a class="collapse-item" href="{% url 'cvd:config_conglomerado_list' %}">Configurar conglomerados</a>
-                <a class="collapse-item" href="{% url 'cvd:conglomerado_report' %}">Reporte conglomerados</a>
-
-                <a class="collapse-item" href="{% url 'cvd:iec_list' %}">Fichas IEC</a>
-                <a class="collapse-item" href="{% url 'cvd:cuadro_mando_rep' %}">Cuadro de Mando</a>
-                <a class="collapse-item" href="{% url 'cvd:iec_seguimiento_list' %}">Seguimiento casos Covid</a>
-                <a class="collapse-item" href="{% url 'cvd:iec_tareas_list' %}">Reporte tareas pendintes</a>
-
-                <a class="collapse-item" href="{% url 'cvd:contacto_list' %}">Seguimiento a Contactos</a>
-                <a class="collapse-item" href="{% url 'cvd:estadisticacovid_sem' %}">Estad. Covid x Sem epid</a>
-                <a class="collapse-item" href="{% url 'cvd:sintomas_covid_est' %}">Estad. por síntomas</a>
-                <a class="collapse-item" href="{% url 'cvd:paccovid_barrio_est' %}">Estad. por Barrio</a>
-                <a class="collapse-item" href="{% url 'cvd:paccovid_coomorbilidad_est' %}">Estad. por Coomorbilidad</a>
-                
-                <a class="collapse-item" href="{% url 'cvd:bac_list' %}">Bac</a>
-
-              </div>
-            </div>
        
-      </li> 
-
-       <!-- Pai -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsepai" aria-expanded="true" aria-controls="collapsepai">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Pai</span>
-           </a>
-            <div id="collapsepai" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-              <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Entradas</h6>
-                <a class="collapse-item" href="{% url 'pai:importar_rediarios' %}">Importar Rediarios</a>
-                <a class="collapse-item" href="{% url 'pai:rediario_list' %}">Rediarios</a>
-                <a class="collapse-item" href="{% url 'pai:estlaboratorio' %}">Estadística por Laboratorio</a>
-                <a class="collapse-item" href="{% url 'pai:estips' %}">Estadística por IPS</a>
-                <a class="collapse-item" href="{% url 'pai:estnrodosis' %}">Estadística No de dosis</a>
-                <a class="collapse-item" href="{% url 'pai:estmodalidad' %}">Estadística por modalidad</a>
-                <a class="collapse-item" href="{% url 'pai:estapa' %}">Estadística por Etapa</a>
-                <a class="collapse-item" href="{% url 'pai:tipo_poblacion' %}">Estadística por Tipo población</a> 
-                <a class="collapse-item" href="{% url 'pai:tipo_sexo' %}">Estadística por sexo</a>
-                
-                
-              </div>
-            </div>
-       
-      </li> 
-      <!-- end Pai -->
-
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'den:home' %}">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dengue</span></a>          
-      </li>
-
       
       <!-- Malaria -->
 
@@ -240,27 +196,6 @@
             </div>        
       </li>   
       
-
-      <!-- Salud Ambiental -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsesam" aria-expanded="true" aria-controls="collapsesam">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Salud Ambiental</span>
-           </a>
-            <div id="collapsesam" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-              <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Entradas</h6>
-                <a class="collapse-item" href="{% url 'sam:propietario_list' %}">Propietario /Rep. Legal</a>
-                <a class="collapse-item" href="{% url 'sam:establecimiento_list' %}">Establecimientos</a>
-                <a class="collapse-item" href="{% url 'bai:estadistica_cie10' %}">Acta Cárnicos</a>
-
-
-              </div>
-            </div>
-      </li> 
-
-      <!-- Fin Salud Ambiental -->
-
         <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGeoloc" aria-expanded="true" aria-controls="collapseGeoloc">
           <i class="fas fa-fw fa-cog"></i>

@@ -9,14 +9,15 @@ from django.views import generic
 from .views import BacList, BacCreate, BacEdit, FichaIecList, FichaIecCreate, FichaIecEdit, \
 AntecedenteViajeCreate, SeguimientoIecList, SeguimientoIecNew, SeguimientoIecedit, tareasSegIec, \
 ConglomeradoList, ConglomeradoCreate, ConglomeradoEdit, geolocConglomerado, importarCovid19, \
-notifCovidList, seguimientoNotifCovid, anexos_fichaIec, AntecedenteViajeUpdate, \
+notifCovidList, SeguimientoNotifCovid, anexos_fichaIec, AntecedenteViajeUpdate, \
 AntecHospitalizacionCreate, AntecHospitalizacionUpdate, FileIecList, FileIecCreate, FileIecUpdate, \
 ContactoIecCreate, ContactoIecUpdate, ContactoIecList, contactoIecDetail, DesplazaContactoCreate, \
 DesplazaContactoUpdate, SeguimientoContactoCreate, SeguimientoContactoUpdate, GrafCovidSemEpi, \
 inactivarNotifPaconglemerado, NotifPaConglomeradoList, NotifPaConglomeradoCreate, NotifPaConglomeradoUpdate, \
 ContactoAisladoCreate, ContactoAisladoUpdate, SegContactoAisladoCreate, SegContactoAisladoUpdate, \
 ConfigConglomeradoList, ConfigConglomeradoCreate, ConfigConglomeradoUpdate, GrafSintomasCovid, \
-GrafCovidBarrio, GrafCoomorbCovid, geolocFichasIEC, PacienteCreate,createNewPac
+GrafCovidBarrio, GrafCoomorbCovid, geolocFichasIEC, PacienteCreate,createNewPac, busqpaciente, \
+PrincipalCovid, notifCovidEdit, SeguimientoNotifCovidUpdate
 
 
 from .reportes import imprimir_tareas_list, ReporteCuadroMando, ReportConglomerado, RepConglomerado
@@ -24,6 +25,8 @@ from .reportes import imprimir_tareas_list, ReporteCuadroMando, ReportConglomera
 app_name='cvd'
 
 urlpatterns = [
+
+    path('', PrincipalCovid.as_view(), name='home'),
     path('baclist', BacList.as_view(), name='bac_list'),
     path('bac/new', BacCreate.as_view(), name='bac_new'),
     path('bac/edit/<int:pk>', BacEdit.as_view(), name='bac_edit'),
@@ -59,7 +62,10 @@ urlpatterns = [
     path('iec/graf/cvd/', GrafCovidSemEpi.as_view(), name='estadisticacovid_sem'),      
     path('import/sivigila', importarCovid19, name='import_covid'),
     path('sivcovid/list', notifCovidList, name='notif_covid_sivigila_list'),
-    path('sivcovid/ver/<int:id>', seguimientoNotifCovid, name='notif_covid_sivigila_ver'),
+    path('sivcovid/ver/<int:id>', notifCovidEdit, name='notif_covid_sivigila_ver'),
+    path('sivcovid/seg/<int:idnotif>', SeguimientoNotifCovid.as_view(), name='seg_notif_covid_add'),    
+    path('sivcovid/seg/upt/<int:pk>', SeguimientoNotifCovidUpdate.as_view(), name='seg_notif_covid_change'),    
+
     path('con/emp/notifpac/<int:id>', inactivarNotifPaconglemerado, name='paconglomerado_inactivar'),
     path('con/emp/notifpac/list', NotifPaConglomeradoList.as_view(), name='paconglomerado_list'),
     path('con/emp/notifpac/new', NotifPaConglomeradoCreate.as_view(), name='paconglomerado_new'),
@@ -78,6 +84,8 @@ urlpatterns = [
     path('iec/estadcovidbarrio', GrafCovidBarrio.as_view(), name='paccovid_barrio_est'),
     path('iec/estadcovidcoom', GrafCoomorbCovid.as_view(), name='paccovid_coomorbilidad_est'),
     path('iec/geoloc', geolocFichasIEC, name='geoloc_iec'),
+    path('pac/busq', busqpaciente, name='busqpac'),
+
     
 ] 
 

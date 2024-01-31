@@ -1,0 +1,126 @@
+{% extends 'base/basebdua.html' %}
+
+{% block page_content %}
+
+    {% if obj %}
+    <form  method='POST' role='form' action = "{% url 'aseg:plan_cobertura_edit' obj.pk %}"> 
+    {% else %}  
+    <form  method='POST' role='form' action = "{% url 'aseg:plan_cobertura_create' %}">
+    {% endif %}
+        {% csrf_token %}
+              <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj %}
+                  <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}    
+                  <div class="card border-left-success shadow h-100 py-2">
+                 {%  endif %}   
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              {% if obj %} Editar {% else %} Nuevo {% endif %} plan de cobertura
+                           </div>                      
+                           <div class="dropdown-divider"></div> 
+
+                                                  
+                              <div class="row">
+                                  <div class="form-group col-12">
+                                    <label for="id_titulo">Título</label>
+                                     {{form.titulo}}                  
+                                  </div>                                            
+                              </div>                                           
+
+                              <div class="row">
+                                  <div class="form-group col-12">
+                                    <label for="id_descactividad">Descripción de la actividad</label>
+                                     {{form.descactividad}}                  
+                                  </div>                                            
+                              </div>                                           
+                                                        
+                                <div class="row">
+                                  <div class="form-group col-2">
+                                    <label for="id_fechainicio">Fecha inicio</label>
+                                      {{ form.fechainicio}}
+                                    </div>
+
+                                    <div class="form-group col-2">
+                                    <label for="id_fechafin">Fecha fin</label>
+                                      {{ form.fechafin}}
+                                    </div>
+
+                                  <div class="form-group col-6">
+                                    <label for="id_responsable">Reponsable</label>
+                                    {{form.responsable}}                         
+                                  </div> 
+
+                                  <div class="form-group col-2">
+                                    <label for="id_timpodedicado">Tiempo dedicado (días)</label>
+                                    {{form.timpodedicado}}                         
+                                  </div>                                   
+                            </div>
+
+                            <div class="row">
+                             <div class="form-group col-12">
+                              <label for="id_indicador">Indicador de medición</label>
+                                    {{form.indicador}}        
+                             </div>                             
+                           </div>
+
+                           <div class="row">
+                             <div class="form-group col-12">
+                                    <label for="id_meta">Meta</label>
+                                    {{form.meta}}        
+                             </div>                             
+                           </div>
+
+                           <div class="row">
+                             <div class="form-group col-12">
+                                    <label for="id_resultado">Resultado obtenido</label>
+                                    {{form.resultado}}        
+                             </div>                             
+                           </div>
+                           
+
+                           <div class="row">
+                             <div class="form-group col-12">
+                                    <label for="id_observacion">Observación</label>
+                                    {{form.observacion}}        
+                             </div>                             
+                           </div>
+                           <div class="dropdown-divider"></div>
+                             <div class="row">
+                               <div class="col">
+                                 <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+                                <a href="{% url 'aseg:plan_cobertura_list' %}" class="btn btn-success">Cancelar</a>
+                               
+                               </div>
+                             </div> 
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+     
+    </form>
+
+  
+
+{% endblock page_content %}
+  
+{% block js_page %}
+
+ <script>
+    $(document).ready(function () {
+
+ 
+    $("#id_fechainicio, #id_fechafin").datetimepicker({
+        format:'d/m/Y',
+        timepicker:false
+      });
+    });
+
+</script>
+
+{% endblock js_page %}
+

@@ -112,7 +112,7 @@
                               <div class="form-group col-3">
                                     <label for="id_fechaNac">Fecha Nacimiento</label>
                                     <br>
-                                    {{ form.fechaNac }}                                    
+                                    {{ form.fechanac }}                                    
                               </div>
                               <div class="form-group col-3">
                                     <label for="id_sexo">Sexo</label>
@@ -137,12 +137,19 @@
                                     <br>
                                     {{ form.eps }}                                    
                               </div>
-                                <div class="form-group col-2">
+                                <div class="form-group col-4">
+                                    <label for="id_lat">Nacionalidad</label>
+                                    <br>
+                                    {{ form.pais }}                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-4">
                                     <label for="id_lat">Latitud</label>
                                     <br>
                                     {{ form.lat }}                                    
                                 </div>
-                                <div class="form-group col-2">
+                                <div class="form-group col-4">
                                     <label for="id_lon">Longitud</label>
                                     <br>
                                     {{ form.lon }}                                    
@@ -182,19 +189,20 @@
 $(function()
   {  
 
-  $('#id_barrio').select2({
-      placeholder: "Seleccione un Barrio",
-      allowClear: true
-    });
+  
 
   $("#departamento").val("{{obj.departamento.id}}").change();
   $("#municipio").val("{{obj.municipio.id}}").change();
   $("#municipio").chained("#departamento");
 
-  $("#id_fechaNac").datetimepicker({
+  $("#id_fechanac").datetimepicker({
       format:'d/m/Y',
       timepicker:false
   });
+    $('#id_barrio').select2({
+      placeholder: "Seleccione un Barrio",
+      allowClear: true
+      });
 
   });
 

@@ -4,9 +4,9 @@ from .models import Paciente, Barrio
 class PacienteForm(forms.ModelForm): 
 	class Meta:
 		model = Paciente
-		fields=['tipodoc', 'identificacion','nombre1','nombre2','apellido1','apellido2','fechaNac',\
+		fields=['tipodoc', 'identificacion','nombre1','nombre2','apellido1','apellido2','fechanac',\
 		'departamento','municipio','direccion','telefono','correoelectronico', 'barrio','area',\
-		'regimen','eps','sexo', 'etnia','lat', 'lon']
+		'regimen','eps','sexo', 'etnia','lat', 'lon', 'pais']
 		exclude=['um','fm','uc','fc']
 		
 
@@ -16,6 +16,6 @@ class PacienteForm(forms.ModelForm):
   			self.fields[field].widget.attrs.update({
                'class':"form-control" #colocar la clase de bootsTrap a todos los controles o campos
         	})
-  		self.fields['fechaNac'].widget.attrs['readonly'] = True
+  		self.fields['fechanac'].widget.attrs['readonly'] = True
   		
 

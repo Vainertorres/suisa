@@ -30,7 +30,9 @@ urlpatterns = [
     path('sam/', include('sam.urls', namespace='sam')),    
     path('pai/', include('pai.urls', namespace='pai')),    
     path('aseg/', include('aseg.urls', namespace='aseg')),
+    path('pqrs/', include('pqrs.urls', namespace='pqrs')),
     path('admin/', admin.site.urls),
+
     
 
 ] +static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

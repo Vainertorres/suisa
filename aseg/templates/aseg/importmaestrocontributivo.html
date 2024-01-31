@@ -1,6 +1,13 @@
 {% extends 'base/basebdua.html' %}
 {% block page_content %}
 
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12">
+			<div id="container">
+				
+
 <h1> Importar Usuarios de Maestro Contributivo </h1>
 <form action="" method="POST" role='form' enctype="multipart/form-data">
     {% csrf_token %} 
@@ -21,7 +28,11 @@
     <button type="submit" class="btn btn-primary">Importar</button>
 </form>
 
-	
+			</div>
+		</div>
+	</div>
+</div>
+
 {% endblock page_content %}
 
 {% block js_page %}

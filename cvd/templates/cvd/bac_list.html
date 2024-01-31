@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base/basecvd.html' %}
 {% block page_content %}
 	  <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
@@ -10,16 +10,14 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Acciones:</div>
-                      <a class="dropdown-item" onclick="return abrir_modal('{% url 'cvd:bac_new' %}')"  href="#"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
+                      <a class="dropdown-item" href="{% url 'cvd:bac_new' %}"> <span class="fa fa-calendar-plus"></span>Nuevo</a>
                       
                     </div>
                   </div>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  {% if not obj  %}
-                        No hay Pacientes evaluados para Covid
-                  {% endif %}
+                  
                   <table class="table table-striped table-hover">
                     <thead>   
                       <th>Fecha</th>
@@ -52,11 +50,8 @@
                             <td>{{item.sospechoso}}</td>
                             <td>{{item.pruebacovid}}</td>
                             <td>
-                              <button type="button" class="btn btn-warning btn-circle"  onclick="return abrir_modal('{% url 'cvd:bac_edit' item.pk %}')"><i class="far fa-edit"></i>
-                              </button>
-                              <button>
-                                <i class="far fa-thumbs-down"></i>
-                              </button>
+
+                              <a class="btn btn-warning btn-circle" href="{% url 'cvd:bac_edit' item.pk %}"> <i class="far fa-edit"></i></a>                             
                               
                             </td>
                           </tr>                   
