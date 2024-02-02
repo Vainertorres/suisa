@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'pai',
     'aseg',
     'pqrs',
-   # 'rips',
+    #'usuarios',
+    #'rips',
 ]
 
 MIDDLEWARE = [
@@ -96,7 +97,7 @@ DATABASES = {
         'NAME': 'suisa',
         'USER': 'postgres',
         'PASSWORD': 'admin123',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': 5432,
     }
 }
@@ -163,3 +164,5 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'ferneli@gmail.com'
 EMAIL_HOST_PASSWORD = 'AngularJS2583'
+
+

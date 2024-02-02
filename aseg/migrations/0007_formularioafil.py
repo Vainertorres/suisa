@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('aprobar', models.CharField(choices=[('A', 'Aprobar'), ('D', 'Desaprobar'), ('X', 'Sin Evaluar')], max_length=1)),
                 ('opcdesaprueba', models.CharField(blank=True, choices=[('NS', 'No Sensado'), ('RO', 'Reside en otro municipio'), ('SO', 'Sensado en otro municipio'), ('OT', 'Otros')], max_length=2, null=True)),
                 ('observacion', models.TextField(blank=True, null=True)),
-                ('TipoAfiliado', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='cnf.tipoafiliado')),
+                ('TipoAfiliado', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='tipoafiliado')),
                 ('paciente', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cnf.paciente')),
                 ('uc', django_userforeignkey.models.fields.UserForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL, verbose_name='Usuario automatio')),
                 ('um', django_userforeignkey.models.fields.UserForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL, verbose_name='Usuario Modifica')),

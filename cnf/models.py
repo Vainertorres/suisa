@@ -26,7 +26,7 @@ class ClaseModelo2(models.Model):
     estado = models.BooleanField(default = True)
     fc = models.DateTimeField(auto_now_add=True)
     fm = models.DateTimeField(auto_now=True)
-    uc = UserForeignKey(auto_user_add=True, verbose_name="Usuario automatio", related_name="+")
+    uc = UserForeignKey(auto_user_add=True, verbose_name="Usuario automatico", related_name="+")
     um = UserForeignKey(auto_user=True, verbose_name="Usuario Modifica", related_name="+")
 
     class Meta:

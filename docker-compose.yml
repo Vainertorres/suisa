@@ -7,3 +7,30 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+
+
+  db:
+    image: postgres:14
+    volumes:
+      - ../data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=suisa
+    ports:
+      - "5432:5432"
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+      
+
+volumes:
+  pg_data:
